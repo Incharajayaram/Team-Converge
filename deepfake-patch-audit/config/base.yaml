@@ -3,11 +3,14 @@
 
 model:
   # Teacher model (LaDeDa9)
+  # Available teachers:
+  #   - weights/teacher/WildRF_LaDeDa.pth         (Trained on WildRF dataset)
+  #   - weights/teacher/ForenSynth_LaDeDa.pth     (Trained on ForenSynth dataset)
   teacher:
     architecture: "LaDeDa9"
     preprocess_type: "NPR"  # Nearest Neighbor Residual
     pretrained: true
-    pretrained_path: "weights/teacher/WildRF_LaDeDa.pth"
+    pretrained_path: "weights/teacher/WildRF_LaDeDa.pth"  # Change this to use ForenSynth_LaDeDa.pth
     freeze_backbone: true
     num_classes: 1  # Binary classification (1 logit per patch)
     pool: false  # Output spatial patch-logit maps

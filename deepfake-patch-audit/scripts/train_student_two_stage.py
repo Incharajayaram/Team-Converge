@@ -79,6 +79,13 @@ def main():
         default="outputs/checkpoints_two_stage",
         help="Output directory",
     )
+    parser.add_argument(
+        "--teacher-weights",
+        type=str,
+        default=None,
+        choices=["wildrf", "forensyth"],
+        help="Teacher model weights to use: 'wildrf' (default) or 'forensyth'",
+    )
 
     args = parser.parse_args()
 
@@ -114,6 +121,13 @@ def main():
     # Load config
     config = load_config()
 
+    # Override teacher weights if specified via command-line
+    if args.teacher_weights:
+        if args.teacher_weights.lower() == "wildrf":
+            config["model"]["teacher"]["pretrained_path"] = "weights/teacher/WildRF_LaDeDa.pth"
+        elif args.teacher_weights.lower() == "forensyth":
+            config["model"]["teacher"]["pretrained_path"] = "weights/teacher/ForenSynth_LaDeDa.pth"
+
     print("\n" + "=" * 80)
     print("TWO-STAGE STUDENT TRAINING - Configuration")
     print("=" * 80)
@@ -123,6 +137,7 @@ def main():
     print(f"Stage 1 LR: {args.lr_s1}")
     print(f"Stage 2 LR: {args.lr_s2}")
     print(f"Device: {args.device}")
+    print(f"Teacher weights: {config['model']['teacher']['pretrained_path']}")
 
     # =========================================================================
     # Load Models
