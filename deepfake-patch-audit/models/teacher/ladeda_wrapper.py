@@ -36,6 +36,9 @@ class LaDeDaWrapper(nn.Module):
             pool=False  # Critical: return spatial patch-logit maps
         )
 
+        # Ensure float32 dtype
+        self.model = self.model.float()
+
         # Load pretrained weights if available
         if pretrained:
             self._load_pretrained_weights()
@@ -81,6 +84,7 @@ class LaDeDaWrapper(nn.Module):
         Returns:
             Patch-logit map (B, 1, 31, 31) - one logit per spatial location
         """
+        x = x.float()
         return self.model(x)
 
     def get_patch_logits(self, x):

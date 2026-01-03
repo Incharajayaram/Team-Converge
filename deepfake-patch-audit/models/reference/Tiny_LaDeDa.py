@@ -70,23 +70,25 @@ class TinyLaDeDa(nn.Module):
         grad_kernel = None
         # Define kernels for gradients in x, y, and diagonal directions
         if preprocess_type == "x_grad":
-            grad_kernel = torch.tensor([[-1, 0, 1], [-2, 0, 2], [-1, 0, 1]], dtype=torch.float32,device=x.device).unsqueeze(0).unsqueeze(0).repeat(3, 1, 1, 1)
+            grad_kernel = torch.tensor([[-1, 0, 1], [-2, 0, 2], [-1, 0, 1]], dtype=x.dtype,
+                                        device=x.device).unsqueeze(0).unsqueeze(0).repeat(3, 1, 1, 1)
 
         if preprocess_type == "y_grad":
-            grad_kernel = torch.tensor([[-1, -2, -1], [0, 0, 0], [1, 2, 1]], dtype=torch.float32, device=x.device).unsqueeze(0).unsqueeze(0).repeat(3, 1, 1, 1)
+            grad_kernel = torch.tensor([[-1, -2, -1], [0, 0, 0], [1, 2, 1]], dtype=x.dtype,
+                                        device=x.device).unsqueeze(0).unsqueeze(0).repeat(3, 1, 1, 1)
 
         if preprocess_type == "left_diag":
-            grad_kernel = torch.tensor([[0, 1, 2], [-1, 0, 1], [-2, -1, 0]], dtype=torch.float32,
+            grad_kernel = torch.tensor([[0, 1, 2], [-1, 0, 1], [-2, -1, 0]], dtype=x.dtype,
                                         device=x.device).unsqueeze(0).unsqueeze(0).repeat(3, 1, 1, 1)
 
         if preprocess_type == "right_diag":
-            grad_kernel = torch.tensor([[-2, -1, 0], [-1, 0, 1], [0, 1, 2]], dtype=torch.float32,
+            grad_kernel = torch.tensor([[-2, -1, 0], [-1, 0, 1], [0, 1, 2]], dtype=x.dtype,
                                         device=x.device).unsqueeze(0).unsqueeze(0).repeat(3, 1, 1, 1)
 
 
 
         grad_representation = F.conv2d(x, grad_kernel, groups=3, padding="same")
-        return grad_representation
+        return grad_representation.float()
 
 
 

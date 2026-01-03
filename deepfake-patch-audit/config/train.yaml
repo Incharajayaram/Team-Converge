@@ -33,5 +33,6 @@ training:
 # Knowledge distillation (student training)
 distillation:
   temperature: 4.0
-  alpha: 0.5  # weight of KD loss vs task loss
+  alpha_distill: 0.5  # weight of patch MSE loss
+  alpha_task: 0.5     # weight of image BCE loss
   use_attention_transfer: false

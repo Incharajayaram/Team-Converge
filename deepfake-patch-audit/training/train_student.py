@@ -118,7 +118,7 @@ class PatchStudentTrainer:
             total_distill_loss += distill_loss.item()
             total_task_loss += task_loss.item()
 
-            pbar.set_postfix({"loss": loss.item():.4f})
+            pbar.set_postfix({"loss": f"{loss.item():.4f}"})
 
         avg_loss = total_loss / len(self.train_loader)
         avg_distill_loss = total_distill_loss / len(self.train_loader)

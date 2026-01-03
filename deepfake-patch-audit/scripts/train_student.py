@@ -36,7 +36,7 @@ def load_config(config_dir="config"):
     return {**base_config, **dataset_config, **train_config}
 
 
-def create_data_loaders(config, batch_size=16, num_workers=4):
+def create_data_loaders(config, batch_size=16, num_workers=4, device="cuda"):
     """Create train and validation data loaders."""
     dataset_root = PROJECT_ROOT / config["dataset"]["root"]
 
@@ -64,13 +64,16 @@ def create_data_loaders(config, batch_size=16, num_workers=4):
         split_file=str(PROJECT_ROOT / config["dataset"]["splits"]["val_csv"]),
     )
 
+    # pin_memory only makes sense for CUDA training
+    pin_memory = device == "cuda"
+
     # Data loaders
     train_loader = DataLoader(
         train_dataset,
         batch_size=batch_size,
         shuffle=True,
         num_workers=num_workers,
-        pin_memory=True,
+        pin_memory=pin_memory,
     )
 
     val_loader = DataLoader(
@@ -78,7 +81,7 @@ def create_data_loaders(config, batch_size=16, num_workers=4):
         batch_size=batch_size,
         shuffle=False,
         num_workers=num_workers,
-        pin_memory=True,
+        pin_memory=pin_memory,
     )
 
     print(f"✓ Loaded {len(train_dataset)} training images")
@@ -146,6 +149,11 @@ def main():
     parser.add_argument("--checkpoint-dir", type=str, default="outputs/checkpoints", help="Checkpoint directory")
     args = parser.parse_args()
 
+    # Check CUDA availability and fall back to CPU if needed
+    if args.device == "cuda" and not torch.cuda.is_available():
+        print("⚠ CUDA not available, falling back to CPU")
+        args.device = "cpu"
+
     print("\n" + "=" * 80)
     print("DEEPFAKE PATCH-AUDIT: STUDENT TRAINING")
     print("=" * 80)
@@ -160,6 +168,7 @@ def main():
         config,
         batch_size=args.batch_size,
         num_workers=4,
+        device=args.device,
     )
 
     # Create models
