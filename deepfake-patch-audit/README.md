@@ -98,59 +98,135 @@ pip install -r requirements.txt
 pip install -e .
 ```
 
-## Quick Start
+## Complete Training Pipeline
 
-### 1. Prepare Data
+### Stage 0: Evaluate Pretrained Teacher
 
-Organize dataset in the following structure:
-```
-dataset/
-├── train/
-│   ├── real/     # Real face images
-│   └── fake/     # Deepfake images
-├── test/
-│   ├── real/
-│   └── fake/
-└── samples/      # Optional: sample images for debugging
-    └── fake/
+Check if the pretrained teacher is informative on your dataset:
+
+```bash
+python scripts/diagnose_teacher.py
+# Output: Teacher AUC on validation set
 ```
 
-### 2. Configure Settings
+**Interpretation:**
+- AUC > 0.65: Teacher is good → skip fine-tuning, proceed to student training
+- AUC 0.55-0.65: Teacher is marginal → consider fine-tuning
+- AUC < 0.55: Teacher is bad → **MUST fine-tune** or skip distillation
 
-Edit `config/` files to customize:
-- Model architecture (base.yaml)
-- Dataset paths and splits (dataset.yaml)
-- Training hyperparameters (train.yaml)
-- Quantization settings (quant.yaml)
+### Stage 1: Fine-tune Teacher (if needed)
 
-### 3. Train Student Model
+If teacher AUC < 0.55, fine-tune it on your training data:
 
-```python
-from datasets.base_dataset import BaseDataset
-from torch.utils.data import DataLoader
-from models.student.tiny_ladeda import TinyLaDeDa
-from models.teacher.ladeda_wrapper import LaDeDaWrapper
-from losses.distillation import DistillationLoss
-from training.train_student import StudentTrainer
-
-# Load data
-train_dataset = BaseDataset("dataset/train", split="train")
-train_loader = DataLoader(train_dataset, batch_size=32)
-
-val_dataset = BaseDataset("dataset/test", split="val")
-val_loader = DataLoader(val_dataset, batch_size=32)
-
-# Initialize models
-teacher = LaDeDaWrapper(pretrained=True)
-student = TinyLaDeDa(depth_multiplier=0.5, width_multiplier=0.75)
-
-# Training
-criterion = DistillationLoss(temperature=4.0, alpha=0.5)
-trainer = StudentTrainer(student, teacher, train_loader, val_loader, criterion)
-history = trainer.train(epochs=50)
+```bash
+python scripts/train_teacher.py \
+  --epochs 50 \
+  --batch-size 32 \
+  --lr 0.0001 \
+  --patience 5 \
+  --device cuda
+# Output: weights/teacher/teacher_finetuned_best.pth
 ```
 
-### 4. Inference
+**Features:**
+- Unfreezes only last layers (preserves pretrained knowledge)
+- BCE loss for binary classification
+- Early stopping on validation AUC
+- Saves best checkpoint
+
+### Stage 2: Verify Fine-tuned Teacher
+
+Evaluate the fine-tuned teacher:
+
+```bash
+python scripts/evaluate_teacher.py \
+  --checkpoint weights/teacher/teacher_finetuned_best.pth
+# Output: Teacher AUC and distillation readiness assessment
+```
+
+### Stage 3: Train Student with Distillation
+
+Train student model using fine-tuned or pretrained teacher:
+
+```bash
+# Two-stage training (recommended)
+python scripts/train_student_two_stage.py \
+  --dataset-root dataset \
+  --teacher-weights finetuned \  # or 'wildrf', 'forensyth'
+  --batch-size 32 \
+  --epochs-s1 5 \
+  --epochs-s2 20 \
+  --lr-s1 0.001 \
+  --lr-s2 0.0001 \
+  --device cuda
+
+# OR single-stage training
+python scripts/train_student.py \
+  --dataset-root dataset \
+  --teacher-weights finetuned \
+  --epochs 50 \
+  --batch-size 32 \
+  --lr 0.001 \
+  --device cuda
+```
+
+**Key Points:**
+- Default alpha values start small (0.05 distill / 0.95 task) for stable learning
+- Patch MSE is averaged per patch cell (not summed) for proper loss scaling
+- Two-stage training: Stage 1 trains classifier, Stage 2 fine-tunes backbone
+
+### Stage 4: Evaluate Student
+
+Evaluate the trained student on test set:
+
+```bash
+# Single-stage
+python scripts/evaluate_student.py \
+  --checkpoint outputs/checkpoints/student_final.pt
+
+# Two-stage
+python scripts/evaluate_student.py \
+  --checkpoint outputs/checkpoints_two_stage/student_final.pt \
+  --two-stage
+```
+
+### Stage 5: Compare Teacher vs Student
+
+See if distillation actually improved the student:
+
+```bash
+python scripts/evaluate_both.py \
+  --teacher-checkpoint weights/teacher/teacher_finetuned_best.pth \
+  --student-checkpoint outputs/checkpoints_two_stage/student_final.pt
+# Output: Side-by-side comparison showing improvement
+```
+
+---
+
+## Quick Start (Simple)
+
+For a quick start without fine-tuning:
+
+```bash
+# 1. Prepare Data
+mkdir -p dataset/{train,val}/{real,fake}
+# Copy your images into these directories
+
+# 2. Train Student with Pretrained Teacher
+python scripts/train_student_two_stage.py \
+  --dataset-root dataset \
+  --teacher-weights wildrf \
+  --device cuda
+
+# 3. Evaluate
+python scripts/evaluate_student.py \
+  --checkpoint outputs/checkpoints_two_stage/student_final.pt \
+  --two-stage
+```
+
+---
+
+## Inference
 
 ```python
 from inference.pipeline import InferencePipeline
@@ -165,17 +241,6 @@ print(f"Is fake: {result['is_fake']}")
 
 # Predict batch
 results = pipeline.predict_batch(["img1.jpg", "img2.jpg"])
-```
-
-### 5. Evaluate Model
-
-```python
-from training.eval_loop import Evaluator
-
-evaluator = Evaluator(student, device="cuda")
-results = evaluator.evaluate(test_loader, return_predictions=True)
-print(f"Accuracy: {results['metrics']['accuracy']:.4f}")
-print(f"AUC: {results['metrics']['auc']:.4f}")
 ```
 
 ## Key Features
