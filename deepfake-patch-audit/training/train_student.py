@@ -8,6 +8,8 @@ from pathlib import Path
 import json
 from tqdm import tqdm
 
+from training.threshold_calibration import ThresholdCalibrator
+
 
 class PatchStudentTrainer:
     """

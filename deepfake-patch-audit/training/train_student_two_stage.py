@@ -8,6 +8,8 @@ from pathlib import Path
 import json
 from tqdm import tqdm
 
+from training.threshold_calibration import ThresholdCalibrator
+
 
 class TwoStagePatchStudentTrainer:
     """
@@ -389,6 +391,35 @@ class TwoStagePatchStudentTrainer:
         with open(history_path, "w") as f:
             json.dump(self.history, f, indent=2)
         print(f"✓ Training history saved to {history_path}")
+
+        # =====================================================================
+        # THRESHOLD CALIBRATION
+        # =====================================================================
+        print("\n" + "=" * 80)
+        print("POST-TRAINING THRESHOLD CALIBRATION")
+        print("=" * 80)
+
+        calibrator = ThresholdCalibrator(
+            model=self.student_model,
+            val_loader=self.val_loader,
+            pooling=self.pooling,
+            device=self.device,
+            output_dir=str(checkpoint_dir / "calibration"),
+        )
+
+        t_star, calibration_results = calibrator.calibrate(suffix="")
+
+        # Save calibration results with training history
+        self.history["threshold_calibration"] = {
+            "optimal_threshold": float(t_star),
+            "auc": float(calibration_results["auc"]),
+            "diagnostics": calibration_results["diagnostics"],
+        }
+
+        # Update history file with calibration
+        with open(history_path, "w") as f:
+            json.dump(self.history, f, indent=2)
+        print(f"✓ Updated training history with calibration results")
 
         print("\n" + "=" * 80)
         print("TWO-STAGE TRAINING COMPLETE")
