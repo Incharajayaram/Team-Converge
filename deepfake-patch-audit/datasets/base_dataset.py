@@ -90,37 +90,71 @@ class BaseDataset(Dataset):
 
     def _load_from_directory(self):
         """Load image paths and labels from directory structure."""
+        from PIL import UnidentifiedImageError
+
+        corrupted_count = 0
+
         # Load real images (label 0)
         real_dir = self.root_dir / "real"
         if real_dir.exists():
             for img_path in sorted(real_dir.glob(f"*.{self.image_format}")):
-                self.samples.append((str(img_path), 0))
+                # Verify image is valid before adding
+                try:
+                    with Image.open(img_path) as img:
+                        img.verify()
+                    self.samples.append((str(img_path), 0))
+                except (UnidentifiedImageError, IOError, OSError):
+                    corrupted_count += 1
+                    print(f"⚠ Skipping corrupted image: {img_path.name}")
 
         # Load fake images (label 1)
         fake_dir = self.root_dir / "fake"
         if fake_dir.exists():
             for img_path in sorted(fake_dir.glob(f"*.{self.image_format}")):
-                self.samples.append((str(img_path), 1))
+                # Verify image is valid before adding
+                try:
+                    with Image.open(img_path) as img:
+                        img.verify()
+                    self.samples.append((str(img_path), 1))
+                except (UnidentifiedImageError, IOError, OSError):
+                    corrupted_count += 1
+                    print(f"⚠ Skipping corrupted image: {img_path.name}")
+
+        if corrupted_count > 0:
+            print(f"⚠ Skipped {corrupted_count} corrupted image(s) during loading")
 
     def __len__(self):
         return len(self.samples)
 
     def __getitem__(self, idx):
         """Load image and return (image, label)."""
+        from PIL import UnidentifiedImageError
+
         img_path, label = self.samples[idx]
-        image = Image.open(img_path).convert("RGB")
 
-        # Resize
-        image = image.resize((self.resize_size, self.resize_size), Image.BICUBIC)
+        try:
+            image = Image.open(img_path).convert("RGB")
 
-        # Convert to numpy array
-        image = np.array(image, dtype=np.float32) / 255.0
+            # Resize
+            image = image.resize((self.resize_size, self.resize_size), Image.BICUBIC)
 
-        # Normalize
-        if self.normalize:
-            image = (image - self.normalize_mean) / self.normalize_std
+            # Convert to numpy array
+            image = np.array(image, dtype=np.float32) / 255.0
 
-        # Convert to torch tensor
-        image = torch.from_numpy(image).permute(2, 0, 1)
+            # Normalize
+            if self.normalize:
+                image = (image - self.normalize_mean) / self.normalize_std
 
-        return {"image": image, "label": torch.tensor(label, dtype=torch.long)}
+            # Convert to torch tensor
+            image = torch.from_numpy(image).permute(2, 0, 1)
+
+            return {"image": image, "label": torch.tensor(label, dtype=torch.long)}
+
+        except (UnidentifiedImageError, IOError, OSError) as e:
+            # Fallback: Return a black image if file is corrupted
+            print(f"⚠ Error loading {img_path}: {type(e).__name__}")
+            # Return zero tensor as fallback
+            return {
+                "image": torch.zeros((3, self.resize_size, self.resize_size), dtype=torch.float32),
+                "label": torch.tensor(label, dtype=torch.long)
+            }
