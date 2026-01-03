@@ -1,0 +1,45 @@
+# Test configuration: Train with BCE only (no distillation)
+# Use this to verify the baseline works before introducing distillation
+
+model:
+  teacher:
+    architecture: "LaDeDa9"
+    preprocess_type: "NPR"
+    pretrained: true
+    pretrained_path: "weights/teacher/WildRF_LaDeDa.pth"
+    freeze_backbone: true
+    num_classes: 1
+    pool: false
+
+  student:
+    architecture: "TinyLaDeDa"
+    preprocess_type: "right_diag"
+    pretrained: false
+    pretrained_path: "weights/student/ForenSynth_Tiny_LaDeDa.pth"
+    num_classes: 1
+    pool: false
+
+patches:
+  teacher_grid: [31, 31]
+  student_grid: [126, 126]
+  num_teacher_patches: 961
+  num_student_patches: 15876
+
+pooling:
+  strategy: "top_k_logit"
+  r: 0.1
+  min_k: 5
+  aggregation: "mean"
+
+dataset:
+  root: "dataset"
+  resize_size: 256
+  normalize_mean: [0.485, 0.456, 0.406]
+  normalize_std: [0.229, 0.224, 0.225]
+  num_workers: 4
+  pin_memory: true
+
+training:
+  distillation:
+    alpha_distill: 0.0  # DISABLE distillation - BCE only!
+    alpha_task: 1.0     # 100% task loss
