@@ -9,6 +9,7 @@ import json
 from tqdm import tqdm
 
 from training.threshold_calibration import ThresholdCalibrator
+from training.guardrails import TrainingGuardrails
 
 
 class TwoStagePatchStudentTrainer:
@@ -48,6 +49,8 @@ class TwoStagePatchStudentTrainer:
         stage1_lr=0.001,
         stage2_lr=0.0001,
         weight_decay=1e-4,
+        enable_guardrails=True,
+        guardrails_output_dir="outputs/guardrails",
     ):
         """
         Args:
@@ -63,6 +66,8 @@ class TwoStagePatchStudentTrainer:
             stage1_lr: Learning rate for stage 1
             stage2_lr: Learning rate for stage 2 (usually smaller)
             weight_decay: Weight decay for optimizer
+            enable_guardrails: Enable debugging guardrails (shape/scale/determinism checks)
+            guardrails_output_dir: Output directory for guardrail logs
         """
         self.student_model = student_model.to(device)
         self.teacher_model = teacher_model.to(device)
@@ -100,6 +105,22 @@ class TwoStagePatchStudentTrainer:
         # Optimizers (will be set up per stage)
         self.optimizer = None
         self.scheduler = None
+        
+        # Setup debugging guardrails (Item 4 from implementation plan)
+        self.enable_guardrails = enable_guardrails
+        self.guardrails = None
+        if enable_guardrails:
+            print("\n  Initializing debugging guardrails...")
+            self.guardrails = TrainingGuardrails.from_config(
+                val_loader=val_loader,
+                output_dir=guardrails_output_dir,
+                device=device,
+                expected_teacher_channels=1,
+                expected_student_channels=1,
+                audit_set_size=50,
+                strict_shapes=True,
+            )
+            print("  ✓ Guardrails initialized (shape contracts, scale logging, determinism tests)")
 
     def _freeze_backbone(self):
         """Freeze all backbone layers (everything except classifier)."""
@@ -199,6 +220,17 @@ class TwoStagePatchStudentTrainer:
             loss, distill_loss, task_loss = self.criterion(
                 student_patches, teacher_patches, student_image_logit, labels
             )
+            
+            # Guardrails: Shape validation (first batch only) and scale logging
+            if self.guardrails is not None:
+                # Validate shape contracts on first batch of training
+                self.guardrails.validate_shapes(
+                    teacher_patches, student_patches
+                )
+                # Log batch statistics for scale monitoring
+                self.guardrails.log_batch_stats(
+                    teacher_patches, student_patches, distill_loss, task_loss
+                )
 
             # Backward pass
             self.optimizer.zero_grad()
@@ -338,6 +370,16 @@ class TwoStagePatchStudentTrainer:
                 checkpoint_path = checkpoint_dir / "student_stage1_best.pt"
                 torch.save(self.student_model.state_dict(), checkpoint_path)
                 print(f"  ✓ Saved best stage 1 model (AUC: {val_auc:.4f})")
+            
+            # Guardrails: End-of-epoch processing (scale summary + determinism audit)
+            if self.guardrails is not None:
+                self.guardrails.end_epoch(
+                    epoch=epoch + 1,
+                    student_model=self.student_model,
+                    pooling=self.pooling,
+                    teacher_model=self.teacher_model,
+                    print_summary=True,
+                )
 
         # =====================================================================
         # STAGE 2: Fine-tune layer1 + classifier with smaller learning rate
@@ -381,11 +423,25 @@ class TwoStagePatchStudentTrainer:
                 checkpoint_path = checkpoint_dir / "student_stage2_best.pt"
                 torch.save(self.student_model.state_dict(), checkpoint_path)
                 print(f"  ✓ Saved best stage 2 model (AUC: {val_auc:.4f})")
+            
+            # Guardrails: End-of-epoch processing (scale summary + determinism audit)
+            if self.guardrails is not None:
+                self.guardrails.end_epoch(
+                    epoch=self.stage1_epochs + epoch + 1,
+                    student_model=self.student_model,
+                    pooling=self.pooling,
+                    teacher_model=self.teacher_model,
+                    print_summary=True,
+                )
 
         # Save final model and history
         final_path = checkpoint_dir / "student_final.pt"
         torch.save(self.student_model.state_dict(), final_path)
         print(f"\n✓ Final model saved to {final_path}")
+        
+        # Save guardrail logs
+        if self.guardrails is not None:
+            self.guardrails.save_all_logs()
 
         history_path = checkpoint_dir / "training_history_two_stage.json"
         with open(history_path, "w") as f:
