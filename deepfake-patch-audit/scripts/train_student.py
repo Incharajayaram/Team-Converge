@@ -216,6 +216,13 @@ def main():
     parser.add_argument("--lr", type=float, default=0.001, help="Learning rate")
     parser.add_argument("--device", type=str, default="cuda", help="Device (cuda or cpu)")
     parser.add_argument("--checkpoint-dir", type=str, default="outputs/checkpoints", help="Checkpoint directory")
+    parser.add_argument(
+        "--teacher-weights",
+        type=str,
+        default=None,
+        choices=["wildrf", "forensyth", "finetuned"],
+        help="Teacher model weights: 'wildrf'/'forensyth' (pretrained) or 'finetuned' (fine-tuned)",
+    )
     args = parser.parse_args()
 
     # Check CUDA availability and fall back to CPU if needed
@@ -230,6 +237,16 @@ def main():
     # Load config
     print("\n[1] Loading configuration...")
     config = load_config()
+
+    # Override teacher weights if specified via command-line
+    if args.teacher_weights:
+        if args.teacher_weights.lower() == "wildrf":
+            config["model"]["teacher"]["pretrained_path"] = "weights/teacher/WildRF_LaDeDa.pth"
+        elif args.teacher_weights.lower() == "forensyth":
+            config["model"]["teacher"]["pretrained_path"] = "weights/teacher/ForenSynth_LaDeDa.pth"
+        elif args.teacher_weights.lower() == "finetuned":
+            config["model"]["teacher"]["pretrained_path"] = "weights/teacher/teacher_finetuned_best.pth"
+            config["model"]["teacher"]["pretrained"] = True
 
     # Create data loaders
     print("\n[2] Creating data loaders...")

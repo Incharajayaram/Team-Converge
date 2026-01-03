@@ -17,10 +17,21 @@ from models.pooling import TopKLogitPooling
 from datasets.base_dataset import BaseDataset
 
 
-def load_config(config_path="config/base.yaml"):
-    """Load configuration from YAML file."""
-    with open(config_path, "r") as f:
-        return yaml.safe_load(f)
+def load_config(config_dir="config"):
+    """Load all configuration files and merge them."""
+    from pathlib import Path
+    config_dir = Path(config_dir)
+
+    with open(config_dir / "base.yaml") as f:
+        base_config = yaml.safe_load(f)
+
+    with open(config_dir / "dataset.yaml") as f:
+        dataset_config = yaml.safe_load(f)
+
+    with open(config_dir / "train.yaml") as f:
+        train_config = yaml.safe_load(f)
+
+    return {**base_config, **dataset_config, **train_config}
 
 
 def main():
@@ -75,7 +86,7 @@ def main():
             # Teacher forward
             patch_logits = teacher(images)
             image_logits = pooling(patch_logits)
-            probs = torch.sigmoid(image_logits.squeeze())
+            probs = torch.sigmoid(image_logits.squeeze(-1))
 
             all_probs.append(probs.cpu().numpy())
             all_labels.append(labels.cpu().numpy())

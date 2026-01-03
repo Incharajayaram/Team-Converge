@@ -83,8 +83,8 @@ def main():
         "--teacher-weights",
         type=str,
         default=None,
-        choices=["wildrf", "forensyth"],
-        help="Teacher model weights to use: 'wildrf' (default) or 'forensyth'",
+        choices=["wildrf", "forensyth", "finetuned"],
+        help="Teacher model weights: 'wildrf'/'forensyth' (pretrained) or 'finetuned' (fine-tuned)",
     )
 
     args = parser.parse_args()
@@ -127,6 +127,9 @@ def main():
             config["model"]["teacher"]["pretrained_path"] = "weights/teacher/WildRF_LaDeDa.pth"
         elif args.teacher_weights.lower() == "forensyth":
             config["model"]["teacher"]["pretrained_path"] = "weights/teacher/ForenSynth_LaDeDa.pth"
+        elif args.teacher_weights.lower() == "finetuned":
+            config["model"]["teacher"]["pretrained_path"] = "weights/teacher/teacher_finetuned_best.pth"
+            config["model"]["teacher"]["pretrained"] = True  # Will load checkpoint
 
     print("\n" + "=" * 80)
     print("TWO-STAGE STUDENT TRAINING - Configuration")

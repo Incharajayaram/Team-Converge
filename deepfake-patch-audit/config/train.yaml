@@ -33,6 +33,11 @@ training:
 # Knowledge distillation (student training)
 distillation:
   temperature: 4.0
-  alpha_distill: 0.5  # weight of patch MSE loss
-  alpha_task: 0.5     # weight of image BCE loss
+  alpha_distill: 0.05  # weight of patch MSE loss (START SMALL, increase after confirming learning)
+  alpha_task: 0.95     # weight of image BCE loss (START HIGH to ensure task learning)
   use_attention_transfer: false
+  # Recommended progression:
+  # 1. alpha_distill=0.01, alpha_task=0.99  (confirm BCE loss works first)
+  # 2. alpha_distill=0.05, alpha_task=0.95  (introduce light distillation)
+  # 3. alpha_distill=0.1, alpha_task=0.9    (increase distillation signal)
+  # 4. alpha_distill=0.5, alpha_task=0.5    (balanced distillation)

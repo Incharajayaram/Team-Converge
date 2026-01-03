@@ -66,8 +66,10 @@ class PatchDistillationLoss(nn.Module):
 
         student_aligned = F.adaptive_avg_pool2d(student_patches, (H_teacher, W_teacher))
 
-        # Patch-level loss: MSE on aligned patch logits
-        distill_loss = F.mse_loss(student_aligned, teacher_patches)
+        # Patch-level loss: MSE on aligned patch logits (averaged per patch cell)
+        # Reduction='mean' averages over all dimensions: batch × spatial × channel
+        # This ensures patch loss is properly scaled relative to task loss
+        distill_loss = F.mse_loss(student_aligned, teacher_patches, reduction='mean')
 
         # Image-level task loss: BCE on pooled logit vs label
         # Convert labels to float and add batch dimension for BCE
