@@ -353,6 +353,135 @@ Key tests:
 - `test_quant_consistency.py`: Check quantization fidelity
 - `test_inference_contract.py`: Validate inference pipeline
 
+---
+
+## New Evaluation & Diagnostic Scripts
+
+### Comprehensive Evaluation
+
+Run all metrics at once:
+
+```bash
+python scripts/evaluate_comprehensive.py \
+  --checkpoint weights/student/student_best.pth \
+  --split test \
+  --threshold 0.5
+```
+
+**Outputs**: ROC-AUC, PR-AUC, TPR@FPR=1%, Brier Score, ECE, Latency
+
+### Benchmark Evaluation (Celeb-DF v2)
+
+Evaluate on external benchmark:
+
+```bash
+# First, prepare benchmark (one-time)
+python -m datasets.celebdf_dataset --root-dir /path/to/CelebDF --fps 1.0
+
+# Then evaluate
+python scripts/evaluate_benchmark.py \
+  --checkpoint weights/student/student_best.pth \
+  --benchmark-root /path/to/CelebDF \
+  --threshold 0.5
+```
+
+### Forensic Output Pack
+
+Generate visual evidence (heatmaps + sanity checks):
+
+```bash
+python scripts/create_forensic_pack.py \
+  --checkpoint weights/student/student_best.pth \
+  --data-root data/ \
+  --num-samples 25 \
+  --output-dir outputs/forensic_pack
+```
+
+**Outputs**:
+- Patch probability heatmaps
+- Top-k suspicious patch overlays
+- Deletion sanity check (verifies model behavior)
+
+### Training Diagnostics
+
+Analyze training logs to diagnose issues:
+
+```bash
+python scripts/diagnose_training.py \
+  --history outputs/checkpoints/training_history.json \
+  --output outputs/diagnostics
+```
+
+**Detects**:
+- Distillation/task loss imbalance
+- Training stagnation
+- Overfitting
+- Stage 1 vs Stage 2 comparison
+
+### Export Parity Validation
+
+Verify TFLite/ONNX exports match PyTorch:
+
+```bash
+python scripts/validate_export_parity.py \
+  --pytorch-checkpoint weights/student/student_best.pth \
+  --tflite-path exports/student.tflite \
+  --data-root data/
+```
+
+**Checks**: AUC delta, decision agreement, correlation
+
+---
+
+## Debugging Guardrails
+
+The training pipeline includes automatic guardrails:
+
+| Guardrail | Purpose |
+|-----------|---------|
+| Shape Contract | Validates teacher/student patch dimensions |
+| Scale Logging | Tracks logit statistics every batch |
+| Determinism Test | Monitors outputs on fixed audit set |
+
+Guardrails run automatically during `train_student_two_stage.py` and save logs to `outputs/guardrails/`.
+
+---
+
+## Troubleshooting
+
+### Student AUC ≈ 0.5 (Random)
+
+**Cause**: Distillation loss dominated, model ignored labels.
+
+**Fix**:
+```bash
+python scripts/train_student_two_stage.py \
+  --alpha-distill 0.1 \
+  --alpha-task 0.9
+  # OR try --alpha-distill 0.0 (no distillation)
+```
+
+### Distillation Loss >> Task Loss
+
+**Diagnosis**: Run `scripts/diagnose_training.py` on training history.
+
+**Fix**: Reduce `alpha_distill` to 0.1 or lower.
+
+### Teacher AUC is Bad (< 0.70)
+
+**Fix**: Fine-tune teacher longer or unfreeze more layers:
+```bash
+python scripts/train_teacher.py --epochs 100 --unfreeze-blocks 2
+```
+
+### Export Parity Failed
+
+**Cause**: Quantization introduced too much error.
+
+**Fix**: Use dynamic quantization instead of full INT8.
+
+---
+
 ## Deployment
 
 Export student model for edge deployment:
