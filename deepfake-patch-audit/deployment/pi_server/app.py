@@ -415,13 +415,13 @@ def predict():
         if patch_logits is None:
             return jsonify({'error': 'Inference failed'}), 500
 
-        # Build prediction response
+        # Build prediction response (convert numpy types to Python native types for JSON serialization)
         prediction = {
             'device_id': device_id,
-            'is_fake': is_fake,
-            'fake_probability': fake_prob,
-            'confidence': confidence,
-            'inference_time_ms': inference_time
+            'is_fake': bool(is_fake),  # Convert numpy bool to Python bool
+            'fake_probability': float(fake_prob),  # Ensure Python float
+            'confidence': float(confidence),  # Ensure Python float
+            'inference_time_ms': float(inference_time)  # Ensure Python float
         }
 
         # Save suspicious image
