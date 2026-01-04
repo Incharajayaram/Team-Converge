@@ -1167,12 +1167,29 @@
             showProgress();
 
             try {
+                // First, test if server is reachable
+                console.log('Testing server connectivity...');
+                const testResponse = await fetch('/test', {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+
+                if (!testResponse.ok) {
+                    throw new Error('Server test failed with status ' + testResponse.status);
+                }
+
+                const testData = await testResponse.json();
+                console.log('Server test successful:', testData);
+
                 // Create FormData
                 const formData = new FormData();
                 formData.append('device_id', 'dashboard');
                 formData.append('image', file);
 
                 // Upload
+                console.log('Uploading image to /predict endpoint...');
                 const response = await fetch('/predict', {
                     method: 'POST',
                     body: formData
@@ -1180,7 +1197,7 @@
 
                 if (!response.ok) {
                     const errorData = await response.json();
-                    throw new Error(errorData.error || 'Upload failed');
+                    throw new Error(errorData.error || 'Upload failed with status ' + response.status);
                 }
 
                 const result = await response.json();
@@ -1194,8 +1211,20 @@
 
             } catch (error) {
                 hideProgress();
-                showError('Error uploading image: ' + error.message);
-                console.error('Upload error:', error);
+                let errorMsg = 'Error uploading image: ';
+
+                if (error.message === 'Failed to fetch') {
+                    errorMsg += 'Cannot connect to server. Make sure the Flask app is running and accessible at your current URL.';
+                } else if (error.message.includes('CORS')) {
+                    errorMsg += 'CORS error - server may not have CORS enabled';
+                } else if (error.message.includes('Server test failed')) {
+                    errorMsg += 'Server is not responding. Check if Flask app is running.';
+                } else {
+                    errorMsg += error.message;
+                }
+
+                showError(errorMsg);
+                console.error('Upload error details:', error);
             }
         }
 

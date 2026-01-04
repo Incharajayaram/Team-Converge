@@ -3,6 +3,7 @@
 # Web Framework
 Flask==2.3.2
 Werkzeug==2.3.6
+Flask-CORS==4.0.0
 
 # ONNX Runtime (CPU inference on Raspberry Pi)
 onnxruntime==1.15.0
