@@ -37,13 +37,12 @@ logger = logging.getLogger(__name__)
 
 app = Flask(__name__)
 
-# Enable CORS for all routes
-CORS(app, resources={
-    r"/predict": {"origins": "*", "methods": ["POST", "OPTIONS"]},
-    r"/api/*": {"origins": "*", "methods": ["GET", "OPTIONS"]},
-    r"/stats": {"origins": "*", "methods": ["GET", "OPTIONS"]},
-    r"/status": {"origins": "*", "methods": ["GET", "OPTIONS"]}
-})
+# Enable CORS for all routes - allow cross-origin requests from any source
+CORS(app,
+     origins="*",
+     methods=["GET", "POST", "OPTIONS", "PUT", "DELETE"],
+     allow_headers=["Content-Type", "Authorization"],
+     supports_credentials=False)
 
 # Configuration
 CONFIG = {
@@ -340,7 +339,13 @@ def send_webhook_alert(device_id, prediction):
     thread.start()
 
 
-@app.route('/predict', methods=['POST'])
+@app.route('/test', methods=['GET', 'OPTIONS'])
+def test():
+    """Simple test endpoint to verify server connectivity."""
+    return jsonify({'status': 'ok', 'message': 'Server is running'}), 200
+
+
+@app.route('/predict', methods=['POST', 'OPTIONS'])
 def predict():
     """
     Receive image from Nicla device and return prediction.
@@ -359,16 +364,25 @@ def predict():
     }
     """
     try:
+        # Log request details
+        logger.info(f"Received prediction request from {request.remote_addr}")
+        logger.info(f"Request method: {request.method}")
+        logger.info(f"Form data: {request.form}")
+        logger.info(f"Files: {request.files}")
+
         # Validate request
         if 'device_id' not in request.form:
+            logger.error("Missing device_id in request")
             return jsonify({'error': 'Missing device_id'}), 400
 
         if 'image' not in request.files:
+            logger.error("Missing image in request")
             return jsonify({'error': 'Missing image'}), 400
 
         device_id = request.form['device_id']
         image_file = request.files['image']
         image_data = image_file.read()
+        logger.info(f"Processing image for device: {device_id}, size: {len(image_data)} bytes")
 
         # Preprocess image
         image_np = preprocess_image(image_data)
