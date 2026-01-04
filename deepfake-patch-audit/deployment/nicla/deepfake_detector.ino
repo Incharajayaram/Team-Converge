@@ -1,22 +1,27 @@
 /*
- * Nicla Vision Deepfake Detection Client with Face Pre-Screening
+ * Arduino Nicla Vision - Deepfake Detection Client
  *
- * Two-Stage Pipeline:
- * STAGE 1: Face Detection (Pre-screening)
- *   - Use BlazeFace TFLite model (ultra-lightweight, ~200KB)
- *   - Detect if face is present in image
- *   - If NO face: Skip sending (save bandwidth)
- *   - If FACE detected: Proceed to stage 2
+ * ✅ BOARD: Arduino Nicla Vision (SAMD51 + OV7670 Camera)
  *
- * STAGE 2: Deepfake Detection (Send to Pi)
- *   - Resize to 128x128 pixels
- *   - Compress to JPEG at 80% quality (~10-15 KB)
- *   - Send to Raspberry Pi via HTTP POST
- *   - Return prediction + LED feedback
+ * Three-Stage Pipeline:
+ * STAGE 1: Face Detection (BlazeFace on Nicla)
+ * STAGE 2: Student Model Inference (Edge Filtering on Nicla)
+ * STAGE 3: Teacher Model Verification (Sent to Raspberry Pi)
  *
- * Hardware: Arduino Nicla Vision
- * Model: BlazeFace Short-Range (float16)
- * Libraries: Required libraries listed in setup instructions
+ * ⚠️ REQUIRED LIBRARIES (Install in Arduino IDE):
+ * 1. Arduino Mbed OS Boards (Board support)
+ * 2. TensorFlow Lite for Microcontrollers (Model inference)
+ * 3. JPEGENC (Image compression)
+ * 4. ArduinoHttpClient (HTTP communication)
+ *
+ * ⚠️ MEMORY CONSTRAINTS (Nicla Vision SAMD51):
+ * - Flash: 512 KB (Model: 21 KB + Code: 50 KB + Libraries: 150 KB = 221 KB OK ✓)
+ * - SRAM: 192 KB (Tensor Arena: 50 KB + Other: ~80 KB = 130 KB OK ✓)
+ * - Stack: Safe for 3-stage inference pipeline
+ *
+ * 📡 NETWORKING: WiFi module required (built-in on Nicla Vision)
+ * 📷 CAMERA: OV7670 (320×240 RGB565 @ 30fps)
+ * 💾 STORAGE: PROGMEM for model binary (embedded in sketch)
  */
 
 #include <ArduinoMqttClient.h>
@@ -27,10 +32,12 @@
 
 // ✅ ARCH FIX 4: Include student model for edge filtering
 #include "student_model.h"  // Student TFLite model (21 KB)
-#include <TensorFlowLite_ESP32.h>
+// TensorFlow Lite for Microcontrollers (works on SAMD51/Nicla Vision)
 #include "tensorflow/lite/micro/all_ops_resolver.h"
 #include "tensorflow/lite/micro/micro_interpreter.h"
+#include "tensorflow/lite/micro/micro_allocator.h"
 #include "tensorflow/lite/schema/schema_generated.h"
+#include "tensorflow/lite/core/c/common.h"
 
 // ============================================================================
 // CONFIGURATION - MODIFY THESE VALUES
@@ -59,9 +66,19 @@ const String DEVICE_ID = "nicla_1";  // Change for each device: nicla_1, nicla_2
 // Camera Settings
 const int CAPTURE_INTERVAL_MS = 3000;  // Capture every 3 seconds
 
-// LED Pins
-const int LED_R = 23;  // Red LED (fake)
-const int LED_G = 22;  // Green LED (real)
+// LED Pins (Nicla Vision specific)
+// ⚠️ IMPORTANT: Verify these pins for your Nicla Vision board
+// Check: https://docs.arduino.cc/hardware/nicla-vision
+// Common pins: 23 (Red), 22 (Green) or D7, D8
+// If LEDs don't work, try: LEDG = 23, LEDR = 22 or test with digitalRead/digitalWrite
+#ifndef LEDR
+  #define LEDR 23  // Red LED (fake detection)
+#endif
+#ifndef LEDG
+  #define LEDG 22  // Green LED (real detection)
+#endif
+const int LED_R = LEDR;
+const int LED_G = LEDG;
 
 // ============================================================================
 // GLOBAL VARIABLES
