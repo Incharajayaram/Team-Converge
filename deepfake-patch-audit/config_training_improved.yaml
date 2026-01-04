@@ -1,0 +1,241 @@
+# Improved Training Configuration with All Fixes Applied
+# This config addresses all reported training issues
+
+# ============================================================================
+# DATA CONFIGURATION
+# ============================================================================
+data:
+  train_path: "data/train"
+  val_path: "data/val"
+  batch_size: 32
+  num_workers: 0  # ← CRITICAL FOR WINDOWS: Always 0
+  pin_memory: false  # Also disable for Windows safety
+  shuffle: true
+  drop_last: true
+  augmentation:
+    enabled: true
+    # Avoid overfitting to distillation
+
+# ============================================================================
+# MODEL CONFIGURATION
+# ============================================================================
+models:
+  teacher:
+    name: "ladeda9"
+    weights: "models/teacher.onnx"
+    freeze: true
+  student:
+    name: "tinylad eda"
+    weights: null  # Initialize from scratch or pretrained
+    architecture:
+      input_size: 256
+      output_spatial: 126
+      channels: 1
+
+# ============================================================================
+# LOSS CONFIGURATION - KEY FIXES APPLIED
+# ============================================================================
+loss:
+  # Use improved loss function
+  type: "ImprovedPatchDistillationLoss"
+
+  # CRITICAL FIX: Reduce alpha_distill to prevent explosion
+  # OLD: alpha_distill=0.5, alpha_task=0.5 (caused instability)
+  # NEW: alpha_distill=0.3, alpha_task=0.7 (emphasize task learning)
+  alpha_distill: 0.3
+  alpha_task: 0.7
+
+  # Temperature for knowledge distillation
+  # Higher T = softer targets = more stable learning
+  temperature: 4.0
+
+  # Use KL divergence (scale-invariant) instead of MSE
+  use_kl_loss: true
+
+  # Adaptive scale matching for teacher/student mismatch
+  enable_scale_matching: true
+
+  # Prevent saturation warnings from extreme logits
+  enable_saturation_guard: true
+  logit_clip_threshold: 100.0
+
+  # Detect and prevent mode collapse
+  enable_mode_collapse_detection: true
+  mode_collapse_min_variance: 1.0e-4
+  mode_collapse_penalty_weight: 0.01
+
+# ============================================================================
+# STAGE 1: CLASSIFIER TRAINING (Frozen Backbone)
+# ============================================================================
+stage1:
+  name: "Classifier Training"
+  epochs: 5
+  description: "Freeze backbone, train classifier only"
+
+  # Learning rate
+  # OLD: 0.001 (too high, caused explosion)
+  # NEW: 0.0001 (stable, allows convergence)
+  learning_rate: 0.0001
+
+  # Warmup before main training
+  warmup_epochs: 0.5
+
+  # Optimizer: SGD with momentum (more stable than Adam)
+  optimizer: "SGD"
+  momentum: 0.9
+  weight_decay: 1.0e-5
+  nesterov: true
+
+  # Gradient clipping to prevent explosion
+  gradient_clip_norm: 0.5
+  gradient_clip_value: 1.0
+
+  # Scheduler: ReduceLROnPlateau (adapt to loss plateaus)
+  scheduler: "ReduceLROnPlateau"
+  scheduler_config:
+    mode: "max"
+    factor: 0.5
+    patience: 5
+    verbose: true
+
+  # Checkpointing
+  save_checkpoint_every: 1
+  save_best_only: true
+
+# ============================================================================
+# STAGE 2: FINE-TUNING (Unfreeze Layer1)
+# ============================================================================
+stage2:
+  name: "Fine-tuning"
+  epochs: 20
+  description: "Unfreeze layer1, fine-tune with small LR"
+
+  # Layer-wise learning rates
+  # Backbone: very small (preserve pretrained features)
+  # Classifier: small (adapt to task)
+  learning_rates:
+    backbone: 0.000005  # Layer1 - very conservative
+    classifier: 0.00005  # FC layer - moderate
+
+  # Warmup before fine-tuning
+  warmup_epochs: 1.0
+
+  # Optimizer: SGD with momentum
+  optimizer: "SGD"
+  momentum: 0.9
+  weight_decay: 1.0e-5
+  nesterov: true
+
+  # Gradient clipping
+  gradient_clip_norm: 0.5
+  gradient_clip_value: 1.0
+
+  # Scheduler: Warmup + Cosine annealing (less aggressive)
+  scheduler: "LambdaLR"
+  scheduler_config:
+    warmup_factor: 0.0
+    warmup_iters: 1  # 1 epoch
+    final_factor: 0.1
+    # Cosine annealing not too aggressive (eta_min=0.1)
+
+  # Early stopping if validation plateaus
+  early_stopping:
+    enabled: true
+    patience: 10  # Stop if no improvement for 10 epochs
+    monitor: "val_auc"
+    mode: "max"
+
+  # Checkpointing
+  save_checkpoint_every: 1
+  save_best_only: true
+
+# ============================================================================
+# TRAINING MONITORING
+# ============================================================================
+monitoring:
+  # Log frequency
+  log_interval: 10  # Log every N batches
+
+  # Loss monitoring
+  loss_monitoring:
+    enabled: true
+    explosion_threshold: 100.0  # Alert if loss > 100
+    watch_distill_task_ratio: true
+
+  # Gradient monitoring
+  gradient_monitoring:
+    enabled: true
+    log_norm: true
+    log_histogram: false  # High overhead
+
+  # Output variance (mode collapse detection)
+  output_monitoring:
+    enabled: true
+    min_variance_threshold: 1.0e-4
+
+  # Training diagnostics
+  enable_diagnostics: true
+  diagnostic_interval: 1  # Every N epochs
+
+  # Visualization
+  save_plots: true
+  plot_interval: 5
+
+# ============================================================================
+# CHECKPOINT & OUTPUT
+# ============================================================================
+output:
+  checkpoint_dir: "outputs/checkpoints"
+  tensorboard_dir: "outputs/tensorboard"
+  diagnostic_dir: "outputs/diagnostics"
+  history_file: "outputs/checkpoints/training_history.json"
+
+  # Model export
+  export_onnx: true
+  export_onnx_path: "models/student_distilled.onnx"
+  export_quantized: true
+  export_quantized_path: "models/student_quantized.onnx"
+
+# ============================================================================
+# DEVICE & PRECISION
+# ============================================================================
+device:
+  type: "cuda"  # or "cpu"
+  device_id: 0
+  mixed_precision: false  # Disabled for stability (can cause numerical issues)
+
+# ============================================================================
+# REPRODUCIBILITY
+# ============================================================================
+seed: 42
+deterministic: true
+benchmark: false  # Disabled for full reproducibility
+
+# ============================================================================
+# TROUBLESHOOTING PRESETS
+# ============================================================================
+# Use these if training is still unstable
+
+presets:
+  stable:
+    description: "Maximum stability (slower convergence)"
+    stage1_lr: 0.00001  # 10x smaller
+    stage2_lr: 0.000005
+    gradient_clip_norm: 0.1  # Tighter clipping
+    alpha_task: 0.9  # Even more emphasis on task loss
+
+  aggressive:
+    description: "Faster training (monitor closely)"
+    stage1_lr: 0.001
+    stage2_lr: 0.0001
+    gradient_clip_norm: 1.0
+    alpha_task: 0.5
+
+  windows_safe:
+    description: "Optimized for Windows (avoid all issues)"
+    num_workers: 0
+    pin_memory: false
+    stage1_lr: 0.00001
+    stage2_lr: 0.000005
+    gradient_clip_norm: 0.2
+    alpha_task: 0.95
