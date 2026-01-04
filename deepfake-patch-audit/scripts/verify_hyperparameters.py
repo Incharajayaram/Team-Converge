@@ -83,7 +83,7 @@ def test_saturation_guard():
     
     assert grad_norm > 1e-6, f"Gradient should be non-zero, got {grad_norm}"
     
-    print("  ✓ Saturation guard PASSED")
+    print("  [PASS] Saturation guard PASSED")
     return True
 
 
@@ -137,7 +137,7 @@ def test_alpha_balance():
     # Task should be ~90% of total (allow some tolerance)
     assert task_ratio > 0.6, f"Task ratio should be > 60%, got {task_ratio*100:.1f}%"
     
-    print("  ✓ Alpha balance PASSED")
+    print("  [PASS] Alpha balance PASSED")
     return True
 
 
@@ -184,7 +184,7 @@ def test_gradient_flow():
     assert patches_grad_norm > 1e-8, f"Patch gradients should be non-zero"
     assert logit_grad_norm > 1e-8, f"Logit gradients should be non-zero"
     
-    print("  ✓ Gradient flow PASSED")
+    print("  [PASS] Gradient flow PASSED")
     return True
 
 
@@ -240,7 +240,7 @@ def test_loss_ranges():
     assert 0.3 < avg_task < 1.5, f"Task loss should be ~0.69, got {avg_task:.4f}"
     assert avg_total < 10.0, f"Total loss should be < 10, got {avg_total:.4f}"
     
-    print("  ✓ Loss ranges PASSED")
+    print("  [PASS] Loss ranges PASSED")
     return True
 
 
@@ -305,7 +305,7 @@ def test_extreme_saturation_recovery():
     assert grad_with_guard > grad_no_guard * 1000, \
         f"Guard should improve gradients by >1000x, got {grad_with_guard / (grad_no_guard + 1e-20):.1f}x"
     
-    print("  ✓ Saturation recovery PASSED")
+    print("  [PASS] Saturation recovery PASSED")
     return True
 
 
@@ -347,7 +347,7 @@ def test_determinism():
     assert abs(results[0] - results[1]) < 1e-6, \
         f"Results should be identical with same seed"
     
-    print("  ✓ Determinism PASSED")
+    print("  [PASS] Determinism PASSED")
     return True
 
 
@@ -374,10 +374,10 @@ def main():
             if test_fn():
                 passed += 1
         except AssertionError as e:
-            print(f"  ✗ {name} FAILED: {e}")
+            print(f"  [FAIL] {name} FAILED: {e}")
             failed += 1
         except Exception as e:
-            print(f"  ✗ {name} ERROR: {e}")
+            print(f"  [ERROR] {name} ERROR: {e}")
             failed += 1
     
     print("\n" + "=" * 70)
@@ -387,10 +387,10 @@ def main():
     print(f"  Failed: {failed}/{len(tests)}")
     
     if failed == 0:
-        print("\n  ✓ ALL TESTS PASSED - Hyperparameters are valid!")
+        print("\n  [PASS] ALL TESTS PASSED - Hyperparameters are valid!")
         print("  Safe to proceed with full training.")
     else:
-        print(f"\n  ✗ {failed} TESTS FAILED - Review hyperparameters!")
+        print(f"\n  [FAIL] {failed} TESTS FAILED - Review hyperparameters!")
         sys.exit(1)
 
 

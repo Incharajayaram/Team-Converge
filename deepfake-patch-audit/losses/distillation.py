@@ -73,7 +73,7 @@ class PatchDistillationLoss(nn.Module):
             self.saturation_count += 1
             
             if self.saturation_count <= 5:  # Log first 5 occurrences
-                print(f"⚠️  Saturation detected in {name}: "
+                print(f"[WARN] Saturation detected in {name}: "
                       f"max_abs={max_abs_logit:.1f}, normalizing...")
             
             # Center to zero mean
