@@ -103,8 +103,8 @@ def create_deployment_pipeline():
     parser.add_argument(
         "--output-dir",
         type=str,
-        default="outputs/deployment",
-        help="Output directory for exported models",
+        default="deployment/pi_server/models",
+        help="Output directory for exported models (default: deployment/pi_server/models for Flask server)",
     )
     parser.add_argument(
         "--device",
@@ -115,9 +115,9 @@ def create_deployment_pipeline():
     parser.add_argument(
         "--quantization",
         type=str,
-        default="dynamic",
+        default="none",
         choices=["none", "dynamic"],
-        help="Quantization strategy",
+        help="Quantization strategy (default: none for ONNX on Raspberry Pi)",
     )
     parser.add_argument(
         "--skip-onnx",
@@ -127,12 +127,19 @@ def create_deployment_pipeline():
     parser.add_argument(
         "--skip-tflite",
         action="store_true",
-        help="Skip TFLite conversion",
+        default=True,
+        help="Skip TFLite conversion (default: True, only ONNX for Flask server)",
     )
     parser.add_argument(
         "--skip-quantization",
         action="store_true",
-        help="Skip post-training quantization",
+        default=True,
+        help="Skip post-training quantization (default: True for simpler ONNX)",
+    )
+    parser.add_argument(
+        "--onnx-only",
+        action="store_true",
+        help="Export only ONNX format (recommended for Flask server on Raspberry Pi)",
     )
 
     return parser
@@ -142,6 +149,12 @@ def main():
     """Run complete deployment pipeline."""
     parser = create_deployment_pipeline()
     args = parser.parse_args()
+
+    # Handle --onnx-only flag
+    if args.onnx_only:
+        args.skip_tflite = True
+        args.skip_quantization = True
+        args.quantization = "none"
 
     output_dir = Path(args.output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -153,6 +166,7 @@ def main():
     print(f"Output directory: {output_dir}")
     print(f"Quantization: {args.quantization}")
     print(f"Device: {args.device}")
+    print(f"ONNX Only: {args.onnx_only}")
 
     # Step 1: Load trained model
     model = load_trained_model(args.model, args.device)
@@ -169,7 +183,7 @@ def main():
         quantized_model = model
 
     # Step 3: Export to ONNX
-    onnx_path = output_dir / "student_model.onnx"
+    onnx_path = output_dir / "deepfake_detector.onnx"
     if not args.skip_onnx:
         exporter = ONNXExporter(quantized_model, args.device)
         success = exporter.export(
@@ -193,7 +207,7 @@ def main():
             print(f"  Nodes: {onnx_info['num_nodes']}")
 
     # Step 4: Convert to TFLite
-    tflite_path = output_dir / "student_model.tflite"
+    tflite_path = output_dir / "deepfake_detector.tflite"
     if not args.skip_tflite:
         if not onnx_path.exists():
             print(f"✗ ONNX model not found: {onnx_path}")
