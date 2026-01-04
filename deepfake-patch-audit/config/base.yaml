@@ -39,3 +39,19 @@ pooling:
   r: 0.1  # Select top 10% of patches
   min_k: 5  # Minimum 5 patches selected
   aggregation: "mean"  # Aggregate selected patches via mean of logits
+
+# Dataset configuration
+dataset:
+  resize_size: 256
+  num_workers: 0  # Set to 0 for Windows compatibility
+  pin_memory: true
+
+# Training configuration
+training:
+  weight_decay: 0.0001
+  # Knowledge Distillation settings
+  # CRITICAL: alpha_distill=0.1 to fix saturation issue
+  distillation:
+    alpha_distill: 0.1  # Low weight: prevent teacher from dominating
+    alpha_task: 0.9  # High weight: learn from labels
+
