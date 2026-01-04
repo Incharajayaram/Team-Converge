@@ -18,11 +18,16 @@ import requests
 from PIL import Image
 import io
 import logging
-from threading import Thread
+from threading import Thread, Lock
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 import onnxruntime as rt
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
+import re
+import time
+import glob
 
 # Configure logging
 logging.basicConfig(
@@ -36,6 +41,14 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 app = Flask(__name__)
+
+# Initialize Flask-Limiter for rate limiting
+limiter = Limiter(
+    app=app,
+    key_func=get_remote_address,
+    default_limits=["100 per hour"],  # Default: 100 requests/hour per IP
+    storage_uri="memory://"  # Use in-memory storage
+)
 
 # Enable CORS for all routes - allow cross-origin requests from any source
 CORS(app,
@@ -68,6 +81,9 @@ IMAGENET_STD = np.array([0.229, 0.224, 0.225])
 # Global variables
 onnx_session = None
 device_stats = {}
+captured_images = {}  # Store captured image metadata from devices
+stats_lock = Lock()  # ✅ PHASE 2.4: Thread-safe access to device_stats
+cleanup_counter = 0  # ✅ PHASE 2.5: Trigger cleanup every 100 predictions
 
 
 def initialize_model():
@@ -198,6 +214,80 @@ def run_inference(image_np):
         return None, False, 0.0, 0.0
 
 
+def cleanup_old_images(max_storage_mb=1000, max_age_days=30):
+    """
+    Clean up old suspicious images if storage exceeds limit or images are too old.
+
+    ✅ PHASE 2.5: Disk space management to prevent unbounded growth
+
+    Args:
+        max_storage_mb: Maximum storage in megabytes (default 1 GB)
+        max_age_days: Maximum age of images in days (default 30)
+    """
+    try:
+        storage_dir = Path(CONFIG['STORAGE_DIR'])
+
+        if not storage_dir.exists():
+            return
+
+        # Get all image files
+        image_files = list(storage_dir.glob('*.jpg'))
+
+        if not image_files:
+            return
+
+        # Calculate total size
+        total_size = sum(f.stat().st_size for f in image_files)
+        total_size_mb = total_size / (1024 * 1024)
+
+        logger.info(f"Storage check: {total_size_mb:.2f} MB used by {len(image_files)} images")
+
+        # Delete old files if over limit
+        if total_size_mb > max_storage_mb:
+            logger.warning(f"Storage exceeds limit: {total_size_mb:.2f} MB > {max_storage_mb} MB")
+
+            # Sort by modification time (oldest first)
+            image_files.sort(key=lambda f: f.stat().st_mtime)
+
+            deleted = 0
+            freed_mb = 0
+
+            for img_file in image_files:
+                # Keep deleting until we reach 80% of limit
+                if total_size_mb - freed_mb <= max_storage_mb * 0.8:
+                    break
+
+                try:
+                    file_size = img_file.stat().st_size / (1024 * 1024)
+                    img_file.unlink()
+                    freed_mb += file_size
+                    deleted += 1
+                except Exception as e:
+                    logger.error(f"Failed to delete {img_file}: {e}")
+
+            if deleted > 0:
+                logger.info(f"Cleanup: Deleted {deleted} old images, freed {freed_mb:.2f} MB")
+
+        # Also delete files older than max_age_days
+        current_time = time.time()
+        age_threshold = max_age_days * 24 * 60 * 60  # Convert days to seconds
+
+        deleted_old = 0
+        for img_file in image_files:
+            try:
+                if current_time - img_file.stat().st_mtime > age_threshold:
+                    img_file.unlink()
+                    deleted_old += 1
+            except Exception as e:
+                logger.error(f"Failed to delete old file {img_file}: {e}")
+
+        if deleted_old > 0:
+            logger.info(f"Cleanup: Deleted {deleted_old} images older than {max_age_days} days")
+
+    except Exception as e:
+        logger.error(f"Disk cleanup error: {e}")
+
+
 def save_suspicious_image(image_data, device_id, prediction):
     """Save image if classified as fake."""
     try:
@@ -225,9 +315,9 @@ def save_suspicious_image(image_data, device_id, prediction):
 
 
 def log_prediction(device_id, prediction, image_path=None):
-    """Log prediction to file and update statistics."""
+    """Log prediction to file and update statistics (thread-safe)."""
     try:
-        # Log to file
+        # Log to file (outside lock - I/O operations)
         log_entry = {
             'timestamp': datetime.now().isoformat(),
             'device_id': device_id,
@@ -239,42 +329,46 @@ def log_prediction(device_id, prediction, image_path=None):
 
         logger.info(json.dumps(log_entry))
 
-        # Update statistics
-        if device_id not in device_stats:
-            device_stats[device_id] = {
-                'total_images': 0,
-                'fake_detections': 0,
-                'last_prediction': None,
-                'avg_fake_prob': 0.0
-            }
+        # ✅ PHASE 2.4: Acquire lock for thread-safe device_stats access
+        with stats_lock:
+            # Update statistics
+            if device_id not in device_stats:
+                device_stats[device_id] = {
+                    'total_images': 0,
+                    'fake_detections': 0,
+                    'last_prediction': None,
+                    'avg_fake_prob': 0.0
+                }
 
-        stats = device_stats[device_id]
-        stats['total_images'] += 1
-        if prediction['is_fake']:
-            stats['fake_detections'] += 1
-        stats['last_prediction'] = datetime.now().isoformat()
+            stats = device_stats[device_id]
+            stats['total_images'] += 1
+            if prediction['is_fake']:
+                stats['fake_detections'] += 1
+            stats['last_prediction'] = datetime.now().isoformat()
 
-        # Update average fake probability
-        avg = stats['avg_fake_prob']
-        stats['avg_fake_prob'] = (
-            (avg * (stats['total_images'] - 1) + prediction['fake_probability'])
-            / stats['total_images']
-        )
+            # Update average fake probability
+            avg = stats['avg_fake_prob']
+            stats['avg_fake_prob'] = (
+                (avg * (stats['total_images'] - 1) + prediction['fake_probability'])
+                / stats['total_images']
+            )
 
-        # Save stats
+        # Save stats (also thread-safe)
         save_stats()
     except Exception as e:
         logger.error(f"Failed to log prediction: {e}")
 
 
 def save_stats():
-    """Save device statistics to JSON file."""
+    """Save device statistics to JSON file (thread-safe)."""
     try:
         stats_dir = Path(CONFIG['STATS_FILE']).parent
         stats_dir.mkdir(parents=True, exist_ok=True)
 
-        with open(CONFIG['STATS_FILE'], 'w') as f:
-            json.dump(device_stats, f, indent=2)
+        # ✅ PHASE 2.4: Also protect file writes with lock
+        with stats_lock:
+            with open(CONFIG['STATS_FILE'], 'w') as f:
+                json.dump(device_stats, f, indent=2)
     except Exception as e:
         logger.error(f"Failed to save stats: {e}")
 
@@ -363,6 +457,7 @@ def test():
 
 
 @app.route('/predict', methods=['POST', 'OPTIONS'])
+@limiter.limit("10 per minute")  # Max 10 predictions per minute per IP
 def predict():
     """
     Receive image from Nicla device and return prediction.
@@ -397,7 +492,29 @@ def predict():
             return jsonify({'error': 'Missing image'}), 400
 
         device_id = request.form['device_id']
+
+        # ✅ PHASE 2.3: Validate device_id format (prevent path traversal)
+        # Only allow alphanumeric characters, underscores, and hyphens
+        if not re.match(r'^[a-zA-Z0-9_-]{1,50}$', device_id):
+            logger.warning(f"Invalid device_id format: {device_id}")
+            return jsonify({'error': 'Invalid device_id format. Only alphanumeric, underscore, hyphen allowed (1-50 chars)'}), 400
+
         image_file = request.files['image']
+
+        # ✅ PHASE 2.3: Validate image file size (prevent DoS via large files)
+        MAX_IMAGE_SIZE = 5 * 1024 * 1024  # 5 MB max
+        image_file.seek(0, os.SEEK_END)
+        file_size = image_file.tell()
+        image_file.seek(0)
+
+        if file_size > MAX_IMAGE_SIZE:
+            logger.warning(f"Image too large: {file_size} bytes from {device_id}")
+            return jsonify({'error': f'Image too large: {file_size} bytes (max 5 MB)'}), 400
+
+        if file_size == 0:
+            logger.warning(f"Empty image file from {device_id}")
+            return jsonify({'error': 'Image file is empty'}), 400
+
         image_data = image_file.read()
         logger.info(f"Processing image for device: {device_id}, size: {len(image_data)} bytes")
 
@@ -433,6 +550,13 @@ def predict():
         # Send alerts if fake
         send_alerts(device_id, prediction)
 
+        # ✅ PHASE 2.5: Periodic cleanup of old images
+        global cleanup_counter
+        cleanup_counter += 1
+        if cleanup_counter % 100 == 0:  # Cleanup every 100 predictions
+            logger.info(f"Running periodic disk cleanup (prediction #{cleanup_counter})")
+            cleanup_old_images(max_storage_mb=1000, max_age_days=30)
+
         return jsonify(prediction), 200
 
     except Exception as e:
@@ -440,13 +564,141 @@ def predict():
         return jsonify({'error': str(e)}), 500
 
 
+@app.route('/capture', methods=['POST', 'OPTIONS'])
+@limiter.limit("60 per minute")  # Max 60 captures/minute per IP
+def capture():
+    """
+    Receive image from Nicla Vision device without running inference.
+    Used for capturing reference images or for manual review.
+
+    Expected request:
+    - device_id: Device identifier (string)
+    - image: JPEG image data (bytes)
+    - capture_type: Optional classification ('reference', 'suspicious', 'normal')
+
+    Returns:
+    {
+        'device_id': str,
+        'filename': str,
+        'timestamp': str,
+        'size_bytes': int,
+        'capture_type': str
+    }
+    """
+    try:
+        # Validate request
+        if 'device_id' not in request.form:
+            return jsonify({'error': 'Missing device_id'}), 400
+
+        if 'image' not in request.files:
+            return jsonify({'error': 'Missing image'}), 400
+
+        device_id = request.form['device_id']
+        image_file = request.files['image']
+        image_data = image_file.read()
+        capture_type = request.form.get('capture_type', 'normal')
+
+        logger.info(f"Received capture request from device: {device_id}, type: {capture_type}, size: {len(image_data)} bytes")
+
+        # Validate image
+        try:
+            Image.open(io.BytesIO(image_data))
+        except Exception as e:
+            logger.error(f"Invalid image format: {e}")
+            return jsonify({'error': 'Invalid image format'}), 400
+
+        # Create storage directory for captures
+        capture_dir = Path('storage/captured_images') / capture_type
+        capture_dir.mkdir(parents=True, exist_ok=True)
+
+        # Generate filename with timestamp
+        timestamp = datetime.now().strftime('%Y%m%d_%H%M%S%f')[:-3]  # milliseconds
+        filename = f"{capture_type}_{device_id}_{timestamp}.jpg"
+        filepath = capture_dir / filename
+
+        # Save image
+        with open(filepath, 'wb') as f:
+            f.write(image_data)
+
+        logger.info(f"✓ Captured image saved: {filename}")
+
+        # Store metadata
+        if device_id not in captured_images:
+            captured_images[device_id] = []
+
+        image_metadata = {
+            'filename': filename,
+            'filepath': str(filepath),
+            'timestamp': datetime.now().isoformat(),
+            'size_bytes': len(image_data),
+            'capture_type': capture_type,
+            'device_id': device_id
+        }
+
+        captured_images[device_id].append(image_metadata)
+
+        # Keep only last 50 captures per device
+        if len(captured_images[device_id]) > 50:
+            old_image = captured_images[device_id].pop(0)
+            try:
+                Path(old_image['filepath']).unlink()
+                logger.info(f"Deleted old capture: {old_image['filename']}")
+            except:
+                pass
+
+        return jsonify(image_metadata), 200
+
+    except Exception as e:
+        logger.error(f"Capture error: {e}")
+        import traceback
+        traceback.print_exc()
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/captures', methods=['GET'])
+@limiter.limit("30 per minute")  # Max 30 requests/minute
+def get_captures():
+    """Get captured images metadata for all devices."""
+    return jsonify(captured_images), 200
+
+
+@app.route('/api/captures/<device_id>', methods=['GET'])
+@limiter.limit("30 per minute")
+def get_device_captures(device_id):
+    """Get captured images metadata for a specific device."""
+    if device_id not in captured_images:
+        return jsonify({'device_id': device_id, 'captures': []}), 200
+
+    return jsonify({
+        'device_id': device_id,
+        'captures': captured_images[device_id]
+    }), 200
+
+
+@app.route('/captured-image/<path:filepath>', methods=['GET'])
+@limiter.limit("60 per minute")
+def serve_captured_image(filepath):
+    """Serve captured image file."""
+    try:
+        file_path = Path('storage/captured_images') / filepath
+        if not file_path.exists():
+            return jsonify({'error': 'Image not found'}), 404
+
+        return send_from_directory(file_path.parent, file_path.name)
+    except Exception as e:
+        logger.error(f"Error serving captured image: {e}")
+        return jsonify({'error': str(e)}), 500
+
+
 @app.route('/stats', methods=['GET'])
+@limiter.limit("30 per minute")  # Max 30 requests/minute
 def get_stats():
     """Return statistics for all devices."""
     return jsonify(device_stats), 200
 
 
 @app.route('/status', methods=['GET'])
+@limiter.limit("30 per minute")  # Max 30 requests/minute
 def get_status():
     """Return server status."""
     return jsonify({
@@ -470,6 +722,7 @@ def serve_static(path):
 
 
 @app.route('/api/dashboard-data', methods=['GET'])
+@limiter.limit("60 per minute")  # Max 60 requests/minute (allow rapid polling)
 def get_dashboard_data():
     """Provide data for dashboard updates."""
     return jsonify({

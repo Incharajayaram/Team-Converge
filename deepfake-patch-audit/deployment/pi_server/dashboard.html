@@ -889,6 +889,17 @@
             </div>
         </div>
 
+        <div class="card">
+            <h2>📸 Device Captures</h2>
+            <div id="capturesContainer">
+                <div id="capturesList">
+                    <div class="empty-state" style="grid-column: 1/-1;">
+                        <p>No captured images yet</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="update-time" id="updateTime"></div>
     </div>
 
@@ -933,6 +944,7 @@
             updateMetrics(data.stats);
             updateDeviceList(data.stats);
             updateAlerts(data.stats);
+            updateCaptures();
             updateTime();
         }
 
@@ -1036,6 +1048,70 @@
                     <div class="alert-time">Last alert: ${formatTime(alert.lastUpdate)}</div>
                 </div>
             `).join('');
+        }
+
+        async function updateCaptures() {
+            try {
+                const response = await fetch('/api/captures');
+                const captures = await response.json();
+
+                const capturesList = document.getElementById('capturesList');
+
+                if (!captures || Object.keys(captures).length === 0) {
+                    capturesList.innerHTML = '<div class="empty-state" style="grid-column: 1/-1;"><p>No captured images yet</p></div>';
+                    return;
+                }
+
+                // Create device capture sections
+                let html = '';
+                Object.entries(captures).forEach(([deviceId, imageArray]) => {
+                    if (!imageArray || imageArray.length === 0) return;
+
+                    html += `<div style="margin-bottom: 30px;">`;
+                    html += `<div style="color: #00ff9f; text-shadow: 0 0 8px rgba(0, 255, 159, 0.5); margin-bottom: 15px; font-weight: bold; letter-spacing: 1px;">
+                                Device: ${deviceId} (${imageArray.length} captures)
+                            </div>`;
+                    html += `<div class="gallery-grid">`;
+
+                    // Show last 12 captures per device
+                    const recentCaptures = imageArray.slice(-12).reverse();
+                    recentCaptures.forEach(capture => {
+                        const imageUrl = `/captured-image/${capture.filepath.split('/').slice(-2).join('/')}`;
+                        const timestamp = new Date(capture.timestamp).toLocaleString();
+                        html += `
+                            <div class="gallery-item" onclick="openImageModal('${imageUrl}', '${deviceId}', '${capture.timestamp}', '${capture.capture_type}')">
+                                <img src="${imageUrl}" alt="Captured from ${deviceId}">
+                                <div class="gallery-item-info">
+                                    <small>${capture.capture_type}</small><br>
+                                    <small>${timestamp.split(',')[1]}</small>
+                                </div>
+                            </div>
+                        `;
+                    });
+
+                    html += `</div></div>`;
+                });
+
+                if (html === '') {
+                    capturesList.innerHTML = '<div class="empty-state" style="grid-column: 1/-1;"><p>No captured images yet</p></div>';
+                } else {
+                    capturesList.innerHTML = html;
+                }
+            } catch (error) {
+                console.error('Error fetching captures:', error);
+                document.getElementById('capturesList').innerHTML = '<div class="empty-state" style="grid-column: 1/-1;"><p>Error loading captures</p></div>';
+            }
+        }
+
+        function openImageModal(imagePath, deviceId, timestamp, captureType) {
+            const modal = document.getElementById('imageModal');
+            document.getElementById('modalImage').src = imagePath;
+            document.getElementById('modalInfo').innerHTML = `
+                <p><strong>Device:</strong> ${deviceId}</p>
+                <p><strong>Type:</strong> ${captureType}</p>
+                <p><strong>Time:</strong> ${new Date(timestamp).toLocaleString()}</p>
+            `;
+            modal.classList.add('active');
         }
 
         function updateTime() {
