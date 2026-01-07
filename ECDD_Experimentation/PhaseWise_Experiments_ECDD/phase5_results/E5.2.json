@@ -1,0 +1,31 @@
+{
+  "experiment_id": "E5.2",
+  "name": "Patch-logit map parity test",
+  "passed": false,
+  "details": {
+    "is_mock": true,
+    "epsilon_patch": 0.1,
+    "shape_equal": true,
+    "float_shape": [
+      8,
+      8
+    ],
+    "tflite_shape": [
+      8,
+      8
+    ],
+    "max_abs_diff": 0.1512870192527771,
+    "mean_abs_diff": 0.03730059415102005,
+    "argmax_stable": false,
+    "float_argmax": [
+      5,
+      3
+    ],
+    "tflite_argmax": [
+      2,
+      6
+    ],
+    "status": "FAIL",
+    "note": "Mock data used. Re-run with real models for production validation."
+  }
+}

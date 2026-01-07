@@ -1,0 +1,14 @@
+{
+  "experiment_id": "E5.3",
+  "name": "Pooled logit parity test",
+  "passed": true,
+  "details": {
+    "is_mock": true,
+    "epsilon_pooled": 0.05,
+    "max_abs_diff": 0.03919339179992676,
+    "mean_abs_diff": 0.0155201880261302,
+    "num_samples": 20,
+    "status": "PASS",
+    "note": "Mock data used. Re-run with real models for production validation."
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "experiment_id": "E5.4",
+  "name": "Post-quant calibration mandatory gate",
+  "passed": true,
+  "details": {
+    "is_mock": true,
+    "pre_ece": 0.27848854180425403,
+    "post_ece": 0.024598712741862983,
+    "temperature": 0.05,
+    "improved": true,
+    "status": "PASS",
+    "note": "Mock data used. Re-run with real quantized model for production validation."
+  }
+}

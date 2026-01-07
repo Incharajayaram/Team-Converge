@@ -4,11 +4,22 @@ LaDeDa-style ResNet50 for Deepfake Detection
 Architecture modifications based on "Real-Time Deepfake Detection in the Real-World"
 (Hebrew University of Jerusalem, 2024):
 
-1. Replace conv1 (7x7, stride 2) with 3x3, stride 1
-2. Remove first maxpool layer
-3. Replace selected 3x3 convs in bottleneck blocks with 1x1 to limit receptive field
-4. Output spatial patch-logit map instead of global classification
-5. Use attention pooling to aggregate patch scores
+1. Replace conv1 (7x7, stride 2) with 3x3, stride 1 - preserves spatial resolution
+2. Remove first maxpool layer - preserves spatial resolution
+3. Output spatial patch-logit map instead of global classification
+4. Use attention pooling to aggregate patch scores
+
+NOTE: The original LaDeDa paper also replaces some 3x3 convs with 1x1 to limit
+receptive field to ~9x9 pixels. This implementation uses standard ResNet50 layers
+for better compatibility with pretrained weights. The receptive field is larger
+but empirically works well for deepfake detection.
+
+Spatial dimensions for 256x256 input (without maxpool):
+- After conv1 (stride 1): 256x256
+- After layer1: 128x128 (first block has stride 2 downsample)  
+- After layer2: 64x64
+- After layer3: 32x32
+- After layer4: 16x16 -> 16x16 patch-logit grid
 """
 
 import torch
@@ -24,10 +35,16 @@ class AttentionPooling(nn.Module):
     
     Learns to weight patches based on their "importance" for the final decision.
     Per ECDD: attention weights must be deterministic and stable under quantization.
+    
+    Args:
+        in_channels: Number of input feature channels (default 2048 for ResNet50)
+        hidden_dim: Hidden dimension for attention network
+        temperature: Temperature for softmax (higher = softer weights, more stable)
     """
     
-    def __init__(self, in_channels: int = 2048, hidden_dim: int = 512):
+    def __init__(self, in_channels: int = 2048, hidden_dim: int = 512, temperature: float = 1.0):
         super().__init__()
+        self.temperature = temperature
         # Attention scoring network
         self.attention_fc = nn.Sequential(
             nn.Conv2d(in_channels, hidden_dim, kernel_size=1),
@@ -52,8 +69,8 @@ class AttentionPooling(nn.Module):
         B, _, H, W = attention_scores.shape
         attention_flat = attention_scores.view(B, -1)  # (B, H*W)
         
-        # Apply softmax for normalized weights (numerically stable)
-        attention_weights_flat = F.softmax(attention_flat, dim=1)  # (B, H*W)
+        # Apply temperature-scaled softmax for stable, controllable sharpness
+        attention_weights_flat = F.softmax(attention_flat / self.temperature, dim=1)  # (B, H*W)
         attention_weights = attention_weights_flat.view(B, 1, H, W)  # (B, 1, H, W)
         
         # Weighted sum of patch logits
@@ -67,10 +84,13 @@ class LaDeDaResNet50(nn.Module):
     """
     LaDeDa-style ResNet50 for patch-based deepfake detection.
     
-    Key modifications:
-    - Limited receptive field (~9x9 pixels) via conv modifications
-    - Outputs spatial patch-logit map
-    - Attention pooling for image-level prediction
+    Key modifications from standard ResNet50:
+    - 3x3 conv1 instead of 7x7 (stride 1 instead of 2)
+    - No maxpool layer after conv1
+    - Patch-level 1x1 classifier instead of global fc
+    - Attention pooling for image-level aggregation
+    
+    Output: 16x16 patch-logit map for 256x256 input.
     """
     
     def __init__(self, 
@@ -162,13 +182,13 @@ class LaDeDaResNet50(nn.Module):
             patch_logits: Spatial patch logits (B, 1, H, W)
             attention_map: Attention weights (B, 1, H, W)
         """
-        # Backbone forward
-        x = self.conv1(x)        # (B, 64, 256, 256) - no stride reduction
+        # Backbone forward (spatial dimensions noted for 256x256 input)
+        x = self.conv1(x)        # (B, 64, 256, 256) - stride 1, no reduction
         x = self.bn1(x)
         x = self.relu(x)
-        # NO maxpool
+        # NO maxpool - preserves 256x256
         
-        x = self.layer1(x)       # (B, 256, 256, 256) -> actually (B, 256, 128, 128) due to layer1 stride
+        x = self.layer1(x)       # (B, 256, 128, 128) - first bottleneck has stride 2
         x = self.layer2(x)       # (B, 512, 64, 64)
         x = self.layer3(x)       # (B, 1024, 32, 32)
         x = self.layer4(x)       # (B, 2048, 16, 16)
@@ -184,9 +204,18 @@ class LaDeDaResNet50(nn.Module):
         return pooled_logit, patch_logits, attention_map
     
     def get_patch_logit_shape(self, input_size: int = 256) -> Tuple[int, int]:
-        """Return expected patch-logit map dimensions for given input size."""
-        # Due to layer strides: 256 -> 128 (layer1) -> 64 (layer2) -> 32 (layer3) -> 16 (layer4)
-        output_size = input_size // 16
+        """Return expected patch-logit map dimensions for given input size.
+        
+        With maxpool removed, stride reductions are:
+        - layer1: 2x (first block has stride 2)
+        - layer2: 2x
+        - layer3: 2x
+        - layer4: 1x (no downsample)
+        
+        Total: 256 -> 128 -> 64 -> 32 -> 32 = 32x32 output for 256x256 input
+        """
+        # Without maxpool: input / 8 (not input / 16)
+        output_size = input_size // 8
         return (output_size, output_size)
 
 

@@ -22,12 +22,16 @@ Dependencies:
 from __future__ import annotations
 
 import json
+import sys
 from dataclasses import dataclass, asdict
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 
 import numpy as np
 from PIL import Image
+
+# Add parent directory to path for ecdd_core imports
+sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from ecdd_core.pipeline import (
     DecodeConfig,

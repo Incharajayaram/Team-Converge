@@ -15,9 +15,13 @@ NOTE: This file lives under ECDD_Experimentation and does not modify deepfake-pa
 from __future__ import annotations
 
 import json
+import sys
 from dataclasses import dataclass, asdict
 from pathlib import Path
 from typing import Any, Dict, Optional
+
+# Add parent directory to path for ecdd_core imports
+sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import numpy as np
 

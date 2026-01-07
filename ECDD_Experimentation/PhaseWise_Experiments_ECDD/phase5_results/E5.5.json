@@ -1,0 +1,45 @@
+{
+  "experiment_id": "E5.5",
+  "name": "Delegate and threading invariance test",
+  "passed": true,
+  "details": {
+    "is_mock": true,
+    "configs_tested": [
+      {
+        "delegate": "default",
+        "threads": 1,
+        "max_diff_vs_baseline": 0.0017507076263427734
+      },
+      {
+        "delegate": "default",
+        "threads": 2,
+        "max_diff_vs_baseline": 0.0022480785846710205
+      },
+      {
+        "delegate": "default",
+        "threads": 4,
+        "max_diff_vs_baseline": 0.0012784004211425781
+      },
+      {
+        "delegate": "xnnpack",
+        "threads": 1,
+        "max_diff_vs_baseline": 0.0014119744300842285
+      },
+      {
+        "delegate": "xnnpack",
+        "threads": 2,
+        "max_diff_vs_baseline": 0.0017634928226470947
+      },
+      {
+        "delegate": "xnnpack",
+        "threads": 4,
+        "max_diff_vs_baseline": 0.0012030303478240967
+      }
+    ],
+    "max_diff_vs_baseline": 0.0022480785846710205,
+    "tolerance": 0.01,
+    "status": "PASS",
+    "recommendation": "Pin runtime config in policy_contract.yaml",
+    "note": "Mock data used. Re-run with real TFLite model for production validation."
+  }
+}

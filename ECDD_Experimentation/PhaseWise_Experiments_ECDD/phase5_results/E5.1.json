@@ -1,0 +1,15 @@
+{
+  "experiment_id": "E5.1",
+  "name": "Float vs TFLite probability parity test",
+  "passed": true,
+  "details": {
+    "is_mock": true,
+    "epsilon_prob": 0.05,
+    "max_abs_diff": 0.004787325859069824,
+    "mean_abs_diff": 0.0015777877997606993,
+    "rank_correlation": 0.9984962406015038,
+    "num_samples": 20,
+    "status": "PASS",
+    "note": "Mock data used. Re-run with real models for production validation."
+  }
+}

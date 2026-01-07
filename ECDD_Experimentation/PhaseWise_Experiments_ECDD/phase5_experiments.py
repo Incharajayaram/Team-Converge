@@ -15,9 +15,13 @@ Outputs should be written to:
 from __future__ import annotations
 
 import json
+import sys
 from dataclasses import dataclass, asdict
 from pathlib import Path
 from typing import Any, Dict, Optional, Tuple
+
+# Add parent directory to path for ecdd_core imports
+sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import numpy as np
 
@@ -30,9 +34,27 @@ class Phase5Result:
     details: Dict[str, Any]
 
 
+def _json_serializable(obj):
+    """Convert numpy types to Python native types for JSON serialization."""
+    if isinstance(obj, dict):
+        return {k: _json_serializable(v) for k, v in obj.items()}
+    elif isinstance(obj, list):
+        return [_json_serializable(v) for v in obj]
+    elif isinstance(obj, np.bool_):
+        return bool(obj)
+    elif isinstance(obj, (np.integer, np.int64, np.int32)):
+        return int(obj)
+    elif isinstance(obj, (np.floating, np.float64, np.float32)):
+        return float(obj)
+    elif isinstance(obj, np.ndarray):
+        return obj.tolist()
+    return obj
+
+
 def _write_result(out_dir: Path, result: Phase5Result) -> None:
     out_dir.mkdir(parents=True, exist_ok=True)
-    (out_dir / f"{result.experiment_id}.json").write_text(json.dumps(asdict(result), indent=2))
+    data = _json_serializable(asdict(result))
+    (out_dir / f"{result.experiment_id}.json").write_text(json.dumps(data, indent=2))
 
 
 def _mock_model_outputs(n_samples: int = 10, add_noise: float = 0.0) -> Tuple[np.ndarray, np.ndarray]:
@@ -75,13 +97,66 @@ def e5_1_float_vs_tflite_probability_parity(
         is_mock = True
     else:
         # Real mode: load models and run inference
-        # TODO: Implement actual model loading and inference
-        return Phase5Result(
-            experiment_id="E5.1",
-            name="Float vs TFLite probability parity test",
-            passed=False,
-            details={"error": "Real model inference not yet implemented. Provide mock data or implement model loading."},
-        )
+        import sys
+        import torch
+        sys.path.insert(0, str(Path(__file__).parent.parent))
+        from ecdd_core.export.tflite_converter import run_tflite_inference
+        from Training.models.ladeda_resnet import create_ladeda_model
+        
+        # Load golden images
+        if golden_dir is None:
+            golden_dir = Path(__file__).parent.parent / "ECDD_Experiment_Data" / "real"
+        
+        images = []
+        for ext in ["*.jpg", "*.jpeg", "*.png"]:
+            images.extend(list(golden_dir.glob(ext))[:10])
+        
+        if not images:
+            return Phase5Result(
+                experiment_id="E5.1",
+                name="Float vs TFLite probability parity test",
+                passed=False,
+                details={"error": f"No images found in {golden_dir}"},
+            )
+        
+        # Preprocess images
+        from PIL import Image, ImageOps
+        mean = np.array([0.485, 0.456, 0.406])
+        std = np.array([0.229, 0.224, 0.225])
+        
+        preprocessed = []
+        for img_path in images:
+            img = Image.open(img_path).convert("RGB")
+            img = ImageOps.exif_transpose(img)
+            img = img.resize((256, 256), Image.Resampling.LANCZOS)
+            arr = np.array(img).astype(np.float32) / 255.0
+            arr = (arr - mean) / std
+            arr = arr.transpose(2, 0, 1)  # HWC -> CHW
+            preprocessed.append(arr)
+        
+        input_data = np.stack(preprocessed, axis=0).astype(np.float32)
+        
+        # Run float model
+        model = create_ladeda_model(pretrained=False)
+        checkpoint = torch.load(float_model_path, map_location="cpu")
+        if "model_state_dict" in checkpoint:
+            model.load_state_dict(checkpoint["model_state_dict"])
+        else:
+            model.load_state_dict(checkpoint)
+        model.eval()
+        
+        with torch.no_grad():
+            input_tensor = torch.from_numpy(input_data)
+            float_logits_tensor, _, _ = model(input_tensor)
+            float_logits = float_logits_tensor.numpy().squeeze()
+        
+        # Run TFLite model
+        tflite_outputs = run_tflite_inference(tflite_model_path, input_data)
+        tflite_logits = tflite_outputs[0].squeeze()
+        
+        float_probs = _sigmoid(float_logits)
+        tflite_probs = _sigmoid(tflite_logits)
+        is_mock = False
     
     # Compute parity metrics
     max_abs_diff = float(np.max(np.abs(float_probs - tflite_probs)))

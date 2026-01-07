@@ -1,0 +1,82 @@
+# ============================================================================
+# ECDD Experimentation - Master Requirements
+# ============================================================================
+# This file contains ALL dependencies for the entire ECDD codebase including:
+# - Training (PyTorch, torchvision)
+# - PhaseWise Experiments (numpy, scipy, PIL)
+# - Federated Learning (flask, sklearn)
+# - TFLite Export (tensorflow)
+# - Visualization (matplotlib, seaborn)
+# ============================================================================
+
+# Core Deep Learning
+torch>=2.0.0
+torchvision>=0.15.0
+
+# Numerical Computing
+numpy>=1.24.0
+scipy>=1.10.0
+
+# Image Processing
+Pillow>=10.0.0
+opencv-python>=4.8.0
+
+# Face Detection (for guardrails)
+mediapipe>=0.10.0
+
+# ML Utilities
+scikit-learn>=1.3.0
+tqdm>=4.65.0
+
+# Visualization
+matplotlib>=3.7.0
+seaborn>=0.12.0
+
+# Data Handling
+pandas>=2.0.0
+PyYAML>=6.0
+
+# Web API (Federated Learning)
+flask>=2.3.0
+requests>=2.31.0
+
+# TFLite Export (optional - install if exporting to edge)
+# tensorflow>=2.13.0
+# onnx>=1.14.0
+# onnx-tf>=1.10.0
+# tf2onnx>=1.14.0
+
+# Testing
+pytest>=7.4.0
+
+# ============================================================================
+# Installation Instructions
+# ============================================================================
+# 
+# Option 1: Install all (recommended for development):
+#   pip install -r requirements.txt
+#
+# Option 2: Install core only (minimal for training):
+#   pip install torch torchvision numpy Pillow tqdm
+#
+# Option 3: Install with TFLite support:
+#   pip install -r requirements.txt
+#   pip install tensorflow onnx onnx-tf tf2onnx
+#
+# Option 4: Kaggle/Colab (pre-installed):
+#   Most packages are pre-installed. Just run your code.
+#
+# ============================================================================
+# Platform-Specific Notes
+# ============================================================================
+#
+# Windows:
+#   pip install torch torchvision --index-url https://download.pytorch.org/whl/cu118
+#
+# macOS (Apple Silicon):
+#   pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
+#
+# Linux with CUDA:
+#   pip install torch torchvision --index-url https://download.pytorch.org/whl/cu118
+#
+# ============================================================================

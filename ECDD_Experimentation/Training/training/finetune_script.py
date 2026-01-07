@@ -50,7 +50,7 @@ CONFIGS = {
     },
     "finetune2": {
         "name": "finetune2_face_filtered",
-        "dataset_path": Path(r"f:\Team converge\Team-Converge\ECDD_Experimentation\ECDD_Training_Data\processed\splits\finetune2"),
+        "dataset_path": Path("ECDD_Experimentation/ECDD_Training_Data/processed/splits/finetune2"),
         "epochs": 20,
         "batch_size": 8,  # Smaller dataset, smaller batch
         "lr": 5e-5,
