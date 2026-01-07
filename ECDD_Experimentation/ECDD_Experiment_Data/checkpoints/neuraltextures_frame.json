@@ -1,0 +1,64 @@
+{
+  "image_path": "f:\\Team converge\\Team-Converge\\ECDD_Experimentation\\ECDD_Experiment_Data\\fake\\neuraltextures_frame.png",
+  "image_id": "neuraltextures_frame",
+  "dataset_split": "fake",
+  "created_at": "2026-01-07T02:54:43.971429",
+  "pipeline_version": "1.0",
+  "s0": {
+    "sha256": "d3d7f331323db7aa7ff65b2f9dbd3eb56cbaf1a89fbeb338e5f68bdedceb0556",
+    "file_size_bytes": 260472,
+    "file_extension": ".png"
+  },
+  "s1": {
+    "tensor_hash": "0d8874e30fcf6bf2c4f33f1beef7c4462ac84235f779b1367c555f081e7e8fbd",
+    "shape": [
+      346,
+      600,
+      3
+    ],
+    "dtype": "uint8",
+    "min_val": 0.0,
+    "max_val": 253.0,
+    "mean_val": 92.75023924213231
+  },
+  "s2": null,
+  "s3": {
+    "tensor_hash": "ded578dd7d9e8fdb29e9199e1bbd80fbc38a14266545881d9276afaa68f84da6",
+    "shape": [
+      256,
+      256,
+      3
+    ],
+    "interpolation_method": "bilinear",
+    "min_val": 0.0,
+    "max_val": 253.0,
+    "mean_val": 92.74708048502605
+  },
+  "s4": {
+    "tensor_hash": "3d2f4ede796bd7479865ea4e3a04aa76d770223c2137d50669a77ceaddfad10e",
+    "shape": [
+      256,
+      256,
+      3
+    ],
+    "dtype": "float32",
+    "min_val": -2.1179039301310043,
+    "max_val": 2.570283228556315,
+    "mean_val": -0.377086001768165,
+    "std_val": 1.2909079577021214,
+    "normalization_mean": [
+      0.485,
+      0.456,
+      0.406
+    ],
+    "normalization_std": [
+      0.229,
+      0.224,
+      0.225
+    ]
+  },
+  "s5": null,
+  "s6": null,
+  "s7": null,
+  "s8": null
+}

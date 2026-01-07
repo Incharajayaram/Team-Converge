@@ -1,0 +1,13 @@
+{
+  "experiment_id": "experiment_e8_1",
+  "name": "Near-Duplicate Leakage Scan",
+  "passed": true,
+  "details": {
+    "total_duplicates": 102,
+    "cross_split_leaks": 0,
+    "within_split_duplicates": 102,
+    "leaks": [],
+    "threshold": 5
+  },
+  "timestamp": "2026-01-07 10:58:35.339333"
+}

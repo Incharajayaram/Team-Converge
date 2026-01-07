@@ -1,0 +1,13 @@
+{
+  "experiment_id": "E2.2",
+  "name": "No-face abstain correctness",
+  "passed": true,
+  "details": {
+    "tested": 20,
+    "abstained": 20,
+    "false_positives": 0,
+    "failures": [],
+    "min_confidence": 0.7
+  },
+  "timestamp": "2026-01-07T03:42:36.228163"
+}

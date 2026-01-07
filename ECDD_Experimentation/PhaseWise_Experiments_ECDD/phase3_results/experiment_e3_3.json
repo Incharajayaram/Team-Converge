@@ -1,0 +1,20 @@
+{
+  "experiment_id": "experiment_e3_3",
+  "name": "Pooling Comparison",
+  "passed": true,
+  "details": {
+    "all_fake": {
+      "top_k": 10.0,
+      "attention": 10.0
+    },
+    "all_real": {
+      "top_k": -10.0,
+      "attention": -10.0
+    },
+    "needle": {
+      "top_k": -5.0,
+      "attention": 9.999997402946766
+    }
+  },
+  "timestamp": "2026-01-07 07:12:10.113124"
+}

@@ -1,0 +1,80 @@
+{
+  "experiment_id": "E2.1",
+  "name": "Face detector version pin test",
+  "passed": true,
+  "details": {
+    "version": {
+      "library": "mediapipe",
+      "version": "0.10.31",
+      "model": "blaze_face_short_range.tflite",
+      "min_confidence": 0.5
+    },
+    "expected_version": "0.10.9",
+    "tested": 10,
+    "passed": 10,
+    "failed": 0,
+    "detections": [
+      {
+        "file": "00023.jpg",
+        "faces": 1,
+        "max_conf": 0.8263422250747681,
+        "hash": "62157ad70dd38329"
+      },
+      {
+        "file": "00025.jpg",
+        "faces": 1,
+        "max_conf": 0.9187405109405518,
+        "hash": "9bfaad52348635f9"
+      },
+      {
+        "file": "00088.jpg",
+        "faces": 1,
+        "max_conf": 0.8654552698135376,
+        "hash": "567b8b782a5a3d52"
+      },
+      {
+        "file": "00093.jpg",
+        "faces": 1,
+        "max_conf": 0.8994501829147339,
+        "hash": "1ceff1521ada9c89"
+      },
+      {
+        "file": "00099.jpg",
+        "faces": 1,
+        "max_conf": 0.9475734233856201,
+        "hash": "a32452864c39ac95"
+      },
+      {
+        "file": "00276TOPP4.jpg",
+        "faces": 1,
+        "max_conf": 0.9089670777320862,
+        "hash": "611a00904f85c617"
+      },
+      {
+        "file": "017EMQKL4D.jpg",
+        "faces": 1,
+        "max_conf": 0.9250239133834839,
+        "hash": "eb06b3e28f65a2f2"
+      },
+      {
+        "file": "01FCG0FF23.jpg",
+        "faces": 1,
+        "max_conf": 0.925857424736023,
+        "hash": "a5f9e51b954691f8"
+      },
+      {
+        "file": "01_02__outside_talking_still_laughing__YVGY8LOK_frame.png",
+        "faces": 0,
+        "max_conf": 0,
+        "hash": "b3bc1a71e69c7e68"
+      },
+      {
+        "file": "01_03__talking_against_wall__JZUXXFRB_frame.png",
+        "faces": 1,
+        "max_conf": 0.9588054418563843,
+        "hash": "7b89e0ab5015cef4"
+      }
+    ]
+  },
+  "timestamp": "2026-01-07T03:42:35.974098"
+}

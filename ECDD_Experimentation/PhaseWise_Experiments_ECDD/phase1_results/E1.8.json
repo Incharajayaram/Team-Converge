@@ -1,0 +1,12 @@
+{
+  "experiment_id": "E1.8",
+  "name": "Fixed interpolation kernel",
+  "passed": true,
+  "details": {
+    "tested": 10,
+    "passed": 10,
+    "failed": 0,
+    "failures": []
+  },
+  "timestamp": "2026-01-07T03:03:06.281008"
+}

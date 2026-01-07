@@ -1,0 +1,64 @@
+{
+  "image_path": "f:\\Team converge\\Team-Converge\\ECDD_Experimentation\\ECDD_Experiment_Data\\ood\\meme_screenshot_02.png",
+  "image_id": "meme_screenshot_02",
+  "dataset_split": "ood",
+  "created_at": "2026-01-07T02:54:44.289162",
+  "pipeline_version": "1.0",
+  "s0": {
+    "sha256": "da2df40badf0d7e6accfa39b51a4c4f006f61d1ada9eece534f7243a7b62cdec",
+    "file_size_bytes": 9252,
+    "file_extension": ".png"
+  },
+  "s1": {
+    "tensor_hash": "1d44cd124e34e8fc6c3e2846ce63c8be026361a7ed70cda3903dff85e56ada19",
+    "shape": [
+      512,
+      512,
+      3
+    ],
+    "dtype": "uint8",
+    "min_val": 30.0,
+    "max_val": 254.0,
+    "mean_val": 53.72770309448242
+  },
+  "s2": null,
+  "s3": {
+    "tensor_hash": "d15d6bae56b7645bc663a54abb920ec9338235b6cbd615a060e013757f7a6d99",
+    "shape": [
+      256,
+      256,
+      3
+    ],
+    "interpolation_method": "bilinear",
+    "min_val": 30.0,
+    "max_val": 177.0,
+    "mean_val": 53.7325439453125
+  },
+  "s4": {
+    "tensor_hash": "6cb55af1cd2b3a481214c29dcb811ee3de53f36f9d21d9f5518d0a821359e297",
+    "shape": [
+      256,
+      256,
+      3
+    ],
+    "dtype": "float32",
+    "min_val": -1.6041613132672539,
+    "max_val": 1.2805229568481444,
+    "mean_val": -1.0535650934023673,
+    "std_val": 0.397894230454803,
+    "normalization_mean": [
+      0.485,
+      0.456,
+      0.406
+    ],
+    "normalization_std": [
+      0.229,
+      0.224,
+      0.225
+    ]
+  },
+  "s5": null,
+  "s6": null,
+  "s7": null,
+  "s8": null
+}

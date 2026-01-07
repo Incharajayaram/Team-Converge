@@ -1,0 +1,64 @@
+{
+  "image_path": "f:\\Team converge\\Team-Converge\\ECDD_Experimentation\\ECDD_Experiment_Data\\edge_cases\\color_cmyk_roundtrip.png",
+  "image_id": "color_cmyk_roundtrip",
+  "dataset_split": "edge_cases",
+  "created_at": "2026-01-07T02:54:44.594317",
+  "pipeline_version": "1.0",
+  "s0": {
+    "sha256": "ec71bb9936b74a4aad9103a21b437946ca4a29b970bcd7a458fcc8591b0479f3",
+    "file_size_bytes": 98583,
+    "file_extension": ".png"
+  },
+  "s1": {
+    "tensor_hash": "e589e877635c5412c58a36e1617567a161dfc30a0407ae09367f8b12ea7141d3",
+    "shape": [
+      256,
+      256,
+      3
+    ],
+    "dtype": "uint8",
+    "min_val": 0.0,
+    "max_val": 255.0,
+    "mean_val": 83.09207153320312
+  },
+  "s2": null,
+  "s3": {
+    "tensor_hash": "e589e877635c5412c58a36e1617567a161dfc30a0407ae09367f8b12ea7141d3",
+    "shape": [
+      256,
+      256,
+      3
+    ],
+    "interpolation_method": "bilinear",
+    "min_val": 0.0,
+    "max_val": 255.0,
+    "mean_val": 83.09207153320312
+  },
+  "s4": {
+    "tensor_hash": "23d295d7fc1ad0e90ccc4e999c0031fb69cf67c0356b9149274ca81ae617379e",
+    "shape": [
+      256,
+      256,
+      3
+    ],
+    "dtype": "float32",
+    "min_val": -2.1179039301310043,
+    "max_val": 2.6399999999999997,
+    "mean_val": -0.5468163748781864,
+    "std_val": 0.8221822251775993,
+    "normalization_mean": [
+      0.485,
+      0.456,
+      0.406
+    ],
+    "normalization_std": [
+      0.229,
+      0.224,
+      0.225
+    ]
+  },
+  "s5": null,
+  "s6": null,
+  "s7": null,
+  "s8": null
+}

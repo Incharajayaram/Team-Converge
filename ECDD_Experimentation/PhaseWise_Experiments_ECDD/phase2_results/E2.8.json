@@ -1,0 +1,44 @@
+{
+  "experiment_id": "E2.8",
+  "name": "Compression proxy and threshold sweep",
+  "passed": true,
+  "details": {
+    "proxy": "jpeg_quality_estimate",
+    "tested": 3,
+    "measurements": [
+      {
+        "file": "jpeg_quality_20.jpg",
+        "estimated_quality": 50,
+        "expected_quality": 20
+      },
+      {
+        "file": "jpeg_quality_30.jpg",
+        "estimated_quality": 50,
+        "expected_quality": 30
+      },
+      {
+        "file": "jpeg_quality_40.jpg",
+        "estimated_quality": 50,
+        "expected_quality": 40
+      },
+      {
+        "file": "00023.jpg",
+        "estimated_quality": 95,
+        "category": "reference"
+      },
+      {
+        "file": "00025.jpg",
+        "estimated_quality": 95,
+        "category": "reference"
+      },
+      {
+        "file": "00088.jpg",
+        "estimated_quality": 95,
+        "category": "reference"
+      }
+    ],
+    "recommended_threshold": 30,
+    "action": "abstain"
+  },
+  "timestamp": "2026-01-07T03:42:38.737605"
+}

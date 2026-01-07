@@ -1,0 +1,1434 @@
+{
+  "version": "1.0",
+  "created_at": "2026-01-07T02:54:42.223776",
+  "checkpoints": {
+    "00023": {
+      "path": "00023.json",
+      "image_path": "f:\\Team converge\\Team-Converge\\ECDD_Experimentation\\ECDD_Experiment_Data\\real\\00023.jpg",
+      "dataset_split": "real",
+      "created_at": "2026-01-07T02:54:42.260815",
+      "has_stages": {
+        "s0": true,
+        "s1": true,
+        "s2": false,
+        "s3": true,
+        "s4": true,
+        "s5": false,
+        "s6": false,
+        "s7": false,
+        "s8": false
+      }
+    },
+    "00025": {
+      "path": "00025.json",
+      "image_path": "f:\\Team converge\\Team-Converge\\ECDD_Experimentation\\ECDD_Experiment_Data\\real\\00025.jpg",
+      "dataset_split": "real",
+      "created_at": "2026-01-07T02:54:42.270736",
+      "has_stages": {
+        "s0": true,
+        "s1": true,
+        "s2": false,
+        "s3": true,
+        "s4": true,
+        "s5": false,
+        "s6": false,
+        "s7": false,
+        "s8": false
+      }
+    },
+    "00088": {
+      "path": "00088.json",
+      "image_path": "f:\\Team converge\\Team-Converge\\ECDD_Experimentation\\ECDD_Experiment_Data\\real\\00088.jpg",
+      "dataset_split": "real",
+      "created_at": "2026-01-07T02:54:42.279865",
+      "has_stages": {
+        "s0": true,
+        "s1": true,
+        "s2": false,
+        "s3": true,
+        "s4": true,
+        "s5": false,
+        "s6": false,
+        "s7": false,
+        "s8": false
+      }
+    },
+    "00093": {
+      "path": "00093.json",
+      "image_path": "f:\\Team converge\\Team-Converge\\ECDD_Experimentation\\ECDD_Experiment_Data\\real\\00093.jpg",
+      "dataset_split": "real",
+      "created_at": "2026-01-07T02:54:42.288728",
+      "has_stages": {
+        "s0": true,
+        "s1": true,
+        "s2": false,
+        "s3": true,
+        "s4": true,
+        "s5": false,
+        "s6": false,
+        "s7": false,
+        "s8": false
+      }
+    },
+    "00099": {
+      "path": "00099.json",
+      "image_path": "f:\\Team converge\\Team-Converge\\ECDD_Experimentation\\ECDD_Experiment_Data\\real\\00099.jpg",
+      "dataset_split": "real",
+      "created_at": "2026-01-07T02:54:42.297271",
+      "has_stages": {
+        "s0": true,
+        "s1": true,
+        "s2": false,
+        "s3": true,
+        "s4": true,
+        "s5": false,
+        "s6": false,
+        "s7": false,
+        "s8": false
+      }
+    },
+    "00113": {
+      "path": "00113.json",
+      "image_path": "f:\\Team converge\\Team-Converge\\ECDD_Experimentation\\ECDD_Experiment_Data\\real\\00113.jpg",
+      "dataset_split": "real",
+      "created_at": "2026-01-07T02:54:42.306543",
+      "has_stages": {
+        "s0": true,
+        "s1": true,
+        "s2": false,
+        "s3": true,
+        "s4": true,
+        "s5": false,
+        "s6": false,
+        "s7": false,
+        "s8": false
+      }
+    },
+    "00136": {
+      "path": "00136.json",
+      "image_path": "f:\\Team converge\\Team-Converge\\ECDD_Experimentation\\ECDD_Experiment_Data\\real\\00136.jpg",
+      "dataset_split": "real",
+      "created_at": "2026-01-07T02:54:42.317657",
+      "has_stages": {
+        "s0": true,
+        "s1": true,
+        "s2": false,
+        "s3": true,
+        "s4": true,
+        "s5": false,
+        "s6": false,
+        "s7": false,
+        "s8": false
+      }
+    },
+    "00182": {
+      "path": "00182.json",
+      "image_path": "f:\\Team converge\\Team-Converge\\ECDD_Experimentation\\ECDD_Experiment_Data\\real\\00182.jpg",
+      "dataset_split": "real",
+      "created_at": "2026-01-07T02:54:42.327210",
+      "has_stages": {
+        "s0": true,
+        "s1": true,
+        "s2": false,
+        "s3": true,
+        "s4": true,
+        "s5": false,
+        "s6": false,
+        "s7": false,
+        "s8": false
+      }
+    },
+    "00327": {
+      "path": "00327.json",
+      "image_path": "f:\\Team converge\\Team-Converge\\ECDD_Experimentation\\ECDD_Experiment_Data\\real\\00327.jpg",
+      "dataset_split": "real",
+      "created_at": "2026-01-07T02:54:42.336459",
+      "has_stages": {
+        "s0": true,
+        "s1": true,
+        "s2": false,
+        "s3": true,
+        "s4": true,
+        "s5": false,
+        "s6": false,
+        "s7": false,
+        "s8": false
+      }
+    },
+    "00343": {
+      "path": "00343.json",
+      "image_path": "f:\\Team converge\\Team-Converge\\ECDD_Experimentation\\ECDD_Experiment_Data\\real\\00343.jpg",
+      "dataset_split": "real",
+      "created_at": "2026-01-07T02:54:42.346148",
+      "has_stages": {
+        "s0": true,
+        "s1": true,
+        "s2": false,
+        "s3": true,
+        "s4": true,
+        "s5": false,
+        "s6": false,
+        "s7": false,
+        "s8": false
+      }
+    },
+    "00390": {
+      "path": "00390.json",
+      "image_path": "f:\\Team converge\\Team-Converge\\ECDD_Experimentation\\ECDD_Experiment_Data\\real\\00390.jpg",
+      "dataset_split": "real",
+      "created_at": "2026-01-07T02:54:42.354763",
+      "has_stages": {
+        "s0": true,
+        "s1": true,
+        "s2": false,
+        "s3": true,
+        "s4": true,
+        "s5": false,
+        "s6": false,
+        "s7": false,
+        "s8": false
+      }
+    },
+    "00401": {
+      "path": "00401.json",
+      "image_path": "f:\\Team converge\\Team-Converge\\ECDD_Experimentation\\ECDD_Experiment_Data\\real\\00401.jpg",
+      "dataset_split": "real",
+      "created_at": "2026-01-07T02:54:42.363064",
+      "has_stages": {
+        "s0": true,
+        "s1": true,
+        "s2": false,
+        "s3": true,
+        "s4": true,
+        "s5": false,
+        "s6": false,
+        "s7": false,
+        "s8": false
+      }
+    },
+    "00403": {
+      "path": "00403.json",
+      "image_path": "f:\\Team converge\\Team-Converge\\ECDD_Experimentation\\ECDD_Experiment_Data\\real\\00403.jpg",
+      "dataset_split": "real",
+      "created_at": "2026-01-07T02:54:42.371901",
+      "has_stages": {
+        "s0": true,
+        "s1": true,
+        "s2": false,
+        "s3": true,
+        "s4": true,
+        "s5": false,
+        "s6": false,
+        "s7": false,
+        "s8": false
+      }
+    },
+    "00472": {
+      "path": "00472.json",
+      "image_path": "f:\\Team converge\\Team-Converge\\ECDD_Experimentation\\ECDD_Experiment_Data\\real\\00472.jpg",
+      "dataset_split": "real",
+      "created_at": "2026-01-07T02:54:42.380457",
+      "has_stages": {
+        "s0": true,
+        "s1": true,
+        "s2": false,
+        "s3": true,
+        "s4": true,
+        "s5": false,
+        "s6": false,
+        "s7": false,
+        "s8": false
+      }
+    },
+    "00473": {
+      "path": "00473.json",
+      "image_path": "f:\\Team converge\\Team-Converge\\ECDD_Experimentation\\ECDD_Experiment_Data\\real\\00473.jpg",
+      "dataset_split": "real",
+      "created_at": "2026-01-07T02:54:42.390572",
+      "has_stages": {
+        "s0": true,
+        "s1": true,
+        "s2": false,
+        "s3": true,
+        "s4": true,
+        "s5": false,
+        "s6": false,
+        "s7": false,
+        "s8": false
+      }
+    },
+    "00482": {
+      "path": "00482.json",
+      "image_path": "f:\\Team converge\\Team-Converge\\ECDD_Experimentation\\ECDD_Experiment_Data\\real\\00482.jpg",
+      "dataset_split": "real",
+      "created_at": "2026-01-07T02:54:42.399483",
+      "has_stages": {
+        "s0": true,
+        "s1": true,
+        "s2": false,
+        "s3": true,
+        "s4": true,
+        "s5": false,
+        "s6": false,
+        "s7": false,
+        "s8": false
+      }
+    },
+    "565037942_1315519440042831_8848975727375564547_n": {
+      "path": "565037942_1315519440042831_8848975727375564547_n.json",
+      "image_path": "f:\\Team converge\\Team-Converge\\ECDD_Experimentation\\ECDD_Experiment_Data\\real\\565037942_1315519440042831_8848975727375564547_n.jpg",
+      "dataset_split": "real",
+      "created_at": "2026-01-07T02:54:42.425817",
+      "has_stages": {
+        "s0": true,
+        "s1": true,
+        "s2": false,
+        "s3": true,
+        "s4": true,
+        "s5": false,
+        "s6": false,
+        "s7": false,
+        "s8": false
+      }
+    },
+    "588558673_777751918619097_81168967009413864_n": {
+      "path": "588558673_777751918619097_81168967009413864_n.json",
+      "image_path": "f:\\Team converge\\Team-Converge\\ECDD_Experimentation\\ECDD_Experiment_Data\\real\\588558673_777751918619097_81168967009413864_n.jpg",
+      "dataset_split": "real",
+      "created_at": "2026-01-07T02:54:42.452563",
+      "has_stages": {
+        "s0": true,
+        "s1": true,
+        "s2": false,
+        "s3": true,
+        "s4": true,
+        "s5": false,
+        "s6": false,
+        "s7": false,
+        "s8": false
+      }
+    },
+    "00276TOPP4": {
+      "path": "00276TOPP4.json",
+      "image_path": "f:\\Team converge\\Team-Converge\\ECDD_Experimentation\\ECDD_Experiment_Data\\fake\\00276TOPP4.jpg",
+      "dataset_split": "fake",
+      "created_at": "2026-01-07T02:54:42.463674",
+      "has_stages": {
+        "s0": true,
+        "s1": true,
+        "s2": false,
+        "s3": true,
+        "s4": true,
+        "s5": false,
+        "s6": false,
+        "s7": false,
+        "s8": false
+      }
+    },
+    "017EMQKL4D": {
+      "path": "017EMQKL4D.json",
+      "image_path": "f:\\Team converge\\Team-Converge\\ECDD_Experimentation\\ECDD_Experiment_Data\\fake\\017EMQKL4D.jpg",
+      "dataset_split": "fake",
+      "created_at": "2026-01-07T02:54:42.472688",
+      "has_stages": {
+        "s0": true,
+        "s1": true,
+        "s2": false,
+        "s3": true,
+        "s4": true,
+        "s5": false,
+        "s6": false,
+        "s7": false,
+        "s8": false
+      }
+    },
+    "01FCG0FF23": {
+      "path": "01FCG0FF23.json",
+      "image_path": "f:\\Team converge\\Team-Converge\\ECDD_Experimentation\\ECDD_Experiment_Data\\fake\\01FCG0FF23.jpg",
+      "dataset_split": "fake",
+      "created_at": "2026-01-07T02:54:42.481569",
+      "has_stages": {
+        "s0": true,
+        "s1": true,
+        "s2": false,
+        "s3": true,
+        "s4": true,
+        "s5": false,
+        "s6": false,
+        "s7": false,
+        "s8": false
+      }
+    },
+    "01_02__outside_talking_still_laughing__YVGY8LOK_frame": {
+      "path": "01_02__outside_talking_still_laughing__YVGY8LOK_frame.json",
+      "image_path": "f:\\Team converge\\Team-Converge\\ECDD_Experimentation\\ECDD_Experiment_Data\\fake\\01_02__outside_talking_still_laughing__YVGY8LOK_frame.png",
+      "dataset_split": "fake",
+      "created_at": "2026-01-07T02:54:42.588207",
+      "has_stages": {
+        "s0": true,
+        "s1": true,
+        "s2": false,
+        "s3": true,
+        "s4": true,
+        "s5": false,
+        "s6": false,
+        "s7": false,
+        "s8": false
+      }
+    },
+    "01_03__talking_against_wall__JZUXXFRB_frame": {
+      "path": "01_03__talking_against_wall__JZUXXFRB_frame.json",
+      "image_path": "f:\\Team converge\\Team-Converge\\ECDD_Experimentation\\ECDD_Experiment_Data\\fake\\01_03__talking_against_wall__JZUXXFRB_frame.png",
+      "dataset_split": "fake",
+      "created_at": "2026-01-07T02:54:42.692745",
+      "has_stages": {
+        "s0": true,
+        "s1": true,
+        "s2": false,
+        "s3": true,
+        "s4": true,
+        "s5": false,
+        "s6": false,
+        "s7": false,
+        "s8": false
+      }
+    },
+    "02P1HEQ0GB": {
+      "path": "02P1HEQ0GB.json",
+      "image_path": "f:\\Team converge\\Team-Converge\\ECDD_Experimentation\\ECDD_Experiment_Data\\fake\\02P1HEQ0GB.jpg",
+      "dataset_split": "fake",
+      "created_at": "2026-01-07T02:54:42.702404",
+      "has_stages": {
+        "s0": true,
+        "s1": true,
+        "s2": false,
+        "s3": true,
+        "s4": true,
+        "s5": false,
+        "s6": false,
+        "s7": false,
+        "s8": false
+      }
+    },
+    "02_03__walking_outside_cafe_disgusted__QH3Y0IG0_frame": {
+      "path": "02_03__walking_outside_cafe_disgusted__QH3Y0IG0_frame.json",
+      "image_path": "f:\\Team converge\\Team-Converge\\ECDD_Experimentation\\ECDD_Experiment_Data\\fake\\02_03__walking_outside_cafe_disgusted__QH3Y0IG0_frame.png",
+      "dataset_split": "fake",
+      "created_at": "2026-01-07T02:54:42.820915",
+      "has_stages": {
+        "s0": true,
+        "s1": true,
+        "s2": false,
+        "s3": true,
+        "s4": true,
+        "s5": false,
+        "s6": false,
+        "s7": false,
+        "s8": false
+      }
+    },
+    "02_27__hugging_happy__GVFLSZD5_frame": {
+      "path": "02_27__hugging_happy__GVFLSZD5_frame.json",
+      "image_path": "f:\\Team converge\\Team-Converge\\ECDD_Experimentation\\ECDD_Experiment_Data\\fake\\02_27__hugging_happy__GVFLSZD5_frame.png",
+      "dataset_split": "fake",
+      "created_at": "2026-01-07T02:54:42.942253",
+      "has_stages": {
+        "s0": true,
+        "s1": true,
+        "s2": false,
+        "s3": true,
+        "s4": true,
+        "s5": false,
+        "s6": false,
+        "s7": false,
+        "s8": false
+      }
+    },
+    "04U7OSKA3V": {
+      "path": "04U7OSKA3V.json",
+      "image_path": "f:\\Team converge\\Team-Converge\\ECDD_Experimentation\\ECDD_Experiment_Data\\fake\\04U7OSKA3V.jpg",
+      "dataset_split": "fake",
+      "created_at": "2026-01-07T02:54:42.951931",
+      "has_stages": {
+        "s0": true,
+        "s1": true,
+        "s2": false,
+        "s3": true,
+        "s4": true,
+        "s5": false,
+        "s6": false,
+        "s7": false,
+        "s8": false
+      }
+    },
+    "face2face_frame": {
+      "path": "face2face_frame.json",
+      "image_path": "f:\\Team converge\\Team-Converge\\ECDD_Experimentation\\ECDD_Experiment_Data\\fake\\face2face_frame.png",
+      "dataset_split": "fake",
+      "created_at": "2026-01-07T02:54:42.971492",
+      "has_stages": {
+        "s0": true,
+        "s1": true,
+        "s2": false,
+        "s3": true,
+        "s4": true,
+        "s5": false,
+        "s6": false,
+        "s7": false,
+        "s8": false
+      }
+    },
+    "faceswap_frame": {
+      "path": "faceswap_frame.json",
+      "image_path": "f:\\Team converge\\Team-Converge\\ECDD_Experimentation\\ECDD_Experiment_Data\\fake\\faceswap_frame.png",
+      "dataset_split": "fake",
+      "created_at": "2026-01-07T02:54:42.990456",
+      "has_stages": {
+        "s0": true,
+        "s1": true,
+        "s2": false,
+        "s3": true,
+        "s4": true,
+        "s5": false,
+        "s6": false,
+        "s7": false,
+        "s8": false
+      }
+    },
+    "flj55tflj55tflj5": {
+      "path": "flj55tflj55tflj5.json",
+      "image_path": "f:\\Team converge\\Team-Converge\\ECDD_Experimentation\\ECDD_Experiment_Data\\fake\\flj55tflj55tflj5.png",
+      "dataset_split": "fake",
+      "created_at": "2026-01-07T02:54:43.229595",
+      "has_stages": {
+        "s0": true,
+        "s1": true,
+        "s2": false,
+        "s3": true,
+        "s4": true,
+        "s5": false,
+        "s6": false,
+        "s7": false,
+        "s8": false
+      }
+    },
+    "Gemini_Generated_Image_6ibyqs6ibyqs6iby": {
+      "path": "Gemini_Generated_Image_6ibyqs6ibyqs6iby.json",
+      "image_path": "f:\\Team converge\\Team-Converge\\ECDD_Experimentation\\ECDD_Experiment_Data\\fake\\Gemini_Generated_Image_6ibyqs6ibyqs6iby.png",
+      "dataset_split": "fake",
+      "created_at": "2026-01-07T02:54:43.471199",
+      "has_stages": {
+        "s0": true,
+        "s1": true,
+        "s2": false,
+        "s3": true,
+        "s4": true,
+        "s5": false,
+        "s6": false,
+        "s7": false,
+        "s8": false
+      }
+    },
+    "Gemini_Generated_Image_rv3u9xrv3u9xrv3u": {
+      "path": "Gemini_Generated_Image_rv3u9xrv3u9xrv3u.json",
+      "image_path": "f:\\Team converge\\Team-Converge\\ECDD_Experimentation\\ECDD_Experiment_Data\\fake\\Gemini_Generated_Image_rv3u9xrv3u9xrv3u.png",
+      "dataset_split": "fake",
+      "created_at": "2026-01-07T02:54:43.707103",
+      "has_stages": {
+        "s0": true,
+        "s1": true,
+        "s2": false,
+        "s3": true,
+        "s4": true,
+        "s5": false,
+        "s6": false,
+        "s7": false,
+        "s8": false
+      }
+    },
+    "Gemini_Generated_Image_tcds8etcds8etcds (1)": {
+      "path": "Gemini_Generated_Image_tcds8etcds8etcds (1).json",
+      "image_path": "f:\\Team converge\\Team-Converge\\ECDD_Experimentation\\ECDD_Experiment_Data\\fake\\Gemini_Generated_Image_tcds8etcds8etcds (1).png",
+      "dataset_split": "fake",
+      "created_at": "2026-01-07T02:54:43.953798",
+      "has_stages": {
+        "s0": true,
+        "s1": true,
+        "s2": false,
+        "s3": true,
+        "s4": true,
+        "s5": false,
+        "s6": false,
+        "s7": false,
+        "s8": false
+      }
+    },
+    "neuraltextures_frame": {
+      "path": "neuraltextures_frame.json",
+      "image_path": "f:\\Team converge\\Team-Converge\\ECDD_Experimentation\\ECDD_Experiment_Data\\fake\\neuraltextures_frame.png",
+      "dataset_split": "fake",
+      "created_at": "2026-01-07T02:54:43.971429",
+      "has_stages": {
+        "s0": true,
+        "s1": true,
+        "s2": false,
+        "s3": true,
+        "s4": true,
+        "s5": false,
+        "s6": false,
+        "s7": false,
+        "s8": false
+      }
+    },
+    "animal_01": {
+      "path": "animal_01.json",
+      "image_path": "f:\\Team converge\\Team-Converge\\ECDD_Experimentation\\ECDD_Experiment_Data\\ood\\animal_01.png",
+      "dataset_split": "ood",
+      "created_at": "2026-01-07T02:54:43.992300",
+      "has_stages": {
+        "s0": true,
+        "s1": true,
+        "s2": false,
+        "s3": true,
+        "s4": true,
+        "s5": false,
+        "s6": false,
+        "s7": false,
+        "s8": false
+      }
+    },
+    "animal_02": {
+      "path": "animal_02.json",
+      "image_path": "f:\\Team converge\\Team-Converge\\ECDD_Experimentation\\ECDD_Experiment_Data\\ood\\animal_02.png",
+      "dataset_split": "ood",
+      "created_at": "2026-01-07T02:54:44.019408",
+      "has_stages": {
+        "s0": true,
+        "s1": true,
+        "s2": false,
+        "s3": true,
+        "s4": true,
+        "s5": false,
+        "s6": false,
+        "s7": false,
+        "s8": false
+      }
+    },
+    "animal_03": {
+      "path": "animal_03.json",
+      "image_path": "f:\\Team converge\\Team-Converge\\ECDD_Experimentation\\ECDD_Experiment_Data\\ood\\animal_03.png",
+      "dataset_split": "ood",
+      "created_at": "2026-01-07T02:54:44.043103",
+      "has_stages": {
+        "s0": true,
+        "s1": true,
+        "s2": false,
+        "s3": true,
+        "s4": true,
+        "s5": false,
+        "s6": false,
+        "s7": false,
+        "s8": false
+      }
+    },
+    "animal_04": {
+      "path": "animal_04.json",
+      "image_path": "f:\\Team converge\\Team-Converge\\ECDD_Experimentation\\ECDD_Experiment_Data\\ood\\animal_04.png",
+      "dataset_split": "ood",
+      "created_at": "2026-01-07T02:54:44.067477",
+      "has_stages": {
+        "s0": true,
+        "s1": true,
+        "s2": false,
+        "s3": true,
+        "s4": true,
+        "s5": false,
+        "s6": false,
+        "s7": false,
+        "s8": false
+      }
+    },
+    "cartoon_01": {
+      "path": "cartoon_01.json",
+      "image_path": "f:\\Team converge\\Team-Converge\\ECDD_Experimentation\\ECDD_Experiment_Data\\ood\\cartoon_01.png",
+      "dataset_split": "ood",
+      "created_at": "2026-01-07T02:54:44.080725",
+      "has_stages": {
+        "s0": true,
+        "s1": true,
+        "s2": false,
+        "s3": true,
+        "s4": true,
+        "s5": false,
+        "s6": false,
+        "s7": false,
+        "s8": false
+      }
+    },
+    "cartoon_02": {
+      "path": "cartoon_02.json",
+      "image_path": "f:\\Team converge\\Team-Converge\\ECDD_Experimentation\\ECDD_Experiment_Data\\ood\\cartoon_02.png",
+      "dataset_split": "ood",
+      "created_at": "2026-01-07T02:54:44.096016",
+      "has_stages": {
+        "s0": true,
+        "s1": true,
+        "s2": false,
+        "s3": true,
+        "s4": true,
+        "s5": false,
+        "s6": false,
+        "s7": false,
+        "s8": false
+      }
+    },
+    "cartoon_03": {
+      "path": "cartoon_03.json",
+      "image_path": "f:\\Team converge\\Team-Converge\\ECDD_Experimentation\\ECDD_Experiment_Data\\ood\\cartoon_03.png",
+      "dataset_split": "ood",
+      "created_at": "2026-01-07T02:54:44.110690",
+      "has_stages": {
+        "s0": true,
+        "s1": true,
+        "s2": false,
+        "s3": true,
+        "s4": true,
+        "s5": false,
+        "s6": false,
+        "s7": false,
+        "s8": false
+      }
+    },
+    "cartoon_04": {
+      "path": "cartoon_04.json",
+      "image_path": "f:\\Team converge\\Team-Converge\\ECDD_Experimentation\\ECDD_Experiment_Data\\ood\\cartoon_04.png",
+      "dataset_split": "ood",
+      "created_at": "2026-01-07T02:54:44.128568",
+      "has_stages": {
+        "s0": true,
+        "s1": true,
+        "s2": false,
+        "s3": true,
+        "s4": true,
+        "s5": false,
+        "s6": false,
+        "s7": false,
+        "s8": false
+      }
+    },
+    "cgi_01": {
+      "path": "cgi_01.json",
+      "image_path": "f:\\Team converge\\Team-Converge\\ECDD_Experimentation\\ECDD_Experiment_Data\\ood\\cgi_01.png",
+      "dataset_split": "ood",
+      "created_at": "2026-01-07T02:54:44.158351",
+      "has_stages": {
+        "s0": true,
+        "s1": true,
+        "s2": false,
+        "s3": true,
+        "s4": true,
+        "s5": false,
+        "s6": false,
+        "s7": false,
+        "s8": false
+      }
+    },
+    "cgi_02": {
+      "path": "cgi_02.json",
+      "image_path": "f:\\Team converge\\Team-Converge\\ECDD_Experimentation\\ECDD_Experiment_Data\\ood\\cgi_02.png",
+      "dataset_split": "ood",
+      "created_at": "2026-01-07T02:54:44.183013",
+      "has_stages": {
+        "s0": true,
+        "s1": true,
+        "s2": false,
+        "s3": true,
+        "s4": true,
+        "s5": false,
+        "s6": false,
+        "s7": false,
+        "s8": false
+      }
+    },
+    "cgi_03": {
+      "path": "cgi_03.json",
+      "image_path": "f:\\Team converge\\Team-Converge\\ECDD_Experimentation\\ECDD_Experiment_Data\\ood\\cgi_03.png",
+      "dataset_split": "ood",
+      "created_at": "2026-01-07T02:54:44.209008",
+      "has_stages": {
+        "s0": true,
+        "s1": true,
+        "s2": false,
+        "s3": true,
+        "s4": true,
+        "s5": false,
+        "s6": false,
+        "s7": false,
+        "s8": false
+      }
+    },
+    "document_01": {
+      "path": "document_01.json",
+      "image_path": "f:\\Team converge\\Team-Converge\\ECDD_Experimentation\\ECDD_Experiment_Data\\ood\\document_01.png",
+      "dataset_split": "ood",
+      "created_at": "2026-01-07T02:54:44.223738",
+      "has_stages": {
+        "s0": true,
+        "s1": true,
+        "s2": false,
+        "s3": true,
+        "s4": true,
+        "s5": false,
+        "s6": false,
+        "s7": false,
+        "s8": false
+      }
+    },
+    "document_02": {
+      "path": "document_02.json",
+      "image_path": "f:\\Team converge\\Team-Converge\\ECDD_Experimentation\\ECDD_Experiment_Data\\ood\\document_02.png",
+      "dataset_split": "ood",
+      "created_at": "2026-01-07T02:54:44.238249",
+      "has_stages": {
+        "s0": true,
+        "s1": true,
+        "s2": false,
+        "s3": true,
+        "s4": true,
+        "s5": false,
+        "s6": false,
+        "s7": false,
+        "s8": false
+      }
+    },
+    "document_03": {
+      "path": "document_03.json",
+      "image_path": "f:\\Team converge\\Team-Converge\\ECDD_Experimentation\\ECDD_Experiment_Data\\ood\\document_03.png",
+      "dataset_split": "ood",
+      "created_at": "2026-01-07T02:54:44.253535",
+      "has_stages": {
+        "s0": true,
+        "s1": true,
+        "s2": false,
+        "s3": true,
+        "s4": true,
+        "s5": false,
+        "s6": false,
+        "s7": false,
+        "s8": false
+      }
+    },
+    "meme_screenshot_01": {
+      "path": "meme_screenshot_01.json",
+      "image_path": "f:\\Team converge\\Team-Converge\\ECDD_Experimentation\\ECDD_Experiment_Data\\ood\\meme_screenshot_01.png",
+      "dataset_split": "ood",
+      "created_at": "2026-01-07T02:54:44.269458",
+      "has_stages": {
+        "s0": true,
+        "s1": true,
+        "s2": false,
+        "s3": true,
+        "s4": true,
+        "s5": false,
+        "s6": false,
+        "s7": false,
+        "s8": false
+      }
+    },
+    "meme_screenshot_02": {
+      "path": "meme_screenshot_02.json",
+      "image_path": "f:\\Team converge\\Team-Converge\\ECDD_Experimentation\\ECDD_Experiment_Data\\ood\\meme_screenshot_02.png",
+      "dataset_split": "ood",
+      "created_at": "2026-01-07T02:54:44.289162",
+      "has_stages": {
+        "s0": true,
+        "s1": true,
+        "s2": false,
+        "s3": true,
+        "s4": true,
+        "s5": false,
+        "s6": false,
+        "s7": false,
+        "s8": false
+      }
+    },
+    "meme_screenshot_03": {
+      "path": "meme_screenshot_03.json",
+      "image_path": "f:\\Team converge\\Team-Converge\\ECDD_Experimentation\\ECDD_Experiment_Data\\ood\\meme_screenshot_03.png",
+      "dataset_split": "ood",
+      "created_at": "2026-01-07T02:54:44.306910",
+      "has_stages": {
+        "s0": true,
+        "s1": true,
+        "s2": false,
+        "s3": true,
+        "s4": true,
+        "s5": false,
+        "s6": false,
+        "s7": false,
+        "s8": false
+      }
+    },
+    "scenery_01": {
+      "path": "scenery_01.json",
+      "image_path": "f:\\Team converge\\Team-Converge\\ECDD_Experimentation\\ECDD_Experiment_Data\\ood\\scenery_01.png",
+      "dataset_split": "ood",
+      "created_at": "2026-01-07T02:54:44.339763",
+      "has_stages": {
+        "s0": true,
+        "s1": true,
+        "s2": false,
+        "s3": true,
+        "s4": true,
+        "s5": false,
+        "s6": false,
+        "s7": false,
+        "s8": false
+      }
+    },
+    "scenery_02": {
+      "path": "scenery_02.json",
+      "image_path": "f:\\Team converge\\Team-Converge\\ECDD_Experimentation\\ECDD_Experiment_Data\\ood\\scenery_02.png",
+      "dataset_split": "ood",
+      "created_at": "2026-01-07T02:54:44.365641",
+      "has_stages": {
+        "s0": true,
+        "s1": true,
+        "s2": false,
+        "s3": true,
+        "s4": true,
+        "s5": false,
+        "s6": false,
+        "s7": false,
+        "s8": false
+      }
+    },
+    "scenery_03": {
+      "path": "scenery_03.json",
+      "image_path": "f:\\Team converge\\Team-Converge\\ECDD_Experimentation\\ECDD_Experiment_Data\\ood\\scenery_03.png",
+      "dataset_split": "ood",
+      "created_at": "2026-01-07T02:54:44.398843",
+      "has_stages": {
+        "s0": true,
+        "s1": true,
+        "s2": false,
+        "s3": true,
+        "s4": true,
+        "s5": false,
+        "s6": false,
+        "s7": false,
+        "s8": false
+      }
+    },
+    "alpha_center_only": {
+      "path": "alpha_center_only.json",
+      "image_path": "f:\\Team converge\\Team-Converge\\ECDD_Experimentation\\ECDD_Experiment_Data\\edge_cases\\alpha_center_only.png",
+      "dataset_split": "edge_cases",
+      "created_at": "2026-01-07T02:54:44.416503",
+      "has_stages": {
+        "s0": true,
+        "s1": true,
+        "s2": false,
+        "s3": true,
+        "s4": true,
+        "s5": false,
+        "s6": false,
+        "s7": false,
+        "s8": false
+      }
+    },
+    "alpha_corners": {
+      "path": "alpha_corners.json",
+      "image_path": "f:\\Team converge\\Team-Converge\\ECDD_Experimentation\\ECDD_Experiment_Data\\edge_cases\\alpha_corners.png",
+      "dataset_split": "edge_cases",
+      "created_at": "2026-01-07T02:54:44.433048",
+      "has_stages": {
+        "s0": true,
+        "s1": true,
+        "s2": false,
+        "s3": true,
+        "s4": true,
+        "s5": false,
+        "s6": false,
+        "s7": false,
+        "s8": false
+      }
+    },
+    "alpha_gradient": {
+      "path": "alpha_gradient.json",
+      "image_path": "f:\\Team converge\\Team-Converge\\ECDD_Experimentation\\ECDD_Experiment_Data\\edge_cases\\alpha_gradient.png",
+      "dataset_split": "edge_cases",
+      "created_at": "2026-01-07T02:54:44.449248",
+      "has_stages": {
+        "s0": true,
+        "s1": true,
+        "s2": false,
+        "s3": true,
+        "s4": true,
+        "s5": false,
+        "s6": false,
+        "s7": false,
+        "s8": false
+      }
+    },
+    "alpha_webp": {
+      "path": "alpha_webp.json",
+      "image_path": "f:\\Team converge\\Team-Converge\\ECDD_Experimentation\\ECDD_Experiment_Data\\edge_cases\\alpha_webp.webp",
+      "dataset_split": "edge_cases",
+      "created_at": "2026-01-07T02:54:44.518895",
+      "has_stages": {
+        "s0": true,
+        "s1": true,
+        "s2": false,
+        "s3": true,
+        "s4": true,
+        "s5": false,
+        "s6": false,
+        "s7": false,
+        "s8": false
+      }
+    },
+    "alpha_webp_partial": {
+      "path": "alpha_webp_partial.json",
+      "image_path": "f:\\Team converge\\Team-Converge\\ECDD_Experimentation\\ECDD_Experiment_Data\\edge_cases\\alpha_webp_partial.webp",
+      "dataset_split": "edge_cases",
+      "created_at": "2026-01-07T02:54:44.535447",
+      "has_stages": {
+        "s0": true,
+        "s1": true,
+        "s2": false,
+        "s3": true,
+        "s4": true,
+        "s5": false,
+        "s6": false,
+        "s7": false,
+        "s8": false
+      }
+    },
+    "blur_radius_2": {
+      "path": "blur_radius_2.json",
+      "image_path": "f:\\Team converge\\Team-Converge\\ECDD_Experimentation\\ECDD_Experiment_Data\\edge_cases\\blur_radius_2.png",
+      "dataset_split": "edge_cases",
+      "created_at": "2026-01-07T02:54:44.548316",
+      "has_stages": {
+        "s0": true,
+        "s1": true,
+        "s2": false,
+        "s3": true,
+        "s4": true,
+        "s5": false,
+        "s6": false,
+        "s7": false,
+        "s8": false
+      }
+    },
+    "blur_radius_4": {
+      "path": "blur_radius_4.json",
+      "image_path": "f:\\Team converge\\Team-Converge\\ECDD_Experimentation\\ECDD_Experiment_Data\\edge_cases\\blur_radius_4.png",
+      "dataset_split": "edge_cases",
+      "created_at": "2026-01-07T02:54:44.568000",
+      "has_stages": {
+        "s0": true,
+        "s1": true,
+        "s2": false,
+        "s3": true,
+        "s4": true,
+        "s5": false,
+        "s6": false,
+        "s7": false,
+        "s8": false
+      }
+    },
+    "blur_radius_8": {
+      "path": "blur_radius_8.json",
+      "image_path": "f:\\Team converge\\Team-Converge\\ECDD_Experimentation\\ECDD_Experiment_Data\\edge_cases\\blur_radius_8.png",
+      "dataset_split": "edge_cases",
+      "created_at": "2026-01-07T02:54:44.580948",
+      "has_stages": {
+        "s0": true,
+        "s1": true,
+        "s2": false,
+        "s3": true,
+        "s4": true,
+        "s5": false,
+        "s6": false,
+        "s7": false,
+        "s8": false
+      }
+    },
+    "color_cmyk_roundtrip": {
+      "path": "color_cmyk_roundtrip.json",
+      "image_path": "f:\\Team converge\\Team-Converge\\ECDD_Experimentation\\ECDD_Experiment_Data\\edge_cases\\color_cmyk_roundtrip.png",
+      "dataset_split": "edge_cases",
+      "created_at": "2026-01-07T02:54:44.594317",
+      "has_stages": {
+        "s0": true,
+        "s1": true,
+        "s2": false,
+        "s3": true,
+        "s4": true,
+        "s5": false,
+        "s6": false,
+        "s7": false,
+        "s8": false
+      }
+    },
+    "color_grayscale_as_rgb": {
+      "path": "color_grayscale_as_rgb.json",
+      "image_path": "f:\\Team converge\\Team-Converge\\ECDD_Experimentation\\ECDD_Experiment_Data\\edge_cases\\color_grayscale_as_rgb.png",
+      "dataset_split": "edge_cases",
+      "created_at": "2026-01-07T02:54:44.608790",
+      "has_stages": {
+        "s0": true,
+        "s1": true,
+        "s2": false,
+        "s3": true,
+        "s4": true,
+        "s5": false,
+        "s6": false,
+        "s7": false,
+        "s8": false
+      }
+    },
+    "exif_orientation_1": {
+      "path": "exif_orientation_1.json",
+      "image_path": "f:\\Team converge\\Team-Converge\\ECDD_Experimentation\\ECDD_Experiment_Data\\edge_cases\\exif_orientation_1.jpg",
+      "dataset_split": "edge_cases",
+      "created_at": "2026-01-07T02:54:44.620768",
+      "has_stages": {
+        "s0": true,
+        "s1": true,
+        "s2": false,
+        "s3": true,
+        "s4": true,
+        "s5": false,
+        "s6": false,
+        "s7": false,
+        "s8": false
+      }
+    },
+    "exif_orientation_2": {
+      "path": "exif_orientation_2.json",
+      "image_path": "f:\\Team converge\\Team-Converge\\ECDD_Experimentation\\ECDD_Experiment_Data\\edge_cases\\exif_orientation_2.jpg",
+      "dataset_split": "edge_cases",
+      "created_at": "2026-01-07T02:54:44.632431",
+      "has_stages": {
+        "s0": true,
+        "s1": true,
+        "s2": false,
+        "s3": true,
+        "s4": true,
+        "s5": false,
+        "s6": false,
+        "s7": false,
+        "s8": false
+      }
+    },
+    "exif_orientation_3": {
+      "path": "exif_orientation_3.json",
+      "image_path": "f:\\Team converge\\Team-Converge\\ECDD_Experimentation\\ECDD_Experiment_Data\\edge_cases\\exif_orientation_3.jpg",
+      "dataset_split": "edge_cases",
+      "created_at": "2026-01-07T02:54:44.655292",
+      "has_stages": {
+        "s0": true,
+        "s1": true,
+        "s2": false,
+        "s3": true,
+        "s4": true,
+        "s5": false,
+        "s6": false,
+        "s7": false,
+        "s8": false
+      }
+    },
+    "exif_orientation_4": {
+      "path": "exif_orientation_4.json",
+      "image_path": "f:\\Team converge\\Team-Converge\\ECDD_Experimentation\\ECDD_Experiment_Data\\edge_cases\\exif_orientation_4.jpg",
+      "dataset_split": "edge_cases",
+      "created_at": "2026-01-07T02:54:44.667954",
+      "has_stages": {
+        "s0": true,
+        "s1": true,
+        "s2": false,
+        "s3": true,
+        "s4": true,
+        "s5": false,
+        "s6": false,
+        "s7": false,
+        "s8": false
+      }
+    },
+    "exif_orientation_5": {
+      "path": "exif_orientation_5.json",
+      "image_path": "f:\\Team converge\\Team-Converge\\ECDD_Experimentation\\ECDD_Experiment_Data\\edge_cases\\exif_orientation_5.jpg",
+      "dataset_split": "edge_cases",
+      "created_at": "2026-01-07T02:54:44.689092",
+      "has_stages": {
+        "s0": true,
+        "s1": true,
+        "s2": false,
+        "s3": true,
+        "s4": true,
+        "s5": false,
+        "s6": false,
+        "s7": false,
+        "s8": false
+      }
+    },
+    "exif_orientation_6": {
+      "path": "exif_orientation_6.json",
+      "image_path": "f:\\Team converge\\Team-Converge\\ECDD_Experimentation\\ECDD_Experiment_Data\\edge_cases\\exif_orientation_6.jpg",
+      "dataset_split": "edge_cases",
+      "created_at": "2026-01-07T02:54:44.701521",
+      "has_stages": {
+        "s0": true,
+        "s1": true,
+        "s2": false,
+        "s3": true,
+        "s4": true,
+        "s5": false,
+        "s6": false,
+        "s7": false,
+        "s8": false
+      }
+    },
+    "exif_orientation_7": {
+      "path": "exif_orientation_7.json",
+      "image_path": "f:\\Team converge\\Team-Converge\\ECDD_Experimentation\\ECDD_Experiment_Data\\edge_cases\\exif_orientation_7.jpg",
+      "dataset_split": "edge_cases",
+      "created_at": "2026-01-07T02:54:44.719978",
+      "has_stages": {
+        "s0": true,
+        "s1": true,
+        "s2": false,
+        "s3": true,
+        "s4": true,
+        "s5": false,
+        "s6": false,
+        "s7": false,
+        "s8": false
+      }
+    },
+    "exif_orientation_8": {
+      "path": "exif_orientation_8.json",
+      "image_path": "f:\\Team converge\\Team-Converge\\ECDD_Experimentation\\ECDD_Experiment_Data\\edge_cases\\exif_orientation_8.jpg",
+      "dataset_split": "edge_cases",
+      "created_at": "2026-01-07T02:54:44.732124",
+      "has_stages": {
+        "s0": true,
+        "s1": true,
+        "s2": false,
+        "s3": true,
+        "s4": true,
+        "s5": false,
+        "s6": false,
+        "s7": false,
+        "s8": false
+      }
+    },
+    "jpeg_quality_20": {
+      "path": "jpeg_quality_20.json",
+      "image_path": "f:\\Team converge\\Team-Converge\\ECDD_Experimentation\\ECDD_Experiment_Data\\edge_cases\\jpeg_quality_20.jpg",
+      "dataset_split": "edge_cases",
+      "created_at": "2026-01-07T02:54:44.751357",
+      "has_stages": {
+        "s0": true,
+        "s1": true,
+        "s2": false,
+        "s3": true,
+        "s4": true,
+        "s5": false,
+        "s6": false,
+        "s7": false,
+        "s8": false
+      }
+    },
+    "jpeg_quality_30": {
+      "path": "jpeg_quality_30.json",
+      "image_path": "f:\\Team converge\\Team-Converge\\ECDD_Experimentation\\ECDD_Experiment_Data\\edge_cases\\jpeg_quality_30.jpg",
+      "dataset_split": "edge_cases",
+      "created_at": "2026-01-07T02:54:44.763567",
+      "has_stages": {
+        "s0": true,
+        "s1": true,
+        "s2": false,
+        "s3": true,
+        "s4": true,
+        "s5": false,
+        "s6": false,
+        "s7": false,
+        "s8": false
+      }
+    },
+    "jpeg_quality_40": {
+      "path": "jpeg_quality_40.json",
+      "image_path": "f:\\Team converge\\Team-Converge\\ECDD_Experimentation\\ECDD_Experiment_Data\\edge_cases\\jpeg_quality_40.jpg",
+      "dataset_split": "edge_cases",
+      "created_at": "2026-01-07T02:54:44.774015",
+      "has_stages": {
+        "s0": true,
+        "s1": true,
+        "s2": false,
+        "s3": true,
+        "s4": true,
+        "s5": false,
+        "s6": false,
+        "s7": false,
+        "s8": false
+      }
+    },
+    "multi_face_2_faces": {
+      "path": "multi_face_2_faces.json",
+      "image_path": "f:\\Team converge\\Team-Converge\\ECDD_Experimentation\\ECDD_Experiment_Data\\edge_cases\\multi_face_2_faces.png",
+      "dataset_split": "edge_cases",
+      "created_at": "2026-01-07T02:54:44.792310",
+      "has_stages": {
+        "s0": true,
+        "s1": true,
+        "s2": false,
+        "s3": true,
+        "s4": true,
+        "s5": false,
+        "s6": false,
+        "s7": false,
+        "s8": false
+      }
+    },
+    "multi_face_3_faces": {
+      "path": "multi_face_3_faces.json",
+      "image_path": "f:\\Team converge\\Team-Converge\\ECDD_Experimentation\\ECDD_Experiment_Data\\edge_cases\\multi_face_3_faces.png",
+      "dataset_split": "edge_cases",
+      "created_at": "2026-01-07T02:54:44.810816",
+      "has_stages": {
+        "s0": true,
+        "s1": true,
+        "s2": false,
+        "s3": true,
+        "s4": true,
+        "s5": false,
+        "s6": false,
+        "s7": false,
+        "s8": false
+      }
+    },
+    "multi_face_4_faces": {
+      "path": "multi_face_4_faces.json",
+      "image_path": "f:\\Team converge\\Team-Converge\\ECDD_Experimentation\\ECDD_Experiment_Data\\edge_cases\\multi_face_4_faces.png",
+      "dataset_split": "edge_cases",
+      "created_at": "2026-01-07T02:54:44.826788",
+      "has_stages": {
+        "s0": true,
+        "s1": true,
+        "s2": false,
+        "s3": true,
+        "s4": true,
+        "s5": false,
+        "s6": false,
+        "s7": false,
+        "s8": false
+      }
+    },
+    "resize_chain_mixed": {
+      "path": "resize_chain_mixed.json",
+      "image_path": "f:\\Team converge\\Team-Converge\\ECDD_Experimentation\\ECDD_Experiment_Data\\edge_cases\\resize_chain_mixed.png",
+      "dataset_split": "edge_cases",
+      "created_at": "2026-01-07T02:54:44.840272",
+      "has_stages": {
+        "s0": true,
+        "s1": true,
+        "s2": false,
+        "s3": true,
+        "s4": true,
+        "s5": false,
+        "s6": false,
+        "s7": false,
+        "s8": false
+      }
+    },
+    "resize_chain_pixelated": {
+      "path": "resize_chain_pixelated.json",
+      "image_path": "f:\\Team converge\\Team-Converge\\ECDD_Experimentation\\ECDD_Experiment_Data\\edge_cases\\resize_chain_pixelated.png",
+      "dataset_split": "edge_cases",
+      "created_at": "2026-01-07T02:54:44.851237",
+      "has_stages": {
+        "s0": true,
+        "s1": true,
+        "s2": false,
+        "s3": true,
+        "s4": true,
+        "s5": false,
+        "s6": false,
+        "s7": false,
+        "s8": false
+      }
+    },
+    "resize_screenshot_sim": {
+      "path": "resize_screenshot_sim.json",
+      "image_path": "f:\\Team converge\\Team-Converge\\ECDD_Experimentation\\ECDD_Experiment_Data\\edge_cases\\resize_screenshot_sim.png",
+      "dataset_split": "edge_cases",
+      "created_at": "2026-01-07T02:54:44.871937",
+      "has_stages": {
+        "s0": true,
+        "s1": true,
+        "s2": false,
+        "s3": true,
+        "s4": true,
+        "s5": false,
+        "s6": false,
+        "s7": false,
+        "s8": false
+      }
+    },
+    "small_face_32x32": {
+      "path": "small_face_32x32.json",
+      "image_path": "f:\\Team converge\\Team-Converge\\ECDD_Experimentation\\ECDD_Experiment_Data\\edge_cases\\small_face_32x32.png",
+      "dataset_split": "edge_cases",
+      "created_at": "2026-01-07T02:54:44.892112",
+      "has_stages": {
+        "s0": true,
+        "s1": true,
+        "s2": false,
+        "s3": true,
+        "s4": true,
+        "s5": false,
+        "s6": false,
+        "s7": false,
+        "s8": false
+      }
+    },
+    "small_face_48x48": {
+      "path": "small_face_48x48.json",
+      "image_path": "f:\\Team converge\\Team-Converge\\ECDD_Experimentation\\ECDD_Experiment_Data\\edge_cases\\small_face_48x48.png",
+      "dataset_split": "edge_cases",
+      "created_at": "2026-01-07T02:54:44.912386",
+      "has_stages": {
+        "s0": true,
+        "s1": true,
+        "s2": false,
+        "s3": true,
+        "s4": true,
+        "s5": false,
+        "s6": false,
+        "s7": false,
+        "s8": false
+      }
+    },
+    "small_face_64x64": {
+      "path": "small_face_64x64.json",
+      "image_path": "f:\\Team converge\\Team-Converge\\ECDD_Experimentation\\ECDD_Experiment_Data\\edge_cases\\small_face_64x64.png",
+      "dataset_split": "edge_cases",
+      "created_at": "2026-01-07T02:54:44.941513",
+      "has_stages": {
+        "s0": true,
+        "s1": true,
+        "s2": false,
+        "s3": true,
+        "s4": true,
+        "s5": false,
+        "s6": false,
+        "s7": false,
+        "s8": false
+      }
+    }
+  }
+}

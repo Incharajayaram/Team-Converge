@@ -1,0 +1,9 @@
+{
+  "experiment_id": "experiment_e3_6",
+  "name": "Perturbation Test",
+  "passed": "True",
+  "details": {
+    "diff_sum": 408.4526062011719
+  },
+  "timestamp": "2026-01-07 07:12:10.118258"
+}

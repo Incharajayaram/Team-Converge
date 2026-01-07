@@ -1,0 +1,64 @@
+{
+  "image_path": "f:\\Team converge\\Team-Converge\\ECDD_Experimentation\\ECDD_Experiment_Data\\real\\00473.jpg",
+  "image_id": "00473",
+  "dataset_split": "real",
+  "created_at": "2026-01-07T02:54:42.390572",
+  "pipeline_version": "1.0",
+  "s0": {
+    "sha256": "5d5690ae661e25488ebe21ce993b12f0f37177d0d8f707c1a42e6caacb8d206d",
+    "file_size_bytes": 29038,
+    "file_extension": ".jpg"
+  },
+  "s1": {
+    "tensor_hash": "dffdda3620a1b218dedabee21570b0c638ce5ff2e4424ad7c09584a9e4a46d13",
+    "shape": [
+      256,
+      256,
+      3
+    ],
+    "dtype": "uint8",
+    "min_val": 0.0,
+    "max_val": 255.0,
+    "mean_val": 133.27000935872397
+  },
+  "s2": null,
+  "s3": {
+    "tensor_hash": "dffdda3620a1b218dedabee21570b0c638ce5ff2e4424ad7c09584a9e4a46d13",
+    "shape": [
+      256,
+      256,
+      3
+    ],
+    "interpolation_method": "bilinear",
+    "min_val": 0.0,
+    "max_val": 255.0,
+    "mean_val": 133.27000935872397
+  },
+  "s4": {
+    "tensor_hash": "01360c52bc4058b84baccc2bb88d837259b9a55c504580b9d68145675885cda6",
+    "shape": [
+      256,
+      256,
+      3
+    ],
+    "dtype": "float32",
+    "min_val": -2.1179039301310043,
+    "max_val": 2.4657080713907877,
+    "mean_val": 0.32506510134052574,
+    "std_val": 0.9894654059203185,
+    "normalization_mean": [
+      0.485,
+      0.456,
+      0.406
+    ],
+    "normalization_std": [
+      0.229,
+      0.224,
+      0.225
+    ]
+  },
+  "s5": null,
+  "s6": null,
+  "s7": null,
+  "s8": null
+}

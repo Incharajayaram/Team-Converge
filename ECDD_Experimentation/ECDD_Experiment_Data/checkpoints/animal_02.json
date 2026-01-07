@@ -1,0 +1,64 @@
+{
+  "image_path": "f:\\Team converge\\Team-Converge\\ECDD_Experimentation\\ECDD_Experiment_Data\\ood\\animal_02.png",
+  "image_id": "animal_02",
+  "dataset_split": "ood",
+  "created_at": "2026-01-07T02:54:44.019408",
+  "pipeline_version": "1.0",
+  "s0": {
+    "sha256": "b07d3ad791b4a2231677cf01e1f82fdbc6f889f7f36cf407bcb2062262bddd00",
+    "file_size_bytes": 104490,
+    "file_extension": ".png"
+  },
+  "s1": {
+    "tensor_hash": "ffcb4b89552d88384fb61e446a1ff6a5cbfd0f2ddc05e1e6b07008ce62920bb2",
+    "shape": [
+      512,
+      512,
+      3
+    ],
+    "dtype": "uint8",
+    "min_val": 28.0,
+    "max_val": 237.0,
+    "mean_val": 151.51627731323242
+  },
+  "s2": null,
+  "s3": {
+    "tensor_hash": "5006db440840189aa9117ec6788f32ab7ab2237461060d7691c236b07babfe05",
+    "shape": [
+      256,
+      256,
+      3
+    ],
+    "interpolation_method": "bilinear",
+    "min_val": 41.0,
+    "max_val": 236.0,
+    "mean_val": 151.62894694010416
+  },
+  "s4": {
+    "tensor_hash": "4071597f2aaaffe43ecbe6a2eaaa303291124762ce9c705382eed90cdfbfe6fc",
+    "shape": [
+      256,
+      256,
+      3
+    ],
+    "dtype": "float32",
+    "min_val": -1.4157889998115305,
+    "max_val": 1.9254030927022296,
+    "mean_val": 0.6443488449195817,
+    "std_val": 1.0528300052133657,
+    "normalization_mean": [
+      0.485,
+      0.456,
+      0.406
+    ],
+    "normalization_std": [
+      0.229,
+      0.224,
+      0.225
+    ]
+  },
+  "s5": null,
+  "s6": null,
+  "s7": null,
+  "s8": null
+}

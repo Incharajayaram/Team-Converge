@@ -1,0 +1,36 @@
+{
+  "experiment_id": "E2.5",
+  "name": "Multi-face policy test",
+  "passed": true,
+  "details": {
+    "tested": 3,
+    "multi_face_detected": 3,
+    "policy_comparison": [
+      {
+        "file": "multi_face_2_faces.png",
+        "faces": 2,
+        "max_confidence": 0.918,
+        "largest_face_confidence": 0.918,
+        "same_result": true
+      },
+      {
+        "file": "multi_face_3_faces.png",
+        "faces": 3,
+        "max_confidence": 0.906,
+        "largest_face_confidence": 0.642,
+        "same_result": false
+      },
+      {
+        "file": "multi_face_4_faces.png",
+        "faces": 2,
+        "max_confidence": 0.702,
+        "largest_face_confidence": 0.702,
+        "same_result": true
+      }
+    ],
+    "max_faces_seen": 3,
+    "selected_policy": "max_p_fake",
+    "rationale": "max_p_fake is safer as it catches any fake face in group photos"
+  },
+  "timestamp": "2026-01-07T03:42:38.626036"
+}

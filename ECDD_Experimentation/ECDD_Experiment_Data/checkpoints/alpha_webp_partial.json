@@ -1,0 +1,64 @@
+{
+  "image_path": "f:\\Team converge\\Team-Converge\\ECDD_Experimentation\\ECDD_Experiment_Data\\edge_cases\\alpha_webp_partial.webp",
+  "image_id": "alpha_webp_partial",
+  "dataset_split": "edge_cases",
+  "created_at": "2026-01-07T02:54:44.535447",
+  "pipeline_version": "1.0",
+  "s0": {
+    "sha256": "bc7f801f3b9b3ca32619c33d31bbcbe389ebb2c10f2db3dcb9ecdbc4d83e4343",
+    "file_size_bytes": 20194,
+    "file_extension": ".webp"
+  },
+  "s1": {
+    "tensor_hash": "a70988ac90828b0c210ee15c15a99f255a0e05345b18acdce540b21b13476249",
+    "shape": [
+      256,
+      256,
+      3
+    ],
+    "dtype": "uint8",
+    "min_val": 0.0,
+    "max_val": 255.0,
+    "mean_val": 128.6934051513672
+  },
+  "s2": null,
+  "s3": {
+    "tensor_hash": "a70988ac90828b0c210ee15c15a99f255a0e05345b18acdce540b21b13476249",
+    "shape": [
+      256,
+      256,
+      3
+    ],
+    "interpolation_method": "bilinear",
+    "min_val": 0.0,
+    "max_val": 255.0,
+    "mean_val": 128.6934051513672
+  },
+  "s4": {
+    "tensor_hash": "b431ad5becb1735109a77fcdb48009b7accaf4cf6cce2106934b32d4b61c01e4",
+    "shape": [
+      256,
+      256,
+      3
+    ],
+    "dtype": "float32",
+    "min_val": -2.1179039301310043,
+    "max_val": 2.6399999999999997,
+    "mean_val": 0.2468140518219383,
+    "std_val": 1.3307744944999935,
+    "normalization_mean": [
+      0.485,
+      0.456,
+      0.406
+    ],
+    "normalization_std": [
+      0.229,
+      0.224,
+      0.225
+    ]
+  },
+  "s5": null,
+  "s6": null,
+  "s7": null,
+  "s8": null
+}

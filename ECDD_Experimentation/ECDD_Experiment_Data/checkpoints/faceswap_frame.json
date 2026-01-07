@@ -1,0 +1,64 @@
+{
+  "image_path": "f:\\Team converge\\Team-Converge\\ECDD_Experimentation\\ECDD_Experiment_Data\\fake\\faceswap_frame.png",
+  "image_id": "faceswap_frame",
+  "dataset_split": "fake",
+  "created_at": "2026-01-07T02:54:42.990456",
+  "pipeline_version": "1.0",
+  "s0": {
+    "sha256": "7907111713f14bc9d0e4d32f96355ac0ccf2e32e865f8e4bdb4f831de3e71b44",
+    "file_size_bytes": 299041,
+    "file_extension": ".png"
+  },
+  "s1": {
+    "tensor_hash": "37c132db6b5d2c0984e6f444c4c8c3824e259486d10d54eeedbed69f4a5fc480",
+    "shape": [
+      442,
+      600,
+      3
+    ],
+    "dtype": "uint8",
+    "min_val": 1.0,
+    "max_val": 252.0,
+    "mean_val": 150.58356083459026
+  },
+  "s2": null,
+  "s3": {
+    "tensor_hash": "6038b29e44d67fb92b0d7ff98fb9b114570de3e91a078935314547bc2292402f",
+    "shape": [
+      256,
+      256,
+      3
+    ],
+    "interpolation_method": "bilinear",
+    "min_val": 1.0,
+    "max_val": 252.0,
+    "mean_val": 150.64522806803384
+  },
+  "s4": {
+    "tensor_hash": "16d0296728e74dd70d0ba95737e41e9b1478c4b8cf48b22e2e7efd85eb2751bc",
+    "shape": [
+      256,
+      256,
+      3
+    ],
+    "dtype": "float32",
+    "min_val": -2.0182072818778187,
+    "max_val": 2.587712421417236,
+    "mean_val": 0.630262911708157,
+    "std_val": 1.2015460111144982,
+    "normalization_mean": [
+      0.485,
+      0.456,
+      0.406
+    ],
+    "normalization_std": [
+      0.229,
+      0.224,
+      0.225
+    ]
+  },
+  "s5": null,
+  "s6": null,
+  "s7": null,
+  "s8": null
+}

@@ -1,0 +1,28 @@
+{
+  "experiment_id": "experiment_e7_3",
+  "name": "Release/Rollback Rehearsal",
+  "passed": true,
+  "details": {
+    "current_version": "student_v1.0",
+    "candidate_version": "student_v1.1_degraded",
+    "current_metrics": {
+      "accuracy": 0.92,
+      "fpr": 0.05,
+      "fnr": 0.08,
+      "abstain_rate": 0.1
+    },
+    "candidate_metrics": {
+      "accuracy": 0.85,
+      "fpr": 0.12,
+      "fnr": 0.15,
+      "abstain_rate": 0.25
+    },
+    "degradations": [
+      "ACCURACY_DROP",
+      "FPR_INCREASE",
+      "ABSTAIN_SPIKE"
+    ],
+    "rollback_recommended": true
+  },
+  "timestamp": "2026-01-07 11:10:18.951045"
+}

@@ -1,0 +1,53 @@
+{
+  "experiment_id": "E2.7",
+  "name": "Blur metric and threshold sweep",
+  "passed": true,
+  "details": {
+    "metric": "laplacian_variance",
+    "tested": 3,
+    "measurements": [
+      {
+        "file": "blur_radius_2.png",
+        "blur_score": 8.85
+      },
+      {
+        "file": "blur_radius_4.png",
+        "blur_score": 3.08
+      },
+      {
+        "file": "blur_radius_8.png",
+        "blur_score": 2.09
+      },
+      {
+        "file": "00023.jpg",
+        "blur_score": 998.99,
+        "category": "clear"
+      },
+      {
+        "file": "00025.jpg",
+        "blur_score": 2072.07,
+        "category": "clear"
+      },
+      {
+        "file": "00088.jpg",
+        "blur_score": 837.98,
+        "category": "clear"
+      },
+      {
+        "file": "00093.jpg",
+        "blur_score": 1123.63,
+        "category": "clear"
+      },
+      {
+        "file": "00099.jpg",
+        "blur_score": 666.38,
+        "category": "clear"
+      }
+    ],
+    "threshold_sweep": [],
+    "recommended_threshold": 572.2,
+    "avg_blur_score": 4.7,
+    "avg_clear_score": 1139.8
+  },
+  "timestamp": "2026-01-07T03:42:38.726919"
+}

@@ -1,0 +1,12 @@
+{
+  "experiment_id": "E1.4",
+  "name": "EXIF orientation correctness",
+  "passed": true,
+  "details": {
+    "tested": 8,
+    "passed": 8,
+    "failed": 0,
+    "failures": []
+  },
+  "timestamp": "2026-01-07T03:03:06.006448"
+}

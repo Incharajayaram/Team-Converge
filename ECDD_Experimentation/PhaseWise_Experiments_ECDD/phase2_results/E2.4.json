@@ -1,0 +1,12 @@
+{
+  "experiment_id": "E2.4",
+  "name": "Alignment/crop determinism",
+  "passed": true,
+  "details": {
+    "tested": 5,
+    "passed": 5,
+    "failed": 0,
+    "failures": []
+  },
+  "timestamp": "2026-01-07T03:42:38.577884"
+}

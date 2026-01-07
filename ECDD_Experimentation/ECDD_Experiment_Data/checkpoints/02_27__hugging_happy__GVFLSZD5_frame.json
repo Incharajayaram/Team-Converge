@@ -1,0 +1,64 @@
+{
+  "image_path": "f:\\Team converge\\Team-Converge\\ECDD_Experimentation\\ECDD_Experiment_Data\\fake\\02_27__hugging_happy__GVFLSZD5_frame.png",
+  "image_id": "02_27__hugging_happy__GVFLSZD5_frame",
+  "dataset_split": "fake",
+  "created_at": "2026-01-07T02:54:42.942253",
+  "pipeline_version": "1.0",
+  "s0": {
+    "sha256": "6bd43759557c563758c859aa74397e92bd5bd46a8ab3021468373971732b1963",
+    "file_size_bytes": 1786240,
+    "file_extension": ".png"
+  },
+  "s1": {
+    "tensor_hash": "f791c5a6e11b3979124a71e62886d0102e6be07cc15f5af870e0474cd33ad72a",
+    "shape": [
+      1080,
+      1920,
+      3
+    ],
+    "dtype": "uint8",
+    "min_val": 0.0,
+    "max_val": 243.0,
+    "mean_val": 92.07851675025721
+  },
+  "s2": null,
+  "s3": {
+    "tensor_hash": "0195fcb0cd4047994450afc9b04fa8824db53dce65ae4472e906b4c242a1d852",
+    "shape": [
+      256,
+      256,
+      3
+    ],
+    "interpolation_method": "bilinear",
+    "min_val": 2.0,
+    "max_val": 203.0,
+    "mean_val": 92.0791524251302
+  },
+  "s4": {
+    "tensor_hash": "7a5d2cefeae3855534827d1ce67b841e8b0f268ade59ad609d81278a919b0ca5",
+    "shape": [
+      256,
+      256,
+      3
+    ],
+    "dtype": "float32",
+    "min_val": -2.0322801579424388,
+    "max_val": 1.733681971232096,
+    "mean_val": -0.39009934495241344,
+    "std_val": 0.9922835952714852,
+    "normalization_mean": [
+      0.485,
+      0.456,
+      0.406
+    ],
+    "normalization_std": [
+      0.229,
+      0.224,
+      0.225
+    ]
+  },
+  "s5": null,
+  "s6": null,
+  "s7": null,
+  "s8": null
+}

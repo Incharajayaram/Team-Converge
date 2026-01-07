@@ -1,0 +1,390 @@
+# ============================================================================
+# ECDD Policy Contract v1.0
+# ============================================================================
+# This file freezes every policy knob in the ECDD pipeline.
+# All values marked [TBD] require explicit decisions before proceeding.
+# Changing any value after experiments begin requires re-running affected gates.
+# ============================================================================
+
+version: "1.0"
+last_updated: "2026-01-07"
+
+# ----------------------------------------------------------------------------
+# 1. PIXEL PIPELINE POLICIES
+# Goal: Lock decoder, color handling, resize, and normalization across all paths
+# Related Experiments: E1.1 - E1.9
+# Mandatory Gate: G1 (Pixel Equivalence)
+# ----------------------------------------------------------------------------
+pixel_pipeline:
+  
+  # 1.1 Decode Library (E1.3)
+  decode:
+    library: "pillow"  # Options: "pillow", "opencv", "torchvision"
+    version_pin: ">=10.0.0"  # Pin specific version for reproducibility
+    
+  # 1.2 File Handling (E1.2)
+  file_handling:
+    supported_formats: ["jpeg", "jpg", "png", "webp"]
+    max_file_size_mb: 10
+    reject_on_corruption: true
+    reject_on_invalid_magic_bytes: true
+    
+  # 1.3 EXIF Orientation (E1.4)
+  exif:
+    apply_orientation: true  # Always rotate pixels to intended upright orientation
+    strip_metadata_after_decode: true
+    
+  # 1.4 Color Space & Gamma (E1.5, E1.6)
+  color:
+    channel_order: "RGB"  # NEVER BGR
+    color_space: "sRGB"  # No implicit linearization
+    apply_icc_profile: false  # Ignore embedded ICC profiles for consistency
+    
+  # 1.5 Alpha Channel Handling (E1.7)
+  alpha:
+    policy: "composite"  # Options: "composite", "reject"
+    composite_background: [255, 255, 255]  # White background for alpha compositing
+    
+  # 1.6 Data Type & Range (E1.5)
+  dtype:
+    before_normalization: "uint8"  # 0-255
+    after_normalization: "float32"  # 0.0-1.0 then normalized
+    range_policy: "0-1"  # Options: "0-1", "0-255"
+    
+  # 1.7 Resize Policy (E1.8)
+  resize:
+    target_size: [256, 256]  # [height, width]
+    interpolation: "bilinear"  # Options: "nearest", "bilinear", "bicubic", "lanczos"
+    antialias: true
+    
+  # 1.8 Normalization Constants (E1.9)
+  # These MUST match training exactly
+  normalization:
+    mean: [0.485, 0.456, 0.406]  # ImageNet defaults - [TBD: confirm training values]
+    std: [0.229, 0.224, 0.225]   # ImageNet defaults - [TBD: confirm training values]
+    
+  # 1.9 Pixel Tolerance Thresholds (for stages where exact match is impossible)
+  tolerances:
+    s1_decoded_max_diff: 0  # Decoded RGB must match exactly
+    s3_resized_max_diff: 1  # Allow ±1 due to interpolation rounding
+    s4_normalized_max_diff: 1.0e-5  # Float tolerance after normalization
+
+# ----------------------------------------------------------------------------
+# 2. FACE DETECTOR & GUARDRAIL POLICIES
+# Goal: Deterministic routing based on face detection and quality gates
+# Related Experiments: E2.1 - E2.8
+# Mandatory Gate: G2 (Guardrail Gate)
+# ----------------------------------------------------------------------------
+face_detector:
+  
+  # 2.1 Model Selection (E2.1)
+  model:
+    name: "mediapipe_face_detection"  # Verified in E2.1
+    version: "0.10.31"  # Verified in E2.1
+    weights_hash: "blaze_face_short_range.tflite"  # Model file
+    
+  # 2.2 Confidence Threshold (E2.3)
+  confidence:
+    minimum_threshold: 0.8  # Determined via E2.3 sweep (90% in-scope, 0% OOD)
+    
+  # 2.3 Alignment & Cropping (E2.4)
+  alignment:
+    use_landmarks: true
+    crop_margin: 0.3  # Margin around detected face box (fraction)
+    deterministic: true
+    
+  # 2.4 Multi-Face Policy (E2.5)
+  multi_face:
+    policy: "max_p_fake"  # Options: "max_p_fake", "largest_face", "reject_multi"
+    max_faces_to_process: 5  # For "max_p_fake" policy
+    
+  # 2.5 Minimum Face Size (E2.6)
+  minimum_face:
+    min_crop_width: 64  # Verified in E2.6
+    min_crop_height: 64  # Verified in E2.6
+    action_below_threshold: "abstain"  # Verified in E2.6
+
+# ----------------------------------------------------------------------------
+# 3. IMAGE QUALITY GATES
+# Goal: Reject or flag low-quality inputs that destabilize detection
+# Related Experiments: E2.7, E2.8
+# ----------------------------------------------------------------------------
+quality_gates:
+  
+  # 3.1 Blur Detection (E2.7)
+  blur:
+    metric: "laplacian_variance"  # Verified in E2.7
+    threshold: 572.2  # Determined via E2.7 sweep (avg blur=4.7, avg clear=1139.8)
+    action: "abstain"  # Verified in E2.7
+    
+  # 3.2 Compression Quality (E2.8)
+  compression:
+    proxy: "jpeg_quality_estimate"  # [TBD] DCT energy heuristics or file size ratio
+    min_quality: 30  # [TBD] Estimated JPEG quality floor
+    action: "abstain"  # Options: "abstain", "stricter_threshold"
+    
+  # 3.3 Resolution Gate
+  resolution:
+    min_width: 128
+    min_height: 128
+    action: "abstain"
+
+# ----------------------------------------------------------------------------
+# 4. PATCH GRID & POOLING POLICIES
+# Goal: Lock patch-logit semantics, shape, and pooling behavior
+# Related Experiments: E3.1 - E3.6
+# Mandatory Gate: G3 (Model Semantics Gate)
+# ----------------------------------------------------------------------------
+patch_grid:
+  
+  # 4.1 Patch-Logit Map Dimensions (E3.1)
+  shape:
+    height: 8  # Verified in E3.1
+    width: 8   # Verified in E3.1
+    
+  # 4.2 Receptive Field Mapping (E3.2)
+  receptive_field:
+    stride: 32  # Verified in E3.2 (maps to 256x256)
+    padding_mode: "same"  # Options: "same", "valid"
+    
+  # 4.3 Pooling Method (E3.3, E3.4, E3.5)
+  pooling:
+    method: "attention"  # Verified in E3.3 (better 'needle' detection)
+    
+    # Top-K specific (if method == "top_k")
+    top_k:
+      r: 0.05  # K = ceil(r * N_patches)
+      tie_breaking: "first"  # Options: "first", "random_seeded"
+      
+    # Attention specific (if method == "attention")
+    attention:
+      compute_dtype: "float32"  # Verified in E3.5 (deterministic)
+      softmax_temperature: 1.0
+      
+  # 4.4 Determinism Requirements
+  determinism:
+    require_deterministic_ops: true
+    seed: 42  # For any stochastic components (if unavoidable)
+
+# ----------------------------------------------------------------------------
+# 5. CALIBRATION & THRESHOLD POLICIES
+# Goal: Convert model logits to calibrated probabilities with actionable thresholds
+# Related Experiments: E4.1 - E4.6
+# Mandatory Gate: G4 (Calibration Gate)
+# ----------------------------------------------------------------------------
+calibration:
+  
+  # 5.1 Method Selection (E4.2, E4.3)
+  method: "temperature_scaling"  # Options: "temperature_scaling", "platt_scaling", "isotonic"
+  
+  # 5.2 Temperature Scaling Parameters (frozen after fitting)
+  temperature_scaling:
+    T: 1.0  # [TBD] Fitted on calibration set
+    
+  # 5.3 Platt Scaling Parameters (if method == "platt_scaling")
+  platt_scaling:
+    a: 1.0  # [TBD] Fitted slope
+    b: 0.0  # [TBD] Fitted intercept
+    
+  # 5.4 Calibration Set Contract (E4.1)
+  calibration_set:
+    min_size: 500  # [TBD] Minimum samples
+    sampling: "stratified_by_source"  # Match deployment distribution
+    disjoint_from_training: true
+    disjoint_from_test: true
+    refresh_interval_days: 90
+
+# ----------------------------------------------------------------------------
+# 6. OPERATING POINT & THRESHOLD POLICIES
+# Goal: Define actionable thresholds for Real/Fake/Abstain decisions
+# Related Experiments: E4.4, E4.5, E4.6
+# ----------------------------------------------------------------------------
+operating_point:
+  
+  # 6.1 Primary Constraint
+  primary:
+    metric: "FPR"  # False Positive Rate on real faces
+    target: 0.05   # [TBD] 5% FPR budget
+    
+  # 6.2 Secondary Constraint
+  secondary:
+    metric: "FNR"  # False Negative Rate on fakes
+    target: 0.10   # [TBD] 10% FNR tolerance
+    
+  # 6.3 Thresholds (E4.4)
+  thresholds:
+    fake_threshold: 0.7  # [TBD] P >= this → Fake
+    real_threshold: 0.3  # [TBD] P <= this → Real
+    # Abstain band: real_threshold < P < fake_threshold
+    
+  # 6.4 Abstain Semantics (E4.5)
+  abstain:
+    enabled: true
+    max_abstain_rate: 0.15  # [TBD] Maximum acceptable abstain rate
+    ui_behavior: "request_retry"  # Options: "request_retry", "manual_review", "block"
+
+# ----------------------------------------------------------------------------
+# 7. QUANTIZATION & TFLITE POLICIES
+# Goal: Ensure float-to-TFLite parity and stable edge inference
+# Related Experiments: E5.1 - E5.5
+# Mandatory Gate: G5 (Quantization Parity Gate)
+# ----------------------------------------------------------------------------
+quantization:
+  
+  # 7.1 Quantization Mode (E5.1)
+  mode: "dynamic_range"  # Options: "dynamic_range", "full_int8", "float16"
+  
+  # 7.2 Representative Dataset (for full_int8)
+  representative_dataset:
+    source: "calibration_set"
+    num_samples: 100
+    
+  # 7.3 Parity Tolerances (E5.2, E5.3)
+  parity:
+    patch_logit_max_diff: 0.1  # [TBD] Max absolute difference acceptable
+    pooled_logit_max_diff: 0.05
+    probability_max_diff: 0.02
+    
+  # 7.4 Post-Quantization Calibration (E5.4)
+  post_quant_calibration:
+    required: true
+    refit_temperature: true
+    reselect_thresholds: true
+
+# ----------------------------------------------------------------------------
+# 8. TFLITE RUNTIME CONFIGURATION
+# Goal: Lock runtime behavior for reproducible edge inference
+# Related Experiments: E5.5
+# ----------------------------------------------------------------------------
+tflite_runtime:
+  
+  # 8.1 Delegates
+  delegate: "xnnpack"  # Options: "xnnpack", "nnapi", "gpu", "none"
+  
+  # 8.2 Threading
+  num_threads: 2  # [TBD] Based on target device
+  
+  # 8.3 Performance Budgets
+  latency:
+    max_ms_per_image: 500  # [TBD] Target latency on reference device
+  memory:
+    max_mb: 100  # [TBD] Maximum memory footprint
+
+# ----------------------------------------------------------------------------
+# 9. MONITORING & DRIFT POLICIES
+# Goal: Privacy-preserving telemetry with actionable drift triggers
+# Related Experiments: E7.1 - E7.3
+# ----------------------------------------------------------------------------
+monitoring:
+  
+  # 9.1 Logging Schema (E7.1)
+  logging:
+    log_raw_images: false  # NEVER unless explicit consent
+    fields:
+      - "calibrated_probability"
+      - "decision_label"
+      - "abstain_reason_codes"
+      - "face_detector_confidence"
+      - "image_resolution"
+      - "compression_proxy_score"
+      - "model_version"
+      - "device_class"
+    retention_days: 90
+    
+  # 9.2 Drift Triggers (E7.2)
+  drift_triggers:
+    score_distribution_shift:
+      metric: "kl_divergence"
+      threshold: 0.1  # [TBD]
+    abstain_rate_spike:
+      threshold_multiplier: 2.0  # 2x baseline abstain rate
+    face_detection_failure_spike:
+      threshold_multiplier: 2.0
+      
+  # 9.3 Drift Response Actions
+  drift_responses:
+    level_1_recalibrate:
+      trigger: "score_distribution_shift"
+      action: "refit_calibration"
+    level_2_augment:
+      trigger: "persistent_drift_after_recalibration"
+      action: "data_augmentation_retraining"
+    level_3_method_upgrade:
+      trigger: "severe_degradation"
+      action: "architecture_upgrade"
+
+# ----------------------------------------------------------------------------
+# 10. RELEASE & VERSIONING POLICIES
+# Goal: Ensure every deployed bundle is auditable and reproducible
+# Related Experiments: E7.3
+# Mandatory Gate: G6 (Release Gate)
+# ----------------------------------------------------------------------------
+release:
+  
+  # 10.1 Bundle Contents
+  bundle:
+    includes:
+      - "model_weights"
+      - "pooling_config"
+      - "calibration_params"
+      - "threshold_policy"
+      - "guardrail_thresholds"
+      - "preprocessing_version"
+      
+  # 10.2 Release Gates
+  gates:
+    g1_pixel_equivalence: true
+    g2_guardrail: true
+    g3_model_semantics: true
+    g4_calibration: true
+    g5_quantization_parity: true
+    g6_evaluation_battery: true
+    
+  # 10.3 Rollback Policy
+  rollback:
+    canary_percentage: 5  # [TBD] Percentage for canary deployment
+    automatic_rollback_on_error_spike: true
+    error_spike_threshold: 0.10  # 10% increase in error rate
+
+# ----------------------------------------------------------------------------
+# 11. DATASET GOVERNANCE
+# Goal: Prevent leakage and preserve evaluation validity
+# Related Experiments: E8.1 - E8.3
+# ----------------------------------------------------------------------------
+dataset_governance:
+  
+  # 11.1 Data Lineage Tags
+  lineage_tags:
+    - "TRAIN"
+    - "CALIBRATION"
+    - "AUDIT"
+    - "TEST-NEVER-TOUCH"
+    
+  # 11.2 Leakage Prevention (E8.1)
+  deduplication:
+    method: "perceptual_hash"  # Options: "perceptual_hash", "embedding_similarity"
+    threshold: 0.95  # Similarity threshold for duplicate detection
+    cross_split_check: true
+    
+  # 11.3 Feedback Loop Safety (E8.2)
+  feedback_loop:
+    manual_review_requires_consent: true
+    reviewed_cases_excluded_from_test: true
+    max_retention_days: 365
+
+# ----------------------------------------------------------------------------
+# 12. ABSTAIN REASON CODE TAXONOMY
+# Goal: Explicit, auditable reason codes for all abstain decisions
+# ----------------------------------------------------------------------------
+reason_codes:
+  no_face: "GR-001"
+  low_face_confidence: "GR-002"
+  face_too_small: "GR-003"
+  image_too_blurry: "GR-004"
+  compression_too_low: "GR-005"
+  resolution_too_low: "GR-006"
+  multi_face_limit_exceeded: "GR-007"
+  low_model_confidence: "MD-001"
+  corrupted_file: "IO-001"
+  unsupported_format: "IO-002"
+  file_too_large: "IO-003"

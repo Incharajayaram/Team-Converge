@@ -1,0 +1,30 @@
+{
+  "experiment_id": "experiment_e7_2",
+  "name": "Drift Trigger Simulation",
+  "passed": true,
+  "details": {
+    "triggers": [
+      {
+        "name": "ABSTAIN_RATE_SPIKE",
+        "triggered": true,
+        "severity": "WARNING"
+      },
+      {
+        "name": "SCORE_DISTRIBUTION_SHIFT",
+        "triggered": "False",
+        "severity": "WARNING"
+      },
+      {
+        "name": "COMPRESSION_QUALITY_DROP",
+        "triggered": "False",
+        "severity": "WARNING"
+      },
+      {
+        "name": "FACE_DETECTION_FAILURE_SPIKE",
+        "triggered": false,
+        "severity": "WARNING"
+      }
+    ]
+  },
+  "timestamp": "2026-01-07 11:10:18.951026"
+}

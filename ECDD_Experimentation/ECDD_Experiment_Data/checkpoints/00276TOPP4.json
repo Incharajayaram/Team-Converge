@@ -1,0 +1,64 @@
+{
+  "image_path": "f:\\Team converge\\Team-Converge\\ECDD_Experimentation\\ECDD_Experiment_Data\\fake\\00276TOPP4.jpg",
+  "image_id": "00276TOPP4",
+  "dataset_split": "fake",
+  "created_at": "2026-01-07T02:54:42.463674",
+  "pipeline_version": "1.0",
+  "s0": {
+    "sha256": "93010eed7cdd517c4cbccc1593889fc7ae809006ad08297fd2452c356fd7be87",
+    "file_size_bytes": 28067,
+    "file_extension": ".jpg"
+  },
+  "s1": {
+    "tensor_hash": "e359ed43c3c28f09e63580ee3b9c04cd788dad97920baf36118e158aa065390f",
+    "shape": [
+      256,
+      256,
+      3
+    ],
+    "dtype": "uint8",
+    "min_val": 0.0,
+    "max_val": 255.0,
+    "mean_val": 115.11848958333333
+  },
+  "s2": null,
+  "s3": {
+    "tensor_hash": "e359ed43c3c28f09e63580ee3b9c04cd788dad97920baf36118e158aa065390f",
+    "shape": [
+      256,
+      256,
+      3
+    ],
+    "interpolation_method": "bilinear",
+    "min_val": 0.0,
+    "max_val": 255.0,
+    "mean_val": 115.11848958333333
+  },
+  "s4": {
+    "tensor_hash": "118ab7f9733b228985a7e073eb8aeebf96a6917f4489a5b87a0e5ba39ecafdb5",
+    "shape": [
+      256,
+      256,
+      3
+    ],
+    "dtype": "float32",
+    "min_val": -2.0357142857142856,
+    "max_val": 2.6399999999999997,
+    "mean_val": 0.010457463295583674,
+    "std_val": 0.945634407224517,
+    "normalization_mean": [
+      0.485,
+      0.456,
+      0.406
+    ],
+    "normalization_std": [
+      0.229,
+      0.224,
+      0.225
+    ]
+  },
+  "s5": null,
+  "s6": null,
+  "s7": null,
+  "s8": null
+}

@@ -1,0 +1,12 @@
+{
+  "experiment_id": "E1.5",
+  "name": "RGB channel ordering and dtype/range",
+  "passed": true,
+  "details": {
+    "tested": 12,
+    "passed": 12,
+    "failed": 0,
+    "failures": []
+  },
+  "timestamp": "2026-01-07T03:03:06.068953"
+}

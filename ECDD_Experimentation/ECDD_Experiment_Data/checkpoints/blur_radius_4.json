@@ -1,0 +1,64 @@
+{
+  "image_path": "f:\\Team converge\\Team-Converge\\ECDD_Experimentation\\ECDD_Experiment_Data\\edge_cases\\blur_radius_4.png",
+  "image_id": "blur_radius_4",
+  "dataset_split": "edge_cases",
+  "created_at": "2026-01-07T02:54:44.568000",
+  "pipeline_version": "1.0",
+  "s0": {
+    "sha256": "14e822017739b90df8205e77dbdb755013432afb3bda2e6b033ea202b7b2b38c",
+    "file_size_bytes": 56251,
+    "file_extension": ".png"
+  },
+  "s1": {
+    "tensor_hash": "af19f05779dd947e3c9a0f2743596a0cf8a0141a0ab4fc0028ec23df8ffb41e4",
+    "shape": [
+      256,
+      256,
+      3
+    ],
+    "dtype": "uint8",
+    "min_val": 3.0,
+    "max_val": 250.0,
+    "mean_val": 98.8643086751302
+  },
+  "s2": null,
+  "s3": {
+    "tensor_hash": "af19f05779dd947e3c9a0f2743596a0cf8a0141a0ab4fc0028ec23df8ffb41e4",
+    "shape": [
+      256,
+      256,
+      3
+    ],
+    "interpolation_method": "bilinear",
+    "min_val": 3.0,
+    "max_val": 250.0,
+    "mean_val": 98.8643086751302
+  },
+  "s4": {
+    "tensor_hash": "86d3cbe04fd3d73ad034d8a7f82fd67959440d4ccaab5f2059a2f9e9615b9dc1",
+    "shape": [
+      256,
+      256,
+      3
+    ],
+    "dtype": "float32",
+    "min_val": -2.0494049107533874,
+    "max_val": 2.5528540356953937,
+    "mean_val": -0.2726878540964783,
+    "std_val": 1.0518089161958135,
+    "normalization_mean": [
+      0.485,
+      0.456,
+      0.406
+    ],
+    "normalization_std": [
+      0.229,
+      0.224,
+      0.225
+    ]
+  },
+  "s5": null,
+  "s6": null,
+  "s7": null,
+  "s8": null
+}

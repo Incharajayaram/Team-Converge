@@ -1,0 +1,64 @@
+{
+  "logging_schema": {
+    "stores_raw_images": false,
+    "scalars_logged": [
+      "timestamp",
+      "model_version",
+      "decision",
+      "calibrated_probability",
+      "confidence_band",
+      "abstain_reason",
+      "face_confidence",
+      "num_faces",
+      "image_resolution",
+      "compression_quality_estimate",
+      "blur_score",
+      "device_class",
+      "platform"
+    ],
+    "retention_days": 90
+  },
+  "drift_triggers": [
+    {
+      "name": "ABSTAIN_RATE_SPIKE",
+      "threshold": 0.15,
+      "severity_levels": [
+        "WARNING",
+        "CRITICAL"
+      ]
+    },
+    {
+      "name": "SCORE_DISTRIBUTION_SHIFT",
+      "threshold": 0.1,
+      "severity_levels": [
+        "WARNING",
+        "CRITICAL"
+      ]
+    },
+    {
+      "name": "COMPRESSION_QUALITY_DROP",
+      "threshold": 15,
+      "severity_levels": [
+        "WARNING"
+      ]
+    },
+    {
+      "name": "FACE_DETECTION_FAILURE_SPIKE",
+      "threshold": 0.1,
+      "severity_levels": [
+        "WARNING",
+        "CRITICAL"
+      ]
+    }
+  ],
+  "mandatory_responses": {
+    "WARNING": "Investigate within 24 hours",
+    "CRITICAL": "Immediate recalibration or rollback"
+  },
+  "release_policy": {
+    "accuracy_min": 0.9,
+    "fpr_max": 0.08,
+    "abstain_rate_max": 0.15,
+    "rollback_on_degradation": true
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "image_path": "f:\\Team converge\\Team-Converge\\ECDD_Experimentation\\ECDD_Experiment_Data\\fake\\Gemini_Generated_Image_tcds8etcds8etcds (1).png",
+  "image_id": "Gemini_Generated_Image_tcds8etcds8etcds (1)",
+  "dataset_split": "fake",
+  "created_at": "2026-01-07T02:54:43.953798",
+  "pipeline_version": "1.0",
+  "s0": {
+    "sha256": "9c3bf232ea452f6c28050b942a1ab7e7ca70071e4d76cc18e52d4ebd6ff32b5e",
+    "file_size_bytes": 5690248,
+    "file_extension": ".png"
+  },
+  "s1": {
+    "tensor_hash": "f41b123f901f439374df3e48ee8da8959e4eb8318fe5526ce2ba7dd598db34f2",
+    "shape": [
+      2081,
+      1856,
+      3
+    ],
+    "dtype": "uint8",
+    "min_val": 0.0,
+    "max_val": 255.0,
+    "mean_val": 83.8916908489232
+  },
+  "s2": null,
+  "s3": {
+    "tensor_hash": "91738ad97dc0b74e30dd480924b03b089859fb06ea06d33b4c3b52c0dec491a0",
+    "shape": [
+      256,
+      256,
+      3
+    ],
+    "interpolation_method": "bilinear",
+    "min_val": 2.0,
+    "max_val": 254.0,
+    "mean_val": 83.89057922363281
+  },
+  "s4": {
+    "tensor_hash": "fccd60fca25d4a0d6762e9cb4c17d38f042eed514e3271c494835b81f20709ce",
+    "shape": [
+      256,
+      256,
+      3
+    ],
+    "dtype": "float32",
+    "min_val": -2.0665296676312472,
+    "max_val": 2.6225708071390788,
+    "mean_val": -0.5316629632749518,
+    "std_val": 0.8055909644746898,
+    "normalization_mean": [
+      0.485,
+      0.456,
+      0.406
+    ],
+    "normalization_std": [
+      0.229,
+      0.224,
+      0.225
+    ]
+  },
+  "s5": null,
+  "s6": null,
+  "s7": null,
+  "s8": null
+}

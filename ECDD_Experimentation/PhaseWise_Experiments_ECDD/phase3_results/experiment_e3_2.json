@@ -1,0 +1,52 @@
+{
+  "experiment_id": "experiment_e3_2",
+  "name": "Receptive Field Mapping",
+  "passed": true,
+  "details": {
+    "mappings": [
+      {
+        "cell": [
+          0,
+          0
+        ],
+        "pixel_range_h": [
+          0,
+          32
+        ],
+        "pixel_range_w": [
+          0,
+          32
+        ]
+      },
+      {
+        "cell": [
+          7,
+          7
+        ],
+        "pixel_range_h": [
+          224,
+          256
+        ],
+        "pixel_range_w": [
+          224,
+          256
+        ]
+      },
+      {
+        "cell": [
+          3,
+          3
+        ],
+        "pixel_range_h": [
+          96,
+          128
+        ],
+        "pixel_range_w": [
+          96,
+          128
+        ]
+      }
+    ]
+  },
+  "timestamp": "2026-01-07 07:12:10.112910"
+}

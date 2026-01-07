@@ -1,0 +1,37 @@
+{
+  "experiment_id": "E2.6",
+  "name": "Minimum face size threshold sweep",
+  "passed": true,
+  "details": {
+    "tested": 3,
+    "detections": [
+      {
+        "file": "small_face_32x32.png",
+        "face_size": 20,
+        "confidence": 0.8026138544082642,
+        "detected": true
+      },
+      {
+        "file": "small_face_48x48.png",
+        "face_size": 28,
+        "confidence": 0.8312069773674011,
+        "detected": true
+      },
+      {
+        "file": "small_face_64x64.png",
+        "face_size": 38,
+        "confidence": 0.8510293364524841,
+        "detected": true
+      }
+    ],
+    "size_sweep": [
+      {
+        "min_size": 32,
+        "count": 1,
+        "avg_confidence": 0.851
+      }
+    ],
+    "recommended_min_size": 64
+  },
+  "timestamp": "2026-01-07T03:42:38.658182"
+}

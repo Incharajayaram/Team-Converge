@@ -1,0 +1,12 @@
+{
+  "experiment_id": "E1.1",
+  "name": "Byte-for-byte upload invariance",
+  "passed": true,
+  "details": {
+    "tested": 20,
+    "passed": 20,
+    "failed": 0,
+    "failures": []
+  },
+  "timestamp": "2026-01-07T03:03:05.840165"
+}

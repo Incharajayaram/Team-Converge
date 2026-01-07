@@ -1,0 +1,13 @@
+{
+  "experiment_id": "E1.2",
+  "name": "Format allowlist and corruption rejection",
+  "passed": true,
+  "details": {
+    "supported_passed": 6,
+    "supported_tested": 6,
+    "corruption_rejected": 2,
+    "corruption_tests": 2,
+    "failures": []
+  },
+  "timestamp": "2026-01-07T03:03:05.931608"
+}

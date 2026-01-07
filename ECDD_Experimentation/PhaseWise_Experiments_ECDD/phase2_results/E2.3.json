@@ -1,0 +1,77 @@
+{
+  "experiment_id": "E2.3",
+  "name": "Face confidence threshold sweep",
+  "passed": true,
+  "details": {
+    "thresholds_tested": [
+      0.2,
+      0.3,
+      0.4,
+      0.5,
+      0.6,
+      0.7,
+      0.8,
+      0.9
+    ],
+    "sweep_results": [
+      {
+        "threshold": 0.2,
+        "in_scope_pass_rate": 1.0,
+        "ood_false_pass_rate": 0.5,
+        "in_scope": "10/10",
+        "ood": "5/10"
+      },
+      {
+        "threshold": 0.3,
+        "in_scope_pass_rate": 1.0,
+        "ood_false_pass_rate": 0.2,
+        "in_scope": "10/10",
+        "ood": "2/10"
+      },
+      {
+        "threshold": 0.4,
+        "in_scope_pass_rate": 0.9,
+        "ood_false_pass_rate": 0.0,
+        "in_scope": "9/10",
+        "ood": "0/10"
+      },
+      {
+        "threshold": 0.5,
+        "in_scope_pass_rate": 0.9,
+        "ood_false_pass_rate": 0.0,
+        "in_scope": "9/10",
+        "ood": "0/10"
+      },
+      {
+        "threshold": 0.6,
+        "in_scope_pass_rate": 0.9,
+        "ood_false_pass_rate": 0.0,
+        "in_scope": "9/10",
+        "ood": "0/10"
+      },
+      {
+        "threshold": 0.7,
+        "in_scope_pass_rate": 0.9,
+        "ood_false_pass_rate": 0.0,
+        "in_scope": "9/10",
+        "ood": "0/10"
+      },
+      {
+        "threshold": 0.8,
+        "in_scope_pass_rate": 0.9,
+        "ood_false_pass_rate": 0.0,
+        "in_scope": "9/10",
+        "ood": "0/10"
+      },
+      {
+        "threshold": 0.9,
+        "in_scope_pass_rate": 0.6,
+        "ood_false_pass_rate": 0.0,
+        "in_scope": "6/10",
+        "ood": "0/10"
+      }
+    ],
+    "recommended_threshold": 0.8
+  },
+  "timestamp": "2026-01-07T03:42:38.486565"
+}

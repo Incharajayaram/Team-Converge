@@ -1,0 +1,64 @@
+{
+  "image_path": "f:\\Team converge\\Team-Converge\\ECDD_Experimentation\\ECDD_Experiment_Data\\fake\\01_02__outside_talking_still_laughing__YVGY8LOK_frame.png",
+  "image_id": "01_02__outside_talking_still_laughing__YVGY8LOK_frame",
+  "dataset_split": "fake",
+  "created_at": "2026-01-07T02:54:42.588207",
+  "pipeline_version": "1.0",
+  "s0": {
+    "sha256": "e9394c4232d988637e6e0038b60b2a137818cfab60c0037ec477aecea4621d32",
+    "file_size_bytes": 1295506,
+    "file_extension": ".png"
+  },
+  "s1": {
+    "tensor_hash": "c8c6a517f637fc0ba15c504ba07946aa7c72c1cd2eed313517cf69f1eeb829c5",
+    "shape": [
+      1080,
+      1920,
+      3
+    ],
+    "dtype": "uint8",
+    "min_val": 0.0,
+    "max_val": 255.0,
+    "mean_val": 96.48964039994856
+  },
+  "s2": null,
+  "s3": {
+    "tensor_hash": "71771deea3ce9f8ab434a4e7c92a00232bc957b2a0e2b83bbdff7304a734eb66",
+    "shape": [
+      256,
+      256,
+      3
+    ],
+    "interpolation_method": "bilinear",
+    "min_val": 5.0,
+    "max_val": 255.0,
+    "mean_val": 96.50821431477864
+  },
+  "s4": {
+    "tensor_hash": "db305482fde505d2d5b0a9d76be084b0f8cf6a07a7159bf60a0d4ae2b7a51798",
+    "shape": [
+      256,
+      256,
+      3
+    ],
+    "dtype": "float32",
+    "min_val": -2.0322801579424388,
+    "max_val": 2.6399999999999997,
+    "mean_val": -0.31091000287548215,
+    "std_val": 1.0811756307748095,
+    "normalization_mean": [
+      0.485,
+      0.456,
+      0.406
+    ],
+    "normalization_std": [
+      0.229,
+      0.224,
+      0.225
+    ]
+  },
+  "s5": null,
+  "s6": null,
+  "s7": null,
+  "s8": null
+}

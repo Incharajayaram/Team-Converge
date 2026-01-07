@@ -1,0 +1,12 @@
+{
+  "experiment_id": "E1.6",
+  "name": "Gamma policy invariance (sRGB-only)",
+  "passed": true,
+  "details": {
+    "tested": 5,
+    "passed": 5,
+    "failed": 0,
+    "failures": []
+  },
+  "timestamp": "2026-01-07T03:03:06.097505"
+}

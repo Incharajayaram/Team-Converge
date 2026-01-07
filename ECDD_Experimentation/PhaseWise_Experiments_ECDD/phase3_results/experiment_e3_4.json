@@ -1,0 +1,14 @@
+{
+  "experiment_id": "experiment_e3_4",
+  "name": "Top-K Sweep",
+  "passed": true,
+  "details": {
+    "k=1": 10.0,
+    "k=2": 0.0,
+    "k=4": -5.0,
+    "k=8": -7.5,
+    "k=16": -8.75,
+    "k=32": -9.375
+  },
+  "timestamp": "2026-01-07 07:12:10.113188"
+}

@@ -1,0 +1,40 @@
+{
+  "experiment_id": "experiment_e7_1",
+  "name": "Logging Schema Sufficiency",
+  "passed": true,
+  "details": {
+    "metrics": {
+      "total_inferences": 100,
+      "score_histogram": [
+        4,
+        4,
+        9,
+        14,
+        17,
+        21,
+        10,
+        11,
+        8,
+        2
+      ],
+      "decision_breakdown": {
+        "REAL": 41,
+        "FAKE": 49,
+        "ABSTAIN": 10
+      },
+      "abstain_rate": 0.1,
+      "abstain_reasons": {
+        "LOW_QUALITY": 6,
+        "NO_FACE": 4
+      },
+      "face_confidence_mean": 0.7843264457234649,
+      "compression_quality_mean": 69.32210169498548,
+      "model_version_breakdown": {
+        "student_v1.0_tflite": 100
+      }
+    },
+    "missing": [],
+    "log_file": "f:\\Team converge\\Team-Converge\\ECDD_Experimentation\\PhaseWise_Experiments_ECDD\\phase7_results\\simulated_logs\\inference_logs.jsonl"
+  },
+  "timestamp": "2026-01-07 11:10:18.950323"
+}
