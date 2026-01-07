@@ -39,7 +39,7 @@ from models.ladeda_resnet import create_ladeda_model
 CONFIGS = {
     "finetune1": {
         "name": "finetune1_celeb_df",
-        "dataset_path": Path(r"f:\Team converge\Team-Converge\ECDD_Experimentation\ECDD_Training_Data\processed\splits\finetune1"),
+        "dataset_path": Path("ECDD_Experimentation/ECDD_Training_Data/processed/splits/finetune1"),
         "epochs": 15,
         "batch_size": 16,
         "lr": 1e-4,
