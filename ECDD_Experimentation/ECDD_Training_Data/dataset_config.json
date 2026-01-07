@@ -1,0 +1,110 @@
+{
+  "created": "2026-01-07T13:58:42.268125",
+  "version": "1.0",
+  "splits": {
+    "TRAIN": {
+      "purpose": "Base model training",
+      "generators": [
+        "ff_f2f",
+        "ff_faceswap",
+        "ff_deepfakes",
+        "celeb_df"
+      ],
+      "min_size": 5000,
+      "max_size": null,
+      "current_size": 0
+    },
+    "FINETUNE": {
+      "purpose": "Modern generator adaptation",
+      "generators": [
+        "deepfake_eval_2024",
+        "self_generated"
+      ],
+      "min_size": 1000,
+      "max_size": null,
+      "current_size": 0
+    },
+    "CALIBRATION": {
+      "purpose": "Threshold fitting (deployment-like)",
+      "generators": [
+        "phone_captures",
+        "web_uploads"
+      ],
+      "min_size": 500,
+      "max_size": null,
+      "current_size": 0
+    },
+    "TEST_SEEN": {
+      "purpose": "Held-out same family",
+      "generators": [
+        "ff_neuraltextures"
+      ],
+      "min_size": 500,
+      "max_size": null,
+      "current_size": 0
+    },
+    "TEST_UNSEEN": {
+      "purpose": "Generalization testing",
+      "generators": [
+        "realguard_2025",
+        "new_generators"
+      ],
+      "min_size": 200,
+      "max_size": null,
+      "current_size": 0
+    }
+  },
+  "datasets": {
+    "deepfake_eval_2024": {
+      "name": "Deepfake-Eval-2024",
+      "type": "huggingface",
+      "url": "https://huggingface.co/datasets/TrueMedia/Deepfake-Eval-2024",
+      "description": "In-the-wild deepfakes from 2024 (TrueMedia.org)",
+      "size_gb": 50,
+      "priority": "HIGH"
+    },
+    "realguard_2025": {
+      "name": "RealGuard-2025",
+      "type": "kaggle",
+      "url": "https://www.kaggle.com/datasets/realguard-2025",
+      "description": "Sora, RunwayML, Pika Labs, HeyGen content",
+      "size_gb": 2,
+      "priority": "HIGH"
+    },
+    "ff_plus_plus": {
+      "name": "FaceForensics++",
+      "type": "academic",
+      "url": "https://github.com/ondyari/FaceForensics",
+      "description": "Classic benchmark: Face2Face, FaceSwap, Deepfakes, NT",
+      "size_gb": 100,
+      "priority": "MEDIUM"
+    },
+    "celeb_df_v2": {
+      "name": "Celeb-DF v2",
+      "type": "academic",
+      "url": "https://github.com/yuezunli/celeb-deepfakeforensics",
+      "description": "High-quality celebrity face swaps",
+      "size_gb": 10,
+      "priority": "MEDIUM"
+    }
+  },
+  "preprocessing": {
+    "target_size": [
+      256,
+      256
+    ],
+    "interpolation": "LANCZOS",
+    "normalization": {
+      "mean": [
+        0.485,
+        0.456,
+        0.406
+      ],
+      "std": [
+        0.229,
+        0.224,
+        0.225
+      ]
+    }
+  }
+}
