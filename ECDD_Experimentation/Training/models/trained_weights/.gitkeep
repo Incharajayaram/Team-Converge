@@ -1,0 +1,2 @@
+# This file keeps the folder structure in git
+# Actual model weights (.pth files) are ignored and should be stored separately

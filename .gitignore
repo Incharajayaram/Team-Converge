@@ -2,3 +2,9 @@
 
 .gemini/
 gha-creds-*.json
+
+# Model weights - too large for GitHub
+*.pth
+*.pt
+*.ckpt
+*.bin
